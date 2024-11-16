@@ -22,15 +22,13 @@ void __merge(int left, int mid, int right, int *array_aux, int *array, algorithm
     int j = mid + 1;
     int k = left;
 
-    while (i <= mid && j <= right)
+    while (i <= mid || j <= right)
     {
-        if (array_aux[i] <= array_aux[j])
-        {
+        if (j > right || (i <= mid && array_aux[i] <= array_aux[j])) {
             array[k] = array_aux[i];
             i++;
         }
-        else
-        {
+        else {
             array[k] = array_aux[j];
             j++;
         }
@@ -38,20 +36,6 @@ void __merge(int left, int mid, int right, int *array_aux, int *array, algorithm
         k++;
 
         info->comparisons += 1;
-    }
-
-    while (i <= mid)
-    {
-        array[k] = array_aux[i];
-        i++;
-        k++;
-    }
-
-    while (j <= right)
-    {
-        array[k] = array_aux[j];
-        j++;
-        k++;
     }
 }
 
