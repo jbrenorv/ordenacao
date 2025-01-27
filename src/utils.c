@@ -1,153 +1,131 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include "../ordenacao.h"
 
-#include "inc/utils.h"
-
-void parse_args_or_exit(int* n, int *t, int argc, char **argv)
-{
-    if (argc < 3)
-    {
-        print_help_and_exit();
-    }
-
-    int argv_1_size = strlen(argv[1]);
-    int argv_2_size = strlen(argv[2]);
-    if (argv_1_size < 1 || argv_1_size > 9 || argv_2_size != 1)
-    {
-        print_help_and_exit();
-    }
-
-    for (int i = 0; i < (argv_1_size + argv_2_size); i++)
-    {
-        if ((i < argv_1_size && !isdigit(argv[1][i])) || (i >= argv_1_size && !isdigit(argv[2][i - argv_1_size])))
-        {
-            print_help_and_exit();
-        }
-    }
-
-    *n = atoi(argv[1]);
-    *t = atoi(argv[2]);
-    if (*n < 1 || *n > 214748364 || *t < 1 || *t > 3)
-    {
-        print_help_and_exit();
-    }
+void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
+    printf("Erro: %s\n", mensagem);
+    exit(1);
 }
 
-void swap(int *a, int *b)
-{
+char EhNumerico(int n, const char *texto) {
+    for (int i = 0; i < n; ++i) {
+        if (!isdigit(texto[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void Troca(int *a, int *b) {
     int aux = *a;
     *a = *b;
     *b = aux;
 }
 
-void allocate_array_or_exit(int n, bool clear, int **array)
-{
-    *array = (int *) (clear ? calloc(n, sizeof(int)) : malloc(n * sizeof(int)));
-    if (*array == NULL)
-    {
-        // Failed to allocate memory
-        print_memory_allocation_error_and_exit();
+int *AlocaVetor(int n) {
+    int* v = (int *)malloc(n * sizeof(int));
+    if (v == NULL) {
+        ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
+    }
+    return v;
+}
+
+int *AlocaVetorLimpo(int n) {
+    int* v = (int *)calloc(n, sizeof(int));
+    if (v == NULL) {
+        ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
+    }
+    return v;
+}
+
+int GeraNumeroAleatorioNoIntervalo(int a, int b) {
+    if (a >= b) return a;
+    return ((rand() % (b - a + 1)) + a);
+}
+
+void GeraVetorCrescente(int n, int *v) {
+    for (int i = 0; i < n; ++i) {
+        v[i] = i;
     }
 }
 
-int generate_number_randomly(int min, int max)
-{
-    return ((rand() % (max - min + 1)) + min);
-}
-
-void generate_array(int n, int t, int *array)
-{
-    for (int i = 0; i < n; ++i)
-    {
-        if (t == 1)
-        {
-            // Ascending
-            array[i] = i + 1;
-        }
-        else if (t == 2)
-        {
-            // Descending
-            array[n - i - 1] = i + 1;
-        }
-        else
-        {
-            // Random
-            array[i] = generate_number_randomly(0, n * 10);
-        }
+void GeraVetorDecrescente(int n, int *v) {
+    for (int i = n - 1; i >= 0; --i) {
+        v[i] = i;
     }
 }
 
-void copy_array(int n, int offset_source, int offset_copy, int *source, int *copy)
-{
-    for (int i = offset_source, j = offset_copy, counter = 0; counter < n; ++i, ++j, ++counter)
-    {
-        copy[j] = source[i];
+void GeraVetorAleatorio(int n, int *v) {
+    for (int i = 0; i < n; ++i) {
+        v[i] = GeraNumeroAleatorioNoIntervalo(0, n * 10);
     }
 }
 
-void print_help_and_exit()
-{
-    printf("A partir da raíz do projeto, compile o código usando o seguinte comando:\n");
-    printf("\tgcc src/*.c -lm\n\n");
-    printf("E então execute:\n");
-    printf("\t./a.out <tamanho-da-lista> <tipo-da-lista>\n\n");
-    printf("<tamanho-da-lista> deve ser um número inteiro entre 1 e 214748364, indicando o tamanho da lista a ser gerada\n\n");
-    printf("<tipo-da-lista> deve ser um dos números a serguir:\n");
-    printf("\t1 - lista gerada aleatóriamente\n");
-    printf("\t2 - lista em ordem decrescente\n");
-    printf("\t3 - lista já em ordem crescente\n");
-    exit(1);
+int *CriaVetor(int n, tipo_vetor tipo) {
+    int *v = AlocaVetor(n);
+    switch (tipo) {
+        case CRESCENTE:
+            GeraVetorCrescente(n, v);
+            break;
+        case DECRESCENTE:
+            GeraVetorDecrescente(n, v);
+            break;
+        default:
+            GeraVetorAleatorio(n, v);
+            break;
+    }
+    return v;
 }
 
-void print_memory_allocation_error_and_exit()
-{
-    printf("Falha ao tentar alocar memória para a lista de números\n");
-    exit(1);
+void CopiaVetor(int n, int *origem, int *destino) {
+    for (int i = 0; i < n; ++i) {
+        destino[i] = origem[i];
+    }
 }
 
-void print_array(int n, int *array, const char *prefix)
-{
-    if (prefix != NULL)
-    {
-        printf("%s\n", prefix);
+void ImprimeVetor(int n, int *v, const char *prefixo) {
+    if (prefixo != NULL) {
+        printf("%s\n", prefixo);
     }
-
-    for (int i=0; i<n; ++i)
-    {
-        printf("%i ", array[i]);
+    for (int i=0; i<n; ++i) {
+        printf("%i ", v[i]);
     }
-
     printf("\n");
 }
 
-void print_array_to_file()
-{
-    // TODO:
-}
-
-algorithm_run_info run_algorithm(int n, int *array, void (* alg)(int, int *, algorithm_run_info *))
-{
-    algorithm_run_info info = (algorithm_run_info) { 0LL, 0LL, 0.0 };
-
-    clock_t t = clock();
-    
-    alg(n, array, &info);
-
-    t = clock() - t;
-    info.time_ms = ((double)t * 1000.0) / CLOCKS_PER_SEC;
-
-    return info;
-}
-
-int min(int a, int b)
-{
+int min(int a, int b) {
     return (a < b ? a : b);
 }
 
-int max(int a, int b)
-{
+int max(int a, int b) {
     return (a > b ? a : b);
+}
+
+int ObterMenorElemento(int n, int *v) {
+    int res = v[0];
+    for (int i = 1; i < n; i++)
+        res = min(res, v[i]);
+    return res;
+}
+
+int ObterMaiorElemento(int n, int *v) {
+    int res = v[0];
+    for (int i = 1; i < n; i++)
+        res = max(res, v[i]);
+    return res;
+}
+
+dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
+    dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0.0 };
+
+    // Obtem numero de movimentacoes e comparacoes
+    int *vetor_aux = AlocaVetor(n);
+    CopiaVetor(n, v, vetor_aux);
+    a->alg_coleta_dados(n, vetor_aux, &dados);
+
+    // Obter tempo de execucao
+    clock_t t = clock();
+    a->alg(n, v);
+    t = clock() - t;
+    dados.tempo_ms = ((double)t * 1000.0) / CLOCKS_PER_SEC;
+
+    return dados;
 }
