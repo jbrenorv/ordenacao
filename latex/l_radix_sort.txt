@@ -1,0 +1,6 @@
+void RadixSort(int n, int *v) {
+    int maior = ObterMaiorElemento(n, v);
+    for (int exp = 1; maior / exp > 0; exp *= 10) {
+        ContagemParaRadixSort(exp, n, v);
+    }
+}

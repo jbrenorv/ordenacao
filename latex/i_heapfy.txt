@@ -1,0 +1,12 @@
+void Heapfy(int i, int n, int *v) {
+    int j = i, k;
+    while (2 * j < n) {
+        k = 2 * j + 1;
+        if (k < n - 1 && v[k] < v[k+1]) k++;
+        if (v[j] >= v[k]) j = n;
+        else {
+            Troca(&v[j], &v[k]);
+            j = k;
+        }
+    }
+}

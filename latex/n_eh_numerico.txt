@@ -1,0 +1,8 @@
+char EhNumerico(int n, const char *texto) {
+    for (int i = 0; i < n; ++i) {
+        if (!isdigit(texto[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}

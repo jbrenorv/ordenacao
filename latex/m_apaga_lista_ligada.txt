@@ -1,0 +1,4 @@
+void ApagaListaLigada(lista_ligada* lista) {
+    ApagaCelulasRecursivo(lista->primeiro);
+    free(lista);
+}

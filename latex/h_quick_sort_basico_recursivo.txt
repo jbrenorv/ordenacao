@@ -1,0 +1,7 @@
+void QuickSortBasicoRecursivo(int l, int r, int *v) {
+    if (l < r) {
+        int j = Particiona(l, r, v);
+        QuickSortBasicoRecursivo(l, j - 1, v);
+        QuickSortBasicoRecursivo(j + 1, r, v);
+    }
+}

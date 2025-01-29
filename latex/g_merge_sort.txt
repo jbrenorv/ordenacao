@@ -1,0 +1,5 @@
+void MergeSort(int n, int *v) {
+    int* aux = AlocaVetor(n);
+    MergeSortRecursivo(0, n, v, aux);
+    free(aux);
+}

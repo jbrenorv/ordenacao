@@ -1,0 +1,12 @@
+void InsereEmListaLigada(int valor, lista_ligada* lista) {
+    celula* c = (celula *) malloc(sizeof(celula));
+    c->valor = valor;
+    if (lista->tamanho == 0) {
+        lista->primeiro = lista->ultimo = c;
+    } else {
+        lista->ultimo->proximo = c;
+        lista->ultimo = lista->ultimo->proximo;
+    }
+    lista->ultimo->proximo = NULL;
+    lista->tamanho++;
+}

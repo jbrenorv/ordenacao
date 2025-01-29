@@ -1,0 +1,9 @@
+void Merge(int l, int m, int r, int *v, int *aux) {
+    CopiaVetor(r - l, v+l, aux+l);
+    int i = l, j = m, k = l;
+    while (i < m && j < r) {
+        if (v[i] <= v[j]) v[k++] = v[i++];
+        else v[k++] = v[i++];
+    }
+    while (i < m) v[k++] = v[i++];
+}

@@ -1,0 +1,4 @@
+void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
+    printf("Erro: %s\n", mensagem);
+    exit(1);
+}

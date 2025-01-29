@@ -1,0 +1,6 @@
+int ObterMaiorElemento(int n, int *v) {
+    int res = v[0];
+    for (int i = 1; i < n; i++)
+        res = max(res, v[i]);
+    return res;
+}
