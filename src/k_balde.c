@@ -1,67 +1,99 @@
 # include "../ordenacao.h"
 
-void Balde(int n, int *v) {
-    const int num_buckets = 10;
-    int* aux = AlocaVetor(n);
-    int menor = ObterMenorElemento(n, v);
-    int maior = ObterMaiorElemento(n, v);
-    int intervalo = (int) ceil((maior - menor + 1.0) / num_buckets);
-    lista_ligada* buckets[num_buckets];
-    for (int i = 0; i < num_buckets; i++) {
-        buckets[i] = CriaListaLigada();
+void InsereOrdenado(int valor, noh** cabeca) {
+    noh* novo = (noh*) malloc(sizeof(noh));
+    novo->valor = valor;
+    novo->prox = NULL;
+    
+    if (*cabeca == NULL || (*cabeca)->valor >= valor) {
+        novo->prox = *cabeca;
+        *cabeca = novo;
+        return;
     }
-    for (int i = 0; i < n; i++) {
-        int j = (v[i] - menor) / intervalo;
-        InsereEmListaLigada(v[i], buckets[j]);
+    
+    noh* atual = *cabeca;
+    while (atual->prox != NULL && atual->prox->valor < valor) {
+        atual = atual->prox;
     }
-    int k = 0;
-    for (int i = 0; i < num_buckets; i++) {
-        CopiaListaLigadaParaVetor(aux, buckets[i]);
-        Insercao(buckets[i]->tamanho, aux);
-        for (int j = 0; j < buckets[i]->tamanho; j++) {
-            v[k++] = aux[j];
-        }
-    }
-    for (int i = 0; i < num_buckets; i++) {
-        ApagaListaLigada(buckets[i]);
+    
+    novo->prox = atual->prox;
+    atual->prox = novo;
+}
+
+void ApagaLista(noh* cabeca) {
+    noh* temp;
+    while (cabeca != NULL) {
+        temp = cabeca;
+        cabeca = cabeca->prox;
+        free(temp);
     }
 }
 
-void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
-    const int num_buckets = 10;
-    int* aux = AlocaVetor(n);
-    int menor = v[0], maior = v[0];
-    for (int i = 1; i < n; i++) {
-        if (menor > v[i]) {
-            menor = v[i];
-            dados->movimentacoes++;
-        }
-        if (maior < v[i]) {
-            maior = v[i];
-            dados->movimentacoes++;
-        }
-    }
-    int intervalo = (int) ceil((maior - menor + 1.0) / num_buckets);
-    lista_ligada* buckets[num_buckets];
-    for (int i = 0; i < num_buckets; i++) {
-        buckets[i] = CriaListaLigada();
+void Balde(int n, int *v) {
+    if (n <= 0) return;
+    int M = ObterMaiorElemento(n, v);
+    noh** baldes = (noh**) malloc(n * sizeof(noh*));
+    for (int i = 0; i < n; i++) {
+        baldes[i] = NULL;
     }
     for (int i = 0; i < n; i++) {
-        int j = (v[i] - menor) / intervalo;
-        InsereEmListaLigada(v[i], buckets[j]);
-        dados->movimentacoes++;
+        int j = (v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[j]);
     }
-    int k = 0;
-    for (int i = 0; i < num_buckets; i++) {
-        CopiaListaLigadaParaVetor(aux, buckets[i]);
-        dados->movimentacoes += buckets[i]->tamanho;
-        Insercao_ColetaDados(buckets[i]->tamanho, aux, dados);
-        for (int j = 0; j < buckets[i]->tamanho; j++) {
-            v[k++] = aux[j];
-            dados->movimentacoes++;
+    for (int i = 0, k = 0; i < n; i++) {
+        noh* atual = baldes[i];
+        while (atual != NULL) {
+            v[k++] = atual->valor;
+            atual = atual->prox;
         }
+        ApagaLista(baldes[i]);
     }
-    for (int i = 0; i < num_buckets; i++) {
-        ApagaListaLigada(buckets[i]);
+    free(baldes);
+}
+
+void InsereOrdenado_ColetaDados(int valor, noh** cabeca, dados_execucao* dados) {
+    noh* novo = (noh*) malloc(sizeof(noh));
+    novo->valor = valor;
+    novo->prox = NULL;
+    dados->movimentacoes++;
+    dados->comparacoes++;
+    if (*cabeca == NULL || (*cabeca)->valor >= valor) {
+        novo->prox = *cabeca;
+        *cabeca = novo;
+        dados->movimentacoes += 2;
+        return;
     }
+    
+    noh* atual = *cabeca;
+    while (atual->prox != NULL && atual->prox->valor < valor) {
+        atual = atual->prox;
+        dados->movimentacoes++;
+        dados->comparacoes++;
+    }
+    
+    dados->movimentacoes += 2;
+    novo->prox = atual->prox;
+    atual->prox = novo;
+}
+
+void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
+    if (n <= 0) return;
+    int M = ObterMaiorElemento(n, v);
+    noh** baldes = (noh**) malloc(n * sizeof(noh*));
+    for (int i = 0; i < n; i++) {
+        baldes[i] = NULL;
+    }
+    for (int i = 0; i < n; i++) {
+        int j = (v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[j]);
+    }
+    for (int i = 0, k = 0; i < n; i++) {
+        noh* atual = baldes[i];
+        while (atual != NULL) {
+            v[k++] = atual->valor;
+            atual = atual->prox;
+        }
+        ApagaLista(baldes[i]);
+    }
+    free(baldes);
 }

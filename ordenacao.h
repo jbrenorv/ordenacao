@@ -29,22 +29,14 @@ typedef struct __algoritmo {
     void (* alg_coleta_dados)(int, int *, dados_execucao *);
 } algoritmo;
 
-typedef struct __celula {
+typedef struct __noh {
     int valor;
-    struct __celula* proximo;
-} celula;
-
-typedef struct __lista_ligada {
-    int tamanho;
-    celula* primeiro;
-    celula* ultimo;
-} lista_ligada;
+    struct __noh* prox;
+} noh;
 
 // funcoes de lista ligada
-lista_ligada* CriaListaLigada();
-void InsereEmListaLigada(int valor, lista_ligada* lista);
-void CopiaListaLigadaParaVetor(int* v, lista_ligada* lista);
-void ApagaListaLigada(lista_ligada* lista);
+void InsereOrdenado(int valor, noh** cabeca);
+void ApagaLista(noh* cabeca);
 
 // funcoes utilitarias
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem);
