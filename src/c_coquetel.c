@@ -1,55 +1,47 @@
 # include "../ordenacao.h"
 
 void Coquetel(int n, int *v) {
-    char trocado = 1;
-    int inicio = 0;
-    int fim = n - 1;
-    while (trocado) {
-        trocado = 0;
-        for (int i = inicio; i < fim; i++) {
-            if (v[i] > v[i + 1]) {
-                Troca(&v[i], &v[i + 1]);
-                trocado = 1;
+    int flag = 1, i = 0, j = n - 1;
+    while (flag) {
+        flag = 0;
+        for (int k = i; k < j; k++)
+            if (v[k] > v[k + 1]) {
+                Troca(&v[k], &v[k + 1]);
+                flag = 1;
             }
-        }
-        if (!trocado) return;
-        trocado = 0;
-        fim--;
-        for (int i = fim - 1; i >= inicio; i--) {
-            if (v[i] > v[i + 1]) {
-                Troca(&v[i], &v[i + 1]);
-                trocado = 1;
+        if (!flag) return;
+        flag = 0, j--;
+        for (int k = j - 1; k >= i; k--)
+            if (v[k] > v[k + 1]) {
+                Troca(&v[k], &v[k + 1]);
+                flag = 1;
             }
-        }
-        inicio++;
+        i++;
     }
 }
 
 void Coquetel_ColetaDados(int n, int *v, dados_execucao *dados) {
-    char trocado = 1;
-    int inicio = 0;
-    int fim = n - 1;
-    while (trocado) {
-        trocado = 0;
-        for (int i = inicio; i < fim; i++) {
-            if (v[i] > v[i + 1]) {
-                Troca(&v[i], &v[i + 1]);
+    int flag = 1, i = 0, j = n - 1;
+    while (flag) {
+        flag = 0;
+        for (int k = i; k < j; k++) {
+            if (v[k] > v[k + 1]) {
+                Troca(&v[k], &v[k + 1]);
+                flag = 1;
                 dados->movimentacoes += 3;
-                trocado = 1;
             }
             dados->comparacoes++;
         }
-        if (!trocado) return;
-        trocado = 0;
-        fim--;
-        for (int i = fim - 1; i >= inicio; i--) {
-            if (v[i] > v[i + 1]) {
-                Troca(&v[i], &v[i + 1]);
+        if (!flag) return;
+        flag = 0, j--;
+        for (int k = j - 1; k >= i; k--) {
+            if (v[k] > v[k + 1]) {
+                Troca(&v[k], &v[k + 1]);
+                flag = 1;
                 dados->movimentacoes += 3;
-                trocado = 1;
             }
             dados->comparacoes++;
         }
-        inicio++;
+        i++;
     }
 }

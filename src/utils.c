@@ -99,13 +99,6 @@ int max(int a, int b) {
     return (a > b ? a : b);
 }
 
-int ObterMenorElemento(int n, int *v) {
-    int res = v[0];
-    for (int i = 1; i < n; i++)
-        res = min(res, v[i]);
-    return res;
-}
-
 int ObterMaiorElemento(int n, int *v) {
     int res = v[0];
     for (int i = 1; i < n; i++)
@@ -113,19 +106,44 @@ int ObterMaiorElemento(int n, int *v) {
     return res;
 }
 
+int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados) {
+    int res = v[0];
+    for (int i = 1; i < n; i++) {
+        dados->comparacoes++;
+        if (res < v[i]) {
+            res = v[i];
+            dados->movimentacoes++;
+        }
+    }
+    return res;
+}
+
+void Verifica_Ordenacao(int n, int* v, algoritmo* a) {
+    for (int i = 0; i < n - 1; i++) {
+        if (v[i] > v[i + 1]) {
+            printf("Erro em: %s\n", a->nome);
+            ImprimeErro_E_FinalizaExecucao("O vetor nao esta ordenado\n");
+        }
+    }
+}
+
 dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
     dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
+    printf("Coletando dados do %s\n", a->nome);
     int *vetor_aux = AlocaVetor(n);
     CopiaVetor(n, v, vetor_aux);
     a->alg_coleta_dados(n, vetor_aux, &dados);
-
+    Verifica_Ordenacao(n, vetor_aux, a);
+    
     // Obter tempo de execucao
+    printf("Obtendo tempo do %s\n\n", a->nome);
     clock_t t = clock();
     a->alg(n, v);
     t = clock() - t;
     dados.tempo_ms = ((double)t * 1000.0) / CLOCKS_PER_SEC;
+    Verifica_Ordenacao(n, v, a);
 
     return dados;
 }

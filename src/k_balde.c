@@ -1,23 +1,37 @@
 # include "../ordenacao.h"
 
-void InsereOrdenado(int valor, noh** cabeca) {
+void Balde(int n, int *v) {
+    int M = ObterMaiorElemento(n, v);
+    noh** baldes = (noh**) malloc(n * sizeof(noh*));
+    for (int i = 0; i < n; i++)
+        baldes[i] = NULL;
+    for (int i = n - 1; i >= 0; i--) {
+        int j = ((long long)v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[j]);
+    }
+    for (int i = 0, k = 0; i < n; i++) {
+        noh* atual = baldes[i];
+        while (atual != NULL) {
+            v[k++] = atual->valor;
+            atual = atual->prox;
+        }
+        ApagaLista(baldes[i]);
+    }
+    free(baldes);
+}
+
+void InsereOrdenado(int valor, noh** l) {
     noh* novo = (noh*) malloc(sizeof(noh));
-    novo->valor = valor;
-    novo->prox = NULL;
-    
-    if (*cabeca == NULL || (*cabeca)->valor >= valor) {
-        novo->prox = *cabeca;
-        *cabeca = novo;
+    novo->valor = valor; novo->prox = NULL;
+    if (*l == NULL || (*l)->valor >= valor) {
+        novo->prox = *l;
+        *l = novo;
         return;
     }
-    
-    noh* atual = *cabeca;
-    while (atual->prox != NULL && atual->prox->valor < valor) {
+    noh* atual = *l;
+    while (atual->prox != NULL && atual->prox->valor < valor)
         atual = atual->prox;
-    }
-    
-    novo->prox = atual->prox;
-    atual->prox = novo;
+    novo->prox = atual->prox; atual->prox = novo;
 }
 
 void ApagaLista(noh* cabeca) {
@@ -29,15 +43,14 @@ void ApagaLista(noh* cabeca) {
     }
 }
 
-void Balde(int n, int *v) {
-    if (n <= 0) return;
-    int M = ObterMaiorElemento(n, v);
+void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
+    int M = ObterMaiorElemento_ColetaDados(n, v, dados);
     noh** baldes = (noh**) malloc(n * sizeof(noh*));
     for (int i = 0; i < n; i++) {
         baldes[i] = NULL;
     }
     for (int i = 0; i < n; i++) {
-        int j = (v[i] * n) / (M + 1);
+        int j = ((long long)v[i] * n) / (M + 1);
         InsereOrdenado(v[i], &baldes[j]);
     }
     for (int i = 0, k = 0; i < n; i++) {
@@ -45,55 +58,32 @@ void Balde(int n, int *v) {
         while (atual != NULL) {
             v[k++] = atual->valor;
             atual = atual->prox;
+            dados->movimentacoes++;
         }
         ApagaLista(baldes[i]);
     }
     free(baldes);
 }
 
-void InsereOrdenado_ColetaDados(int valor, noh** cabeca, dados_execucao* dados) {
+void InsereOrdenado_ColetaDados(int valor, noh** l, dados_execucao* dados) {
     noh* novo = (noh*) malloc(sizeof(noh));
     novo->valor = valor;
     novo->prox = NULL;
     dados->movimentacoes++;
     dados->comparacoes++;
-    if (*cabeca == NULL || (*cabeca)->valor >= valor) {
-        novo->prox = *cabeca;
-        *cabeca = novo;
+    if (*l == NULL || (*l)->valor >= valor) {
+        novo->prox = *l;
+        *l = novo;
         dados->movimentacoes += 2;
         return;
     }
-    
-    noh* atual = *cabeca;
+    noh* atual = *l;
     while (atual->prox != NULL && atual->prox->valor < valor) {
         atual = atual->prox;
         dados->movimentacoes++;
         dados->comparacoes++;
     }
-    
-    dados->movimentacoes += 2;
     novo->prox = atual->prox;
     atual->prox = novo;
-}
-
-void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
-    if (n <= 0) return;
-    int M = ObterMaiorElemento(n, v);
-    noh** baldes = (noh**) malloc(n * sizeof(noh*));
-    for (int i = 0; i < n; i++) {
-        baldes[i] = NULL;
-    }
-    for (int i = 0; i < n; i++) {
-        int j = (v[i] * n) / (M + 1);
-        InsereOrdenado(v[i], &baldes[j]);
-    }
-    for (int i = 0, k = 0; i < n; i++) {
-        noh* atual = baldes[i];
-        while (atual != NULL) {
-            v[k++] = atual->valor;
-            atual = atual->prox;
-        }
-        ApagaLista(baldes[i]);
-    }
-    free(baldes);
+    dados->movimentacoes += 2;
 }
