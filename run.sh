@@ -1,7 +1,9 @@
 gcc main.c src/*.c -O3 -lm
 
+OUTPUT_DIR="output"
+mkdir -p $OUTPUT_DIR
 CURRENT_TIME=$(date "+%Y.%m.%d-%H.%M.%S")
-OUTPUT_FILE="output/output.$CURRENT_TIME.csv"
+OUTPUT_FILE="$OUTPUT_DIR/output.$CURRENT_TIME.csv"
 
 echo "algoritmo,tamanho_vetor,tipo_vetor,comparacoes,movimentos,tempo_ms" > $OUTPUT_FILE
 
