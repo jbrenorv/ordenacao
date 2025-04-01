@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     int *original = CriaVetor(n, tipo);
     int *v = AlocaVetor(n);
 
-    const int algorithms_count = 13;
+    const int algorithms_count = 15;
     algoritmo algoritmos[] =
     {
         // Nome               , N max    , Alg.             , Alg. coleta dados
@@ -54,11 +54,12 @@ int main(int argc, char **argv)
 
         dados_execucao dados = ObterDadosExecucao(n, v, &algoritmos[i]);
 
-        fprintf(fp, "%s,%i,%i,%lli,%lli,%lf\n",
+        fprintf(fp, "%s,%i,%i,%lli,%lli,%lli,%lf\n",
             algoritmos[i].nome,
             n, tipo,
             dados.comparacoes,
             dados.movimentacoes,
+            dados.iteracoes,
             dados.tempo_ms
         );
     }

@@ -29,10 +29,13 @@ void Shellsort_ColetaDados(int n, int *v, dados_execucao *dados) {
                 v[j] = v[j - h];
                 dados->movimentacoes++;
                 dados->comparacoes++;
+                dados->iteracoes++;
             }
             v[j] = chave;
             if (j >= h) dados->comparacoes++;
             dados->movimentacoes += 2;
+            dados->iteracoes++;
         }
+        dados->iteracoes++;
     }
 }

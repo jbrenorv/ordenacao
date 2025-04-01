@@ -22,6 +22,8 @@ void BolhaFlag_ColetaDados(int n, int *v, dados_execucao *dados) {
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
+            dados->iteracoes++;
         }
+        dados->iteracoes++;
     }
 }

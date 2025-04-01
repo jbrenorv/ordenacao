@@ -48,10 +48,12 @@ void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
     noh** baldes = (noh**) malloc(n * sizeof(noh*));
     for (int i = 0; i < n; i++) {
         baldes[i] = NULL;
+        dados->iteracoes++;
     }
     for (int i = 0; i < n; i++) {
         int j = ((long long)v[i] * n) / (M + 1);
         InsereOrdenado(v[i], &baldes[j]);
+        dados->iteracoes++;
     }
     for (int i = 0, k = 0; i < n; i++) {
         noh* atual = baldes[i];
@@ -59,8 +61,10 @@ void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
             v[k++] = atual->valor;
             atual = atual->prox;
             dados->movimentacoes++;
+            dados->iteracoes++;
         }
         ApagaLista(baldes[i]);
+        dados->iteracoes++;
     }
     free(baldes);
 }
@@ -82,6 +86,7 @@ void InsereOrdenado_ColetaDados(int valor, noh** l, dados_execucao* dados) {
         atual = atual->prox;
         dados->movimentacoes++;
         dados->comparacoes++;
+        dados->iteracoes++;
     }
     novo->prox = atual->prox;
     atual->prox = novo;

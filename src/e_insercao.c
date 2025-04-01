@@ -18,9 +18,11 @@ void Insercao_ColetaDados(int n, int *v, dados_execucao *dados) {
             v[j] = v[j - 1];
             dados->comparacoes++;
             dados->movimentacoes++;
+            dados->iteracoes++;
         }
         v[j] = chave;
         if (j > 0) dados->comparacoes++;
         dados->movimentacoes += 2;
+        dados->iteracoes++;
     }
 }

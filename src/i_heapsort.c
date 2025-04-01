@@ -32,12 +32,15 @@ void Heapsort_ColetaDados(int n, int *v, dados_execucao *dados) {
         Troca(&v[0], &v[i]);
         Heapify_ColetaDados(0, i, v,dados);
         dados->movimentacoes += 3;
+        dados->iteracoes++;
     }
 }
 
 void ConstroiHeap_ColetaDados(int n, int *v, dados_execucao *dados) {
-    for (int i = n / 2 - 1; i >= 0; i--)
+    for (int i = n / 2 - 1; i >= 0; i--) {
         Heapify_ColetaDados(i, n, v,dados);
+        dados->iteracoes++;
+    }
 }
 
 void Heapify_ColetaDados(int i, int n, int *v, dados_execucao *dados) {
@@ -52,5 +55,6 @@ void Heapify_ColetaDados(int i, int n, int *v, dados_execucao *dados) {
             j = k;
         }
         dados->comparacoes += 2;
+        dados->iteracoes++;
     }
 }

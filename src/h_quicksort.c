@@ -118,6 +118,7 @@ void QuicksortProbRec_ColetaDados(int l, int r, int *v, dados_execucao *dados) {
             QuicksortProbRec_ColetaDados(j + 1, r, v, dados);
             r = j - 1;
         }
+        dados->iteracoes++;
     }
 }
 
@@ -132,6 +133,7 @@ void QuicksortLimitado_ColetaDados(int l, int r, int k, int *v, dados_execucao *
             QuicksortLimitado_ColetaDados(j + 1, r, k, v, dados);
             r = i - 1;
         }
+        dados->iteracoes++;
     }
 }
 
@@ -145,6 +147,7 @@ int Particiona_ColetaDados(int l, int r, int *v, dados_execucao *dados) {
             dados->movimentacoes += 3;
             j++;
         }
+        dados->iteracoes++;
     }
     v[r] = v[j], v[j] = pivo;
     dados->movimentacoes += 2;
@@ -170,6 +173,7 @@ void ParticionaDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, dados_exe
             k++;
             dados->comparacoes += 2;
         }
+        dados->iteracoes++;
     }
 }
 

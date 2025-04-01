@@ -43,15 +43,18 @@ void MergesortRec_ColetaDados(int l, int r, int *v, int *aux, dados_execucao *da
 void Merge_ColetaDados(int l, int m, int r, int *v, int *aux, dados_execucao *dados) {
     CopiaVetor(r - l, v+l, aux+l);
     dados->movimentacoes += r - l;
+    dados->iteracoes += r - l;
     int i = l, j = m, k = l;
     while (i < m && j < r) {
         if (aux[i] <= aux[j]) v[k++] = aux[i++];
         else v[k++] = aux[j++];
         dados->comparacoes++;
         dados->movimentacoes++;
+        dados->iteracoes++;
     }
     while (i < m) {
         v[k++] = aux[i++];
         dados->movimentacoes++;
+        dados->iteracoes++;
     }
 }

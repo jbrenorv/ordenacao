@@ -31,6 +31,7 @@ void Coquetel_ColetaDados(int n, int *v, dados_execucao *dados) {
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
+            dados->iteracoes++;
         }
         if (!flag) return;
         flag = 0, j--;
@@ -41,7 +42,9 @@ void Coquetel_ColetaDados(int n, int *v, dados_execucao *dados) {
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
+            dados->iteracoes++;
         }
         i++;
+        dados->iteracoes++;
     }
 }

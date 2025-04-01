@@ -6,7 +6,7 @@ void Selecao(int n, int *v) {
         for (int k = i + 1; k < n; k++)
             if (v[j] > v[k])
                 j = k;
-        Troca(&v[i], &v[j]);
+        if (j > i) Troca(&v[i], &v[j]);
     }
 }
 
@@ -17,8 +17,10 @@ void Selecao_ColetaDados(int n, int *v, dados_execucao *dados) {
             if (v[j] > v[k])
                 j = k;
             dados->comparacoes++;
+            dados->iteracoes++;
         }
-        Troca(&v[i], &v[j]);
+        if (j > i) Troca(&v[i], &v[j]);
         dados->movimentacoes += 3;
+        dados->iteracoes++;
     }
 }
