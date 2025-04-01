@@ -20,7 +20,7 @@ void Merge(int l, int m, int r, int *v, int *aux) {
     int i = l, j = m, k = l;
     while (i < m && j < r) {
         if (aux[i] <= aux[j]) v[k++] = aux[i++];
-        else v[k++] = v[j++];
+        else v[k++] = aux[j++];
     }
     while (i < m) v[k++] = aux[i++];
 }
@@ -46,7 +46,7 @@ void Merge_ColetaDados(int l, int m, int r, int *v, int *aux, dados_execucao *da
     int i = l, j = m, k = l;
     while (i < m && j < r) {
         if (aux[i] <= aux[j]) v[k++] = aux[i++];
-        else v[k++] = v[j++];
+        else v[k++] = aux[j++];
         dados->comparacoes++;
         dados->movimentacoes++;
     }
