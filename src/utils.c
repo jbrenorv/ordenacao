@@ -132,14 +132,14 @@ dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
     dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
-    printf("Coletando dados do %s\n", a->nome);
+    // printf("Coletando dados do %s\n", a->nome);
     int *vetor_aux = AlocaVetor(n);
     CopiaVetor(n, v, vetor_aux);
     a->alg_coleta_dados(n, vetor_aux, &dados);
     Verifica_Ordenacao(n, vetor_aux, a);
     
     // Obter tempo de execucao
-    printf("Obtendo tempo do %s\n\n", a->nome);
+    // printf("Obtendo tempo do %s\n\n", a->nome);
     clock_t t = clock();
     a->alg(n, v);
     t = clock() - t;

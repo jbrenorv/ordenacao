@@ -5,16 +5,20 @@ mkdir -p $OUTPUT_DIR
 CURRENT_TIME=$(date "+%Y.%m.%d-%H.%M.%S")
 OUTPUT_FILE="$OUTPUT_DIR/output.$CURRENT_TIME.csv"
 
-echo "algoritmo,tamanho_vetor,tipo_vetor,comparacoes,movimentos,iteracoes,tempo_ms" > $OUTPUT_FILE
+echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,iteracoes,tempo_ms" > $OUTPUT_FILE
 
-TAMANHOS=(1000 10000 100000 1000000 10000000 100000000)
-TIPOS=(1 2 3)
+tamanhos=()
+for ((i=10000; i<=1000000; i+=10000)); do
+    tamanhos+=($i)
+done
 
-for tamanho in "${TAMANHOS[@]}"; do
-    for tipo in "${TIPOS[@]}"; do
+for tamanho in "${tamanhos[@]}"; do
+    for tipo in {1..3}; do
+        for execucao in {1..10}; do
 
-        ./a.out $OUTPUT_FILE $tamanho $tipo
+            ./a.out $OUTPUT_FILE $tamanho $tipo $execucao
 
+        done
     done
 done
 

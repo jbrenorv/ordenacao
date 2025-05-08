@@ -14,6 +14,7 @@ int main(int argc, char **argv)
     char* output_file_name = argv[1];
     int n = atoi(argv[2]);
     int tipo = atoi(argv[3]);
+    int execucao = atoi(argv[4]);
     if (n < 1 || n > 214748364 || tipo < 1 || tipo > 3) {
         ImprimeErro_E_FinalizaExecucao("Parametros invalidos");
     }
@@ -25,21 +26,21 @@ int main(int argc, char **argv)
     algoritmo algoritmos[] =
     {
         // Nome               , N max    , Alg.             , Alg. coleta dados
-        { "Bolha"             , 100000   , Bolha            , Bolha_ColetaDados             },
-        { "BolhaFlag"         , 100000   , BolhaFlag        , BolhaFlag_ColetaDados         },
-        { "Coquetel"          , 100000   , Coquetel         , Coquetel_ColetaDados          },
-        { "Selecao"           , 100000   , Selecao          , Selecao_ColetaDados           },
-        { "Insercao"          , 100000   , Insercao         , Insercao_ColetaDados          },
+        { "Bolha"             , 1000000  , Bolha            , Bolha_ColetaDados             },
+        { "BolhaFlag"         , 1000000  , BolhaFlag        , BolhaFlag_ColetaDados         },
+        { "Coquetel"          , 1000000  , Coquetel         , Coquetel_ColetaDados          },
+        { "Selecao"           , 1000000  , Selecao          , Selecao_ColetaDados           },
+        { "Insercao"          , 1000000  , Insercao         , Insercao_ColetaDados          },
         { "Shellsort"         , 100000000, Shellsort        , Shellsort_ColetaDados         },
         { "Mergesort"         , 100000000, Mergesort        , Mergesort_ColetaDados         },
-        { "Quicksort"         , 100000   , Quicksort        , Quicksort_ColetaDados         },
+        { "Quicksort"         , 1000000  , Quicksort        , Quicksort_ColetaDados         },
         { "Quicksort Prob"    , 100000000, QuicksortProb    , QuicksortProb_ColetaDados     },
-        { "Quicksort Insercao", 100000000, QuicksortInsercao, QuicksortInsercao_ColetaDados },
+        { "Quicksort+Insercao", 100000000, QuicksortInsercao, QuicksortInsercao_ColetaDados },
         { "Heapsort"          , 100000000, Heapsort         , Heapsort_ColetaDados          },
         { "Contagem"          , 100000000, Contagem         , Contagem_ColetaDados          },
         { "Balde"             , 100000000, Balde            , Balde_ColetaDados             },
-        { "Radixsort Contagem", 100000000, RadixsortContagem, RadixsortContagem_ColetaDados },
-        { "Radixsort Balde"   , 100000000, RadixsortBalde   , RadixsortBalde_ColetaDados    },
+        { "Radixsort+Contagem", 100000000, RadixsortContagem, RadixsortContagem_ColetaDados },
+        { "Radixsort+Balde"   , 100000000, RadixsortBalde   , RadixsortBalde_ColetaDados    },
     };
 
     FILE *fp;
@@ -54,9 +55,9 @@ int main(int argc, char **argv)
 
         dados_execucao dados = ObterDadosExecucao(n, v, &algoritmos[i]);
 
-        fprintf(fp, "%s,%i,%i,%lli,%lli,%lli,%lf\n",
+        fprintf(fp, "%s,%i,%i,%i,%lli,%lli,%lli,%lf\n",
             algoritmos[i].nome,
-            n, tipo,
+            n, tipo, execucao,
             dados.comparacoes,
             dados.movimentacoes,
             dados.iteracoes,
