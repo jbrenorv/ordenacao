@@ -1,14 +1,14 @@
 # include "../ordenacao.h"
 
+#define _10e9 1000000000
+
 void RadixsortContagem(int n, int *v) {
-    int M = ObterMaiorElemento(n, v);
-    for (int p = 1; M / p > 0; p *= 10)
+    for (int p = 1; p < _10e9; p *= 10)
         ContagemDigital(p, n, v);
 }
 
 void RadixsortBalde(int n, int *v) {
-    int M = ObterMaiorElemento(n, v);
-    for (int p = 1; M / p > 0; p *= 10)
+    for (int p = 1; p < _10e9; p *= 10)
         BaldeDigital(p, n, v);
 }
 
@@ -27,16 +27,16 @@ void ContagemDigital(int p, int n,  int* v) {
 }
 
 void BaldeDigital(int p, int n, int *v) {
-    noh** baldes = (noh**) malloc(10 * sizeof(noh*));
+    celula** baldes = (celula**) malloc(10 * sizeof(celula*));
     for (int i = 0; i < 10; i++) baldes[i] = NULL;
     for (int i = n - 1; i >= 0; i--) {
-        noh* novo = (noh*) malloc(sizeof(noh));
+        celula* novo = (celula*) malloc(sizeof(celula));
         novo->valor = v[i];
         novo->prox = baldes[d(p, v[i])];
         baldes[d(p, v[i])] = novo;
     }
     for (int i = 0, k = 0; i < 10; i++) {
-        noh* atual = baldes[i];
+        celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
             atual = atual->prox;
@@ -51,16 +51,14 @@ int d(int p, int valor) {
 }
 
 void RadixsortContagem_ColetaDados(int n, int *v, dados_execucao *dados) {
-    int M = ObterMaiorElemento_ColetaDados(n, v, dados);
-    for (int p = 1; M / p > 0; p *= 10) {
+    for (int p = 1; p < _10e9; p *= 10) {
         ContagemDigital_ColetaDados(p, n, v, dados);
         dados->iteracoes++;
     }
 }
 
 void RadixsortBalde_ColetaDados(int n, int *v, dados_execucao *dados) {
-    int M = ObterMaiorElemento_ColetaDados(n, v, dados);
-    for (int p = 1; M / p > 0; p *= 10) {
+    for (int p = 1; p < _10e9; p *= 10) {
         BaldeDigital_ColetaDados(p, n, v, dados);
         dados->iteracoes++;
     }
@@ -93,10 +91,10 @@ void ContagemDigital_ColetaDados(int p, int n,  int* v, dados_execucao *dados) {
 }
 
 void BaldeDigital_ColetaDados(int p, int n, int *v, dados_execucao *dados) {
-    noh** baldes = (noh**) malloc(10 * sizeof(noh*));
+    celula** baldes = (celula**) malloc(10 * sizeof(celula*));
     for (int i = 0; i < 10; i++) baldes[i] = NULL;
     for (int i = n - 1; i >= 0; i--) {
-        noh* novo = (noh*) malloc(sizeof(noh));
+        celula* novo = (celula*) malloc(sizeof(celula));
         novo->valor = v[i];
         novo->prox = baldes[d(p, v[i])];
         baldes[d(p, v[i])] = novo;
@@ -104,7 +102,7 @@ void BaldeDigital_ColetaDados(int p, int n, int *v, dados_execucao *dados) {
         dados->iteracoes++;
     }
     for (int i = 0, k = 0; i < 10; i++) {
-        noh* atual = baldes[i];
+        celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
             atual = atual->prox;

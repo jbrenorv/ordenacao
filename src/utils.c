@@ -15,9 +15,9 @@ char EhNumerico(int n, const char *texto) {
 }
 
 void Troca(int *a, int *b) {
-    int aux = *a;
+    int temp = *a;
     *a = *b;
-    *b = aux;
+    *b = temp;
 }
 
 int *AlocaVetor(int n) {
@@ -37,40 +37,19 @@ int *AlocaVetorLimpo(int n) {
 }
 
 int GeraNumeroAleatorioNoIntervalo(int a, int b) {
-    if (a >= b) return a;
-    return ((rand() % (b - a + 1)) + a);
-}
-
-void GeraVetorCrescente(int n, int *v) {
-    for (int i = 0; i < n; ++i) {
-        v[i] = i;
-    }
-}
-
-void GeraVetorDecrescente(int n, int *v) {
-    for (int i = n - 1; i >= 0; --i) {
-        v[i] = i;
-    }
-}
-
-void GeraVetorAleatorio(int n, int *v) {
-    for (int i = 0; i < n; ++i) {
-        v[i] = GeraNumeroAleatorioNoIntervalo(0, n * 10);
-    }
+    return a + rand() % (b - a + 1);
 }
 
 int *CriaVetor(int n, tipo_vetor tipo) {
     int *v = AlocaVetor(n);
-    switch (tipo) {
-        case CRESCENTE:
-            GeraVetorCrescente(n, v);
-            break;
-        case DECRESCENTE:
-            GeraVetorDecrescente(n, v);
-            break;
-        default:
-            GeraVetorAleatorio(n, v);
-            break;
+    for (int i = 0; i < n; ++i) {
+        if (tipo == CRESCENTE) {
+            v[i] = i;
+        } else if (tipo == DECRESCENTE) {
+            v[i] = n - i;
+        } else {
+            v[i] = min(100000000, GeraNumeroAleatorioNoIntervalo(0, 10 * n));
+        }
     }
     return v;
 }
@@ -132,18 +111,18 @@ dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
     dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
-    // printf("Coletando dados do %s\n", a->nome);
-    int *vetor_aux = AlocaVetor(n);
-    CopiaVetor(n, v, vetor_aux);
-    a->alg_coleta_dados(n, vetor_aux, &dados);
-    Verifica_Ordenacao(n, vetor_aux, a);
+    int *v_copia = AlocaVetor(n);
+    CopiaVetor(n, v, v_copia);
+    a->alg_coleta_dados(n, v_copia, &dados);
+    Verifica_Ordenacao(n, v_copia, a);
+    free(v_copia);
     
     // Obter tempo de execucao
-    // printf("Obtendo tempo do %s\n\n", a->nome);
-    clock_t t = clock();
+    tempo inicio, fim;
+    clock_gettime(CLOCK_MONOTONIC, &inicio);
     a->alg(n, v);
-    t = clock() - t;
-    dados.tempo_ms = ((double)t * 1000.0) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &fim);
+    dados.tempo_ms = (fim.tv_sec - inicio.tv_sec) * 1000.0 + (fim.tv_nsec - inicio.tv_nsec) / 1000000.0;
     Verifica_Ordenacao(n, v, a);
 
     return dados;

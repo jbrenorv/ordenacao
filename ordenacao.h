@@ -10,6 +10,8 @@
 
 typedef long long int64;
 
+typedef struct timespec tempo;
+
 typedef enum tipo_vetor {
     CRESCENTE = 1,
     DECRESCENTE,
@@ -30,10 +32,10 @@ typedef struct algoritmo {
     void (* alg_coleta_dados)(int, int *, dados_execucao *);
 } algoritmo;
 
-typedef struct noh {
+typedef struct celula {
     int valor;
-    struct noh* prox;
-} noh;
+    struct celula* prox;
+} celula;
 
 
 // Utils
@@ -42,9 +44,6 @@ void Troca(int* a, int* b);
 int* AlocaVetor(int n);
 int* AlocaVetorLimpo(int n);
 int GeraNumeroAleatorioNoIntervalo(int a, int b);
-void GeraVetorCrescente(int n, int* v);
-void GeraVetorDecrescente(int n, int* v);
-void GeraVetorAleatorio(int n, int* v);
 int *CriaVetor(int n, tipo_vetor tipo);
 void CopiaVetor(int n, int *origem, int* destino);
 void ImprimeVetor(int n, int *v, const char* prefixo);
@@ -89,25 +88,14 @@ void Merge_ColetaDados(int l, int m, int r, int *v, int *aux, dados_execucao *da
 
 // Quicksort
 void Quicksort(int n, int *v);
-void QuicksortProb(int n, int *v);
-void QuicksortInsercao(int n, int *v);
 void QuicksortRec(int l, int r, int *v);
-void QuicksortProbRec(int l, int r, int *v);
-void QuicksortLimitado(int l, int r, int k, int *v);
-int Particiona(int l, int r, int *v);
-void ParticionaDuplo(int l, int r, int *i, int *j, int *v);
-int ParticionaAleatorio(int l, int r, int *v);
 void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *v);
 void Quicksort_ColetaDados(int n, int *v, dados_execucao *dados);
-void QuicksortProb_ColetaDados(int n, int *v, dados_execucao *dados);
-void QuicksortInsercao_ColetaDados(int n, int *v, dados_execucao *dados);
 void QuicksortRec_ColetaDados(int l, int r, int *v, dados_execucao *dados);
-void QuicksortProbRec_ColetaDados(int l, int r, int *v, dados_execucao *dados);
-void QuicksortLimitado_ColetaDados(int l, int r, int k, int *v, dados_execucao *dados);
-int Particiona_ColetaDados(int l, int r, int *v, dados_execucao *dados);
-void ParticionaDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, dados_execucao *dados);
-int ParticionaAleatorio_ColetaDados(int l, int r, int *v, dados_execucao *dados);
 void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, dados_execucao *dados);
+
+void QuicksortLimitado(int l, int r, int k, int *v);
+void QuicksortInsercao(int n, int *v);
 
 // Heapsort
 void Heapsort(int n, int *v);
@@ -123,10 +111,10 @@ void Contagem_ColetaDados(int n, int *v, dados_execucao *dados);
 
 // Balde
 void Balde(int n, int *v);
-void InsereOrdenado(int valor, noh** l);
-void ApagaLista(noh* cabeca);
+void InsereOrdenado(int valor, celula** l);
+void ApagaLista(celula* cabeca);
 void Balde_ColetaDados(int n, int *v, dados_execucao *dados);
-void InsereOrdenado_ColetaDados(int valor, noh** cabeca, dados_execucao* dados);
+void InsereOrdenado_ColetaDados(int valor, celula** cabeca, dados_execucao* dados);
 
 // Radixsort
 void RadixsortContagem(int n, int *v);

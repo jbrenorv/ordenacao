@@ -8,7 +8,7 @@ OUTPUT_FILE="$OUTPUT_DIR/output.$CURRENT_TIME.csv"
 echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,iteracoes,tempo_ms" > $OUTPUT_FILE
 
 tamanhos=()
-for ((i=10000; i<=1000000; i+=10000)); do
+for ((i=10000; i<=100000000; i+=10000)); do
     tamanhos+=($i)
 done
 

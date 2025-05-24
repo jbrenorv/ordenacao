@@ -22,7 +22,6 @@ int main(int argc, char **argv)
     int *original = CriaVetor(n, tipo);
     int *v = AlocaVetor(n);
 
-    const int algorithms_count = 15;
     algoritmo algoritmos[] =
     {
         // Nome               , N max    , Alg.             , Alg. coleta dados
@@ -33,16 +32,15 @@ int main(int argc, char **argv)
         { "Insercao"          , 1000000  , Insercao         , Insercao_ColetaDados          },
         { "Shellsort"         , 100000000, Shellsort        , Shellsort_ColetaDados         },
         { "Mergesort"         , 100000000, Mergesort        , Mergesort_ColetaDados         },
-        { "Quicksort"         , 1000000  , Quicksort        , Quicksort_ColetaDados         },
-        { "Quicksort Prob"    , 100000000, QuicksortProb    , QuicksortProb_ColetaDados     },
-        { "Quicksort+Insercao", 100000000, QuicksortInsercao, QuicksortInsercao_ColetaDados },
+        { "Quicksort"         , 100000000, Quicksort        , Quicksort_ColetaDados         },
         { "Heapsort"          , 100000000, Heapsort         , Heapsort_ColetaDados          },
         { "Contagem"          , 100000000, Contagem         , Contagem_ColetaDados          },
         { "Balde"             , 100000000, Balde            , Balde_ColetaDados             },
         { "Radixsort+Contagem", 100000000, RadixsortContagem, RadixsortContagem_ColetaDados },
         { "Radixsort+Balde"   , 100000000, RadixsortBalde   , RadixsortBalde_ColetaDados    },
     };
-
+    int algorithms_count = sizeof(algoritmos) / sizeof(algoritmo);
+    
     FILE *fp;
     if ((fp = fopen(output_file_name, "a")) == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
