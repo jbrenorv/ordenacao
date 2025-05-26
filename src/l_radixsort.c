@@ -27,21 +27,20 @@ void ContagemDigital(int p, int n,  int* v) {
 }
 
 void BaldeDigital(int p, int n, int *v) {
-    celula** baldes = (celula**) malloc(10 * sizeof(celula*));
-    for (int i = 0; i < 10; i++) baldes[i] = NULL;
+    celula** baldes = (celula**) calloc(10, sizeof(celula*));
     for (int i = n - 1; i >= 0; i--) {
-        celula* novo = (celula*) malloc(sizeof(celula));
-        novo->valor = v[i];
-        novo->prox = baldes[d(p, v[i])];
-        baldes[d(p, v[i])] = novo;
+        celula* cel = CriaCelula(v[i]);
+        cel->prox = baldes[d(p, v[i])];
+        baldes[d(p, v[i])] = cel;
     }
     for (int i = 0, k = 0; i < 10; i++) {
         celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
+            celula* temp = atual;
             atual = atual->prox;
+            free(temp);
         }
-        ApagaLista(baldes[i]);
     }
     free(baldes);
 }
@@ -91,13 +90,11 @@ void ContagemDigital_ColetaDados(int p, int n,  int* v, dados_execucao *dados) {
 }
 
 void BaldeDigital_ColetaDados(int p, int n, int *v, dados_execucao *dados) {
-    celula** baldes = (celula**) malloc(10 * sizeof(celula*));
-    for (int i = 0; i < 10; i++) baldes[i] = NULL;
+    celula** baldes = (celula**) calloc(10, sizeof(celula*));
     for (int i = n - 1; i >= 0; i--) {
-        celula* novo = (celula*) malloc(sizeof(celula));
-        novo->valor = v[i];
-        novo->prox = baldes[d(p, v[i])];
-        baldes[d(p, v[i])] = novo;
+        celula* cel = CriaCelula(v[i]);
+        cel->prox = baldes[d(p, v[i])];
+        baldes[d(p, v[i])] = cel;
         dados->movimentacoes++;
         dados->iteracoes++;
     }
@@ -105,11 +102,12 @@ void BaldeDigital_ColetaDados(int p, int n, int *v, dados_execucao *dados) {
         celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
+            celula* temp = atual;
             atual = atual->prox;
+            free(temp);
             dados->movimentacoes++;
             dados->iteracoes++;
         }
-        ApagaLista(baldes[i]);
         dados->iteracoes++;
     }
     free(baldes);

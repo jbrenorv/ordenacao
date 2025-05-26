@@ -1,94 +1,79 @@
 # include "../ordenacao.h"
 
 void Balde(int n, int *v) {
+    celula** baldes = (celula**) calloc(n, sizeof(celula*));
     int M = ObterMaiorElemento(n, v);
-    celula** baldes = (celula**) malloc(n * sizeof(celula*));
-    for (int i = 0; i < n; i++)
-        baldes[i] = NULL;
     for (int i = n - 1; i >= 0; i--) {
-        int j = ((long long)v[i] * n) / (M + 1);
-        InsereOrdenado(v[i], &baldes[j]);
+        int index = ((long long)v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[index]);
     }
     for (int i = 0, k = 0; i < n; i++) {
         celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
+            celula* temp = atual;
             atual = atual->prox;
+            free(temp);
         }
-        ApagaLista(baldes[i]);
     }
     free(baldes);
 }
 
-void InsereOrdenado(int valor, celula** l) {
-    celula* novo = (celula*) malloc(sizeof(celula));
-    novo->valor = valor; novo->prox = NULL;
-    if (*l == NULL || (*l)->valor >= valor) {
-        novo->prox = *l;
-        *l = novo;
-        return;
-    }
-    celula* atual = *l;
-    while (atual->prox != NULL && atual->prox->valor < valor)
-        atual = atual->prox;
-    novo->prox = atual->prox; atual->prox = novo;
-}
-
-void ApagaLista(celula* cabeca) {
-    celula* temp;
-    while (cabeca != NULL) {
-        temp = cabeca;
-        cabeca = cabeca->prox;
-        free(temp);
+void InsereOrdenado(int valor, celula** balde) {
+    celula* cel = CriaCelula(valor);
+    if (*balde == NULL || (*balde)->valor >= valor) {
+        cel->prox = *balde;
+        *balde = cel;
+    } else {
+        celula* atual = *balde;
+        while (atual->prox && atual->prox->valor < valor)
+            atual = atual->prox;
+        cel->prox = atual->prox;
+        atual->prox = cel;
     }
 }
 
 void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
+    celula** baldes = (celula**) calloc(n, sizeof(celula*));
     int M = ObterMaiorElemento_ColetaDados(n, v, dados);
-    celula** baldes = (celula**) malloc(n * sizeof(celula*));
-    for (int i = 0; i < n; i++) {
-        baldes[i] = NULL;
-        dados->iteracoes++;
-    }
-    for (int i = 0; i < n; i++) {
-        int j = ((long long)v[i] * n) / (M + 1);
-        InsereOrdenado(v[i], &baldes[j]);
+    for (int i = n - 1; i >= 0; i--) {
+        int index = ((long long)v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[index]);
         dados->iteracoes++;
     }
     for (int i = 0, k = 0; i < n; i++) {
         celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
+            celula* temp = atual;
             atual = atual->prox;
+            free(temp);
             dados->movimentacoes++;
             dados->iteracoes++;
         }
-        ApagaLista(baldes[i]);
         dados->iteracoes++;
     }
     free(baldes);
 }
 
-void InsereOrdenado_ColetaDados(int valor, celula** l, dados_execucao* dados) {
-    celula* novo = (celula*) malloc(sizeof(celula));
-    novo->valor = valor;
-    novo->prox = NULL;
+void InsereOrdenado_ColetaDados(int valor, celula** balde, dados_execucao* dados) {
+    celula* cel = CriaCelula(valor);
     dados->movimentacoes++;
     dados->comparacoes++;
-    if (*l == NULL || (*l)->valor >= valor) {
-        novo->prox = *l;
-        *l = novo;
+    if (*balde == NULL || (*balde)->valor >= valor) {
+        cel->prox = *balde;
+        *balde = cel;
         dados->movimentacoes += 2;
-        return;
+    } else {
+        celula* atual = *balde;
+        while (atual->prox && atual->prox->valor < valor) {
+            atual = atual->prox;
+            dados->movimentacoes++;
+            dados->comparacoes++;
+            dados->iteracoes++;
+        }
+        cel->prox = atual->prox;
+        atual->prox = cel;
+        dados->movimentacoes += 2;
     }
-    celula* atual = *l;
-    while (atual->prox != NULL && atual->prox->valor < valor) {
-        atual = atual->prox;
-        dados->movimentacoes++;
-        dados->comparacoes++;
-        dados->iteracoes++;
-    }
-    novo->prox = atual->prox;
-    atual->prox = novo;
-    dados->movimentacoes += 2;
 }

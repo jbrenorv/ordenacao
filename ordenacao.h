@@ -51,6 +51,9 @@ int min(int a, int b);
 int max(int a, int b);
 int ObterMaiorElemento(int n, int *v);
 int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados);
+void ObterMenorEMaiorElemento(int n, int *menor, int *maior, int *v);
+void ObterMenorEMaiorElemento_ColetaDados(int n, int *menor, int *maior, int *v, dados_execucao* dados);
+celula* CriaCelula(int valor);
 void Verifica_Ordenacao(int n, int* v, algoritmo* a);
 dados_execucao ObterDadosExecucao(int n, int* v, algoritmo* a);
 
@@ -94,9 +97,6 @@ void Quicksort_ColetaDados(int n, int *v, dados_execucao *dados);
 void QuicksortRec_ColetaDados(int l, int r, int *v, dados_execucao *dados);
 void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, dados_execucao *dados);
 
-void QuicksortLimitado(int l, int r, int k, int *v);
-void QuicksortInsercao(int n, int *v);
-
 // Heapsort
 void Heapsort(int n, int *v);
 void ConstroiHeap(int n, int *v);
@@ -112,7 +112,6 @@ void Contagem_ColetaDados(int n, int *v, dados_execucao *dados);
 // Balde
 void Balde(int n, int *v);
 void InsereOrdenado(int valor, celula** l);
-void ApagaLista(celula* cabeca);
 void Balde_ColetaDados(int n, int *v, dados_execucao *dados);
 void InsereOrdenado_ColetaDados(int valor, celula** cabeca, dados_execucao* dados);
 

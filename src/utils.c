@@ -98,6 +98,13 @@ int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados) {
     return res;
 }
 
+celula* CriaCelula(int valor) {
+    celula* cel = (celula*) malloc(sizeof(celula));
+    cel->valor = valor;
+    cel->prox = NULL;
+    return cel;
+}
+
 void Verifica_Ordenacao(int n, int* v, algoritmo* a) {
     for (int i = 0; i < n - 1; i++) {
         if (v[i] > v[i + 1]) {
