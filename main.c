@@ -25,11 +25,11 @@ int main(int argc, char **argv)
     algoritmo algoritmos[] =
     {
         // Nome               , N max    , Alg.             , Alg. coleta dados
-        { "Bolha"             , 1000000  , Bolha            , Bolha_ColetaDados             },
-        { "BolhaFlag"         , 1000000  , BolhaFlag        , BolhaFlag_ColetaDados         },
-        { "Coquetel"          , 1000000  , Coquetel         , Coquetel_ColetaDados          },
-        { "Selecao"           , 1000000  , Selecao          , Selecao_ColetaDados           },
-        { "Insercao"          , 1000000  , Insercao         , Insercao_ColetaDados          },
+        { "Bolha"             , 100000   , Bolha            , Bolha_ColetaDados             },
+        { "BolhaFlag"         , 100000   , BolhaFlag        , BolhaFlag_ColetaDados         },
+        { "Coquetel"          , 100000   , Coquetel         , Coquetel_ColetaDados          },
+        { "Selecao"           , 100000   , Selecao          , Selecao_ColetaDados           },
+        { "Insercao"          , 100000   , Insercao         , Insercao_ColetaDados          },
         { "Shellsort"         , 100000000, Shellsort        , Shellsort_ColetaDados         },
         { "Mergesort"         , 100000000, Mergesort        , Mergesort_ColetaDados         },
         { "Quicksort"         , 100000000, Quicksort        , Quicksort_ColetaDados         },
