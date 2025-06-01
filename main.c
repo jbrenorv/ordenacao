@@ -7,20 +7,10 @@
 int main(int argc, char **argv)
 {
     srand(time(NULL));
-    if (argc < 3) {
-        ImprimeErro_E_FinalizaExecucao("Deve-se informar o tamanho e o tipo do vetor");
-    }
 
-    char* output_file_name = argv[1];
-    int n = atoi(argv[2]);
-    int tipo = atoi(argv[3]);
-    int execucao = atoi(argv[4]);
-    if (n < 1 || n > 214748364 || tipo < 1 || tipo > 3) {
-        ImprimeErro_E_FinalizaExecucao("Parametros invalidos");
-    }
-
-    int *original = CriaVetor(n, tipo);
-    int *v = AlocaVetor(n);
+    parametros params = ResolveParametros(argc, argv);
+    int *original = CriaVetor(params.tamanho_vetor, params.tipo_vetor);
+    int *v = AlocaVetor(params.tamanho_vetor);
 
     algoritmo algoritmos[] =
     {
@@ -42,20 +32,22 @@ int main(int argc, char **argv)
     int algorithms_count = sizeof(algoritmos) / sizeof(algoritmo);
     
     FILE *fp;
-    if ((fp = fopen(output_file_name, "a")) == NULL) {
+    if ((fp = fopen(params.nome_arquivo, "a")) == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
     }
 
     for (int i = 0; i < algorithms_count; ++i) {
-        if (n > algoritmos[i].tamanho_maximo) continue;
+        if (params.tamanho_vetor > algoritmos[i].tamanho_maximo) continue;
 
-        CopiaVetor(n, original, v);
+        CopiaVetor(params.tamanho_vetor, original, v);
 
-        dados_execucao dados = ObterDadosExecucao(n, v, &algoritmos[i]);
+        dados_execucao dados = ObterDadosExecucao(params.tamanho_vetor, v, &algoritmos[i]);
 
         fprintf(fp, "%s,%i,%i,%i,%lli,%lli,%lli,%lf\n",
             algoritmos[i].nome,
-            n, tipo, execucao,
+            params.tamanho_vetor,
+            params.tipo_vetor,
+            params.execucao,
             dados.comparacoes,
             dados.movimentacoes,
             dados.iteracoes,

@@ -1,5 +1,24 @@
 #include "../ordenacao.h"
 
+parametros ResolveParametros(int argc, char **argv) {
+    if (argc < 5) {
+        ImprimeErro_E_FinalizaExecucao("Deve-se informar o tamanho e o tipo do vetor");
+    }
+
+    parametros params;
+
+    params.tamanho_vetor = atoi(argv[2]);
+    params.tipo_vetor = atoi(argv[3]);
+    if (params.tamanho_vetor < 1 || params.tamanho_vetor > 214748364 || params.tipo_vetor < 1 || params.tipo_vetor > 3) {
+        ImprimeErro_E_FinalizaExecucao("Tamanho ou tipo de vetor invalido");
+    }
+
+    params.nome_arquivo = argv[1];
+    params.execucao = atoi(argv[4]);
+    
+    return params;
+}
+
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
     printf("Erro: %s\n", mensagem);
     exit(1);

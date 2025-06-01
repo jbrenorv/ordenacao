@@ -12,6 +12,13 @@ typedef long long int64;
 
 typedef struct timespec tempo;
 
+typedef struct parametros {
+    char* nome_arquivo;
+    int tamanho_vetor;
+    int tipo_vetor;
+    int execucao;
+} parametros;
+
 typedef enum tipo_vetor {
     CRESCENTE = 1,
     DECRESCENTE,
@@ -39,6 +46,7 @@ typedef struct celula {
 
 
 // Utils
+parametros ResolveParametros(int argc, char **argv);
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem);
 void Troca(int* a, int* b);
 int* AlocaVetor(int n);

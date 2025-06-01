@@ -38,10 +38,10 @@ done
 
 
 for tamanho in "${tamanhos[@]}"; do
-    echo -ne "\rExecutando algoritmos para listas de tamanho $tamanho..."
-
     for tipo in {1..3}; do
         for execucao in {1..3}; do
+
+            echo -ne "\rExecutando algoritmos... Tamanho: $tamanho - Tipo: $tipo/3 - Execucao: $execucao/3"
 
             ./a.out "$OUTPUT_FILE" "$tamanho" "$tipo" "$execucao"
 
