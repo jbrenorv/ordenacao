@@ -57,8 +57,6 @@ int min(int a, int b);
 int max(int a, int b);
 int ObterMaiorElemento(int n, int *v);
 int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados);
-void ObterMenorEMaiorElemento(int n, int *menor, int *maior, int *v);
-void ObterMenorEMaiorElemento_ColetaDados(int n, int *menor, int *maior, int *v, dados_execucao* dados);
 celula* CriaCelula(int valor);
 void Verifica_Ordenacao(int n, int* v, algoritmo* a);
 dados_execucao ObterDadosExecucao(int n, int* v, algoritmo* a);
