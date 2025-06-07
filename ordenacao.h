@@ -8,8 +8,6 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef long long int64;
-
 typedef struct timespec tempo;
 
 typedef struct parametros {
@@ -26,9 +24,9 @@ typedef enum tipo_vetor {
 } tipo_vetor;
 
 typedef struct dados_execucao {
-    int64 comparacoes;
-    int64 movimentacoes;
-    int64 iteracoes;
+    long long comparacoes;
+    long long movimentacoes;
+    long long iteracoes;
     double tempo_ms;
 } dados_execucao;
 
