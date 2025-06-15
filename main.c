@@ -29,14 +29,14 @@ int main(int argc, char **argv)
         { "Radixsort+Contagem", 100000000, RadixsortContagem, RadixsortContagem_ColetaDados },
         { "Radixsort+Balde"   , 100000000, RadixsortBalde   , RadixsortBalde_ColetaDados    },
     };
-    int algorithms_count = sizeof(algoritmos) / sizeof(algoritmo);
+    int num_algoritmos = sizeof(algoritmos) / sizeof(algoritmo);
     
     FILE *fp;
     if ((fp = fopen(params.nome_arquivo, "a")) == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
     }
 
-    for (int i = 0; i < algorithms_count; ++i) {
+    for (int i = 0; i < num_algoritmos; ++i) {
         if (params.tamanho_vetor > algoritmos[i].tamanho_maximo) continue;
 
         CopiaVetor(params.tamanho_vetor, original, v);
