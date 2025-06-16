@@ -1,7 +1,3 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "ordenacao.h"
 
 int main(int argc, char **argv)

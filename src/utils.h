@@ -1,11 +1,9 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-// #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-// #include <string.h>
 #include <ctype.h>
 
 typedef struct timespec tempo;
