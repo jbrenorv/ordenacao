@@ -1,7 +1,0 @@
-lista_ligada* CriaListaLigada() {
-    lista_ligada* lista = (lista_ligada *) malloc(sizeof(lista_ligada));
-    lista->tamanho = 0;
-    lista->primeiro = NULL;
-    lista->ultimo = NULL;
-    return lista;
-}

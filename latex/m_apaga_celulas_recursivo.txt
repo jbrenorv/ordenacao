@@ -1,5 +1,0 @@
-void ApagaCelulasRecursivo(celula* c) {
-    if (c == NULL) return;
-    ApagaCelulasRecursivo(c->proximo);
-    free(c);
-}

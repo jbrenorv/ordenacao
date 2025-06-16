@@ -8,7 +8,7 @@ fi
 echo "Setando CPU para performance..."
 sudo cpupower frequency-set -g performance
 
-gcc main.c src/*.c -O3 -lm
+gcc src/*.c -O3 -lm
 
 OUTPUT_DIR="output"
 mkdir -p "$OUTPUT_DIR"
@@ -20,13 +20,12 @@ echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,iteraco
 
 tamanhos=()
 
-# Define os intervalos: início fim passo
 intervalos=(
     "1000 10000 500"
     "10000 100000 5000"
     "100000 1000000 50000"
     "1000000 10000000 500000"
-    "10000000 100000001 5000000"  # Note que o fim é 100000001 para incluir 100000000
+    "10000000 100000001 5000000"
 )
 
 for intervalo in "${intervalos[@]}"; do

@@ -1,4 +1,4 @@
-#include "../ordenacao.h"
+#include "utils.h"
 
 parametros ResolveParametros(int argc, char **argv) {
     if (argc < 5) {

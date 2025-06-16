@@ -1,8 +1,0 @@
-void MergeSortRecursivo(int l, int r, int *v, int *aux) {
-    if (l < r - 1) {
-        int m = (l + r) / 2;
-        MergeSortRecursivo(l, m, v, aux);
-        MergeSortRecursivo(m, r, v, aux);
-        Merge(l, m, r, v, aux);
-    }
-}

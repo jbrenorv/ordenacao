@@ -1,4 +1,0 @@
-int GeraNumeroAleatorioNoIntervalo(int a, int b) {
-    if (a >= b) return a;
-    return ((rand() % (b - a + 1)) + a);
-}

@@ -1,9 +1,0 @@
-void ImprimeVetor(int n, int *v, const char *prefixo) {
-    if (prefixo != NULL) {
-        printf("%s\n", prefixo);
-    }
-    for (int i=0; i<n; ++i) {
-        printf("%i ", v[i]);
-    }
-    printf("\n");
-}

@@ -1,6 +1,0 @@
-int ObterMenorElemento(int n, int *v) {
-    int res = v[0];
-    for (int i = 1; i < n; i++)
-        res = min(res, v[i]);
-    return res;
-}

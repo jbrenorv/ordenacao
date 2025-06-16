@@ -1,3 +1,0 @@
-void QuickSortBasico(int n, int *v) {
-    QuickSortBasicoRecursivo(0, n - 1, v);
-}

@@ -1,7 +1,0 @@
-int *AlocaVetorLimpo(int n) {
-    int* v = (int *)calloc(n, sizeof(int));
-    if (v == NULL) {
-        ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
-    }
-    return v;
-}
