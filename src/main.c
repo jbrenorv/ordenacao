@@ -1,7 +1,6 @@
 #include "ordenacao.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     srand(time(NULL));
 
     parametros params = ResolveParametros(argc, argv);
