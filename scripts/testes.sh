@@ -15,8 +15,7 @@ mkdir -p "$OUTPUT_DIR"
 CURRENT_TIME=$(date "+%Y.%m.%d-%H.%M.%S")
 OUTPUT_FILE="$OUTPUT_DIR/output_$CURRENT_TIME.csv"
 
-echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,iteracoes,tempo_ms" > "$OUTPUT_FILE"
-
+echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,tempo_ms" > "$OUTPUT_FILE"
 
 tamanhos=()
 
@@ -34,7 +33,6 @@ for intervalo in "${intervalos[@]}"; do
         tamanhos+=("$i")
     done
 done
-
 
 for tamanho in "${tamanhos[@]}"; do
     for tipo in {1..3}; do

@@ -38,14 +38,13 @@ int main(int argc, char **argv) {
 
         dados_execucao dados = ObterDadosExecucao(params.tamanho_vetor, v, &algoritmos[i]);
 
-        fprintf(fp, "%s,%i,%i,%i,%lli,%lli,%lli,%lf\n",
+        fprintf(fp, "%s,%i,%i,%i,%lli,%lli,%lf\n",
             algoritmos[i].nome,
             params.tamanho_vetor,
             params.tipo_vetor,
             params.execucao,
             dados.comparacoes,
             dados.movimentacoes,
-            dados.iteracoes,
             dados.tempo_ms
         );
     }

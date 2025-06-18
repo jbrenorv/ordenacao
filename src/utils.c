@@ -112,7 +112,6 @@ int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados) {
             res = v[i];
             dados->movimentacoes++;
         }
-        dados->iteracoes++;
     }
     return res;
 }
@@ -134,7 +133,7 @@ void Verifica_Ordenacao(int n, int* v, algoritmo* a) {
 }
 
 dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
-    dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0LL, 0.0 };
+    dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
     int *v_copia = AlocaVetor(n);

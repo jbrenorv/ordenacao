@@ -24,7 +24,6 @@ typedef enum tipo_vetor {
 typedef struct dados_execucao {
     long long comparacoes;
     long long movimentacoes;
-    long long iteracoes;
     double tempo_ms;
 } dados_execucao;
 
