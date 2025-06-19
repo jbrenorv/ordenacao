@@ -9,9 +9,9 @@
 typedef struct timespec tempo;
 
 typedef struct parametros {
-    char* nome_arquivo;
-    int tamanho_vetor;
-    int tipo_vetor;
+    char* arquivo_saida;
+    int tamanho;
+    int tipo;
     int execucao;
 } parametros;
 

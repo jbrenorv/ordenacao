@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if ! command -v cpupower &> /dev/null; then
-    echo "Erro: 'cpupower' não está instalado. Comando para instalar:"
-    echo "sudo apt install linux-tools-common linux-tools-$(uname -r)"
-    exit 1
-fi
-echo "Setando CPU para performance..."
-sudo cpupower frequency-set -g performance
-
 gcc src/*.c -O3 -lm
 
 OUTPUT_DIR="output"
@@ -15,7 +7,7 @@ mkdir -p "$OUTPUT_DIR"
 CURRENT_TIME=$(date "+%Y.%m.%d-%H.%M.%S")
 OUTPUT_FILE="$OUTPUT_DIR/output_$CURRENT_TIME.csv"
 
-echo "algoritmo,tamanho_vetor,tipo_vetor,execucao,comparacoes,movimentos,tempo_ms" > "$OUTPUT_FILE"
+echo "algoritmo,tamanho,tipo,execucao,comparacoes,movimentacoes,tempo_ms" > "$OUTPUT_FILE"
 
 tamanhos=()
 
@@ -38,14 +30,20 @@ for tamanho in "${tamanhos[@]}"; do
     for tipo in {1..3}; do
         for execucao in {1..3}; do
 
-            echo -ne "\rExecutando algoritmos... Tamanho: $tamanho - Tipo: $tipo/3 - Execucao: $execucao/3"
+            printf "\rExecutando algoritmos... Tamanho: $tamanho - Tipo: $tipo/3 - Execucao: $execucao/3"
 
             ./a.out "$OUTPUT_FILE" "$tamanho" "$tipo" "$execucao"
+
+            if [ $? -ne 0 ]; then 
+                printf "\nO processo finalizou com um codigo diferente de 0\n"
+                printf "Cancelando testes...\n"
+                rm -r "$OUTPUT_DIR"
+                rm a.out
+                exit 1
+            fi
 
         done
     done
 done
 
 rm a.out
-echo -e "\nSetando CPU para powersave..."
-sudo cpupower frequency-set -g powersave

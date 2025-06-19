@@ -431,7 +431,7 @@ void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
     int M = ObterMaiorElemento_ColetaDados(n, v, dados);
     for (int i = n - 1; i >= 0; i--) {
         int index = ((long long)v[i] * n) / (M + 1);
-        InsereOrdenado(v[i], &baldes[index]);
+        InsereOrdenado_ColetaDados(v[i], &baldes[index], dados);
     }
     for (int i = 0, k = 0; i < n; i++) {
         celula* atual = baldes[i];

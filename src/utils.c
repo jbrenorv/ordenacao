@@ -7,13 +7,13 @@ parametros ResolveParametros(int argc, char **argv) {
 
     parametros params;
 
-    params.tamanho_vetor = atoi(argv[2]);
-    params.tipo_vetor = atoi(argv[3]);
-    if (params.tamanho_vetor < 1 || params.tamanho_vetor > 214748364 || params.tipo_vetor < 1 || params.tipo_vetor > 3) {
+    params.tamanho = atoi(argv[2]);
+    params.tipo = atoi(argv[3]);
+    if (params.tamanho < 1 || params.tamanho > 214748364 || params.tipo < 1 || params.tipo > 3) {
         ImprimeErro_E_FinalizaExecucao("Tamanho ou tipo de vetor invalido");
     }
 
-    params.nome_arquivo = argv[1];
+    params.arquivo_saida = argv[1];
     params.execucao = atoi(argv[4]);
     
     return params;
