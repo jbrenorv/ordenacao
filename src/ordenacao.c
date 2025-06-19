@@ -1,15 +1,15 @@
 #include "ordenacao.h"
 
 void Bolha(int n, int *v) {
-    for (int i = 0; i < n - 1; i++)
-        for (int j = 0; j < n - i - 1; j++)
+    for (int i = n - 1; i > 0; i--)
+        for (int j = 0; j < i; j++)
             if (v[j] > v[j + 1])
                 Troca(&v[j], &v[j + 1]);
 }
 
 void Bolha_ColetaDados(int n, int *v, dados_execucao *dados) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
+    for (int i = n - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
             if (v[j] > v[j + 1]) {
                 Troca(&v[j], &v[j + 1]);
                 dados->movimentacoes += 3;
@@ -20,69 +20,75 @@ void Bolha_ColetaDados(int n, int *v, dados_execucao *dados) {
 }
 
 void BolhaFlag(int n, int *v) {
-    for (int i = 0, flag = 1; i < n - 1 && flag; i++) {
-        flag = 0;
-        for (int j = 0; j < n - i - 1; j++) {
+    char trocou;
+    for (int i = n - 1; i > 0; i--) {
+        trocou = 0;
+        for (int j = 0; j < i; j++) {
             if (v[j] > v[j + 1]) {
                 Troca(&v[j], &v[j + 1]);
-                flag = 1;
+                trocou = 1;
             }
         }
+        if (!trocou) break;
     }
 }
 
 void BolhaFlag_ColetaDados(int n, int *v, dados_execucao *dados) {
-    for (int i = 0, flag = 1; i < n - 1 && flag; i++) {
-        flag = 0;
-        for (int j = 0; j < n - i - 1; j++) {
+    char trocou;
+    for (int i = n - 1; i > 0; i--) {
+        trocou = 0;
+        for (int j = 0; j < i; j++) {
             if (v[j] > v[j + 1]) {
                 Troca(&v[j], &v[j + 1]);
-                flag = 1;
+                trocou = 1;
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
         }
+        if (!trocou) break;
     }
 }
 
 void Coquetel(int n, int *v) {
-    int flag = 1, i = 0, j = n - 1;
-    while (flag) {
-        flag = 0;
+    int i = 0, j = n - 1;
+    char trocou = 1;
+    while (trocou) {
+        trocou = 0;
         for (int k = i; k < j; k++)
             if (v[k] > v[k + 1]) {
                 Troca(&v[k], &v[k + 1]);
-                flag = 1;
+                trocou = 1;
             }
-        if (!flag) return;
-        flag = 0, j--;
+        if (!trocou) return;
+        trocou = 0, j--;
         for (int k = j - 1; k >= i; k--)
             if (v[k] > v[k + 1]) {
                 Troca(&v[k], &v[k + 1]);
-                flag = 1;
+                trocou = 1;
             }
         i++;
     }
 }
 
 void Coquetel_ColetaDados(int n, int *v, dados_execucao *dados) {
-    int flag = 1, i = 0, j = n - 1;
-    while (flag) {
-        flag = 0;
+    int i = 0, j = n - 1;
+    char trocou = 1;
+    while (trocou) {
+        trocou = 0;
         for (int k = i; k < j; k++) {
             if (v[k] > v[k + 1]) {
                 Troca(&v[k], &v[k + 1]);
-                flag = 1;
+                trocou = 1;
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
         }
-        if (!flag) return;
-        flag = 0, j--;
+        if (!trocou) return;
+        trocou = 0, j--;
         for (int k = j - 1; k >= i; k--) {
             if (v[k] > v[k + 1]) {
                 Troca(&v[k], &v[k + 1]);
-                flag = 1;
+                trocou = 1;
                 dados->movimentacoes += 3;
             }
             dados->comparacoes++;
@@ -109,8 +115,10 @@ void Selecao_ColetaDados(int n, int *v, dados_execucao *dados) {
                 j = k;
             dados->comparacoes++;
         }
-        if (j > i) Troca(&v[i], &v[j]);
-        dados->movimentacoes += 3;
+        if (j > i) {
+            Troca(&v[i], &v[j]);
+            dados->movimentacoes += 3;
+        }
     }
 }
 

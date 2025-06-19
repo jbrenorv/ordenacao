@@ -13,10 +13,10 @@ tamanhos=()
 
 intervalos=(
     "1000 10000 500"
-    "10000 100000 5000"
-    "100000 1000000 50000"
-    "1000000 10000000 500000"
-    "10000000 100000001 5000000"
+    "10000 100000 4000"
+    "100000 1000000 30000"
+    "1000000 10000000 200000"
+    "10000000 100000001 1000000"
 )
 
 for intervalo in "${intervalos[@]}"; do
@@ -46,4 +46,6 @@ for tamanho in "${tamanhos[@]}"; do
     done
 done
 
+printf "\nTudo pronto!\n"
+printf "Resultado salvo em: $OUTPUT_FILE\n"
 rm a.out
