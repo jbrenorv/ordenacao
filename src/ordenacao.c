@@ -7,7 +7,7 @@ void Bolha(int n, int *v) {
                 Troca(&v[j], &v[j + 1]);
 }
 
-void Bolha_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Bolha_CD(int n, int *v, Dados *dados) {
     for (int i = n - 1; i > 0; i--) {
         for (int j = 0; j < i; j++) {
             if (v[j] > v[j + 1]) {
@@ -33,7 +33,7 @@ void BolhaFlag(int n, int *v) {
     }
 }
 
-void BolhaFlag_ColetaDados(int n, int *v, dados_execucao *dados) {
+void BolhaFlag_CD(int n, int *v, Dados *dados) {
     char trocou;
     for (int i = n - 1; i > 0; i--) {
         trocou = 0;
@@ -70,7 +70,7 @@ void Coquetel(int n, int *v) {
     }
 }
 
-void Coquetel_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Coquetel_CD(int n, int *v, Dados *dados) {
     int i = 0, j = n - 1;
     char trocou = 1;
     while (trocou) {
@@ -107,7 +107,7 @@ void Selecao(int n, int *v) {
     }
 }
 
-void Selecao_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Selecao_CD(int n, int *v, Dados *dados) {
     for (int i = 0; i < n - 1; i++) {
         int j = i;
         for (int k = i + 1; k < n; k++) {
@@ -132,7 +132,7 @@ void Insercao(int n, int *v) {
     }
 }
 
-void Insercao_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Insercao_CD(int n, int *v, Dados *dados) {
     int chave, j;
     for (int i = 1; i < n; i++) {
         chave = v[i];
@@ -165,7 +165,7 @@ void Shellsort(int n, int *v) {
     }
 }
 
-void Shellsort_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Shellsort_CD(int n, int *v, Dados *dados) {
     int chave, j, h;
     for (int k = 0; k < 26; k++) {
         if (ciura[k] >= n) continue;
@@ -209,13 +209,13 @@ void Merge(int l, int m, int r, int *v, int *aux) {
     while (i < m) v[k++] = aux[i++];
 }
 
-void Mergesort_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Mergesort_CD(int n, int *v, Dados *dados) {
     int* aux = AlocaVetor(n);
     MergesortRec_ColetaDados(0, n, v, aux, dados);
     free(aux);
 }
 
-void MergesortRec_ColetaDados(int l, int r, int *v, int *aux, dados_execucao *dados) {
+void MergesortRec_ColetaDados(int l, int r, int *v, int *aux, Dados *dados) {
     if (l < r - 1) {
         int m = (l + r) / 2;
         MergesortRec_ColetaDados(l, m, v, aux, dados);
@@ -224,7 +224,7 @@ void MergesortRec_ColetaDados(int l, int r, int *v, int *aux, dados_execucao *da
     }
 }
 
-void Merge_ColetaDados(int l, int m, int r, int *v, int *aux, dados_execucao *dados) {
+void Merge_ColetaDados(int l, int m, int r, int *v, int *aux, Dados *dados) {
     CopiaVetor(r - l, v+l, aux+l);
     dados->movimentacoes += r - l;
     int i = l, j = m, k = l;
@@ -269,11 +269,11 @@ void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *v) {
     }
 }
 
-void Quicksort_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Quicksort_CD(int n, int *v, Dados *dados) {
     QuicksortRec_ColetaDados(0, n - 1, v, dados);
 }
 
-void QuicksortRec_ColetaDados(int l, int r, int *v, dados_execucao *dados) {
+void QuicksortRec_ColetaDados(int l, int r, int *v, Dados *dados) {
     while (l < r) {
         int i, j;
         ParticionaAleatorioDuplo_ColetaDados(l, r, &i, &j, v, dados);
@@ -287,7 +287,7 @@ void QuicksortRec_ColetaDados(int l, int r, int *v, dados_execucao *dados) {
     }
 }
 
-void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, dados_execucao *dados) {
+void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *v, Dados *dados) {
     Troca(&v[GeraNumeroAleatorioNoIntervalo(l, r)], &v[r]);
     dados->movimentacoes += 3;
     int pivo = v[r], k = l;
@@ -337,7 +337,7 @@ void Heapify(int i, int n, int *v) {
     }
 }
 
-void Heapsort_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Heapsort_CD(int n, int *v, Dados *dados) {
     ConstroiHeap_ColetaDados(n, v,dados);
     for (int i = n - 1; i > 0; i--) {
         Troca(&v[0], &v[i]);
@@ -346,13 +346,13 @@ void Heapsort_ColetaDados(int n, int *v, dados_execucao *dados) {
     }
 }
 
-void ConstroiHeap_ColetaDados(int n, int *v, dados_execucao *dados) {
+void ConstroiHeap_ColetaDados(int n, int *v, Dados *dados) {
     for (int i = n / 2 - 1; i >= 0; i--) {
         Heapify_ColetaDados(i, n, v,dados);
     }
 }
 
-void Heapify_ColetaDados(int i, int n, int *v, dados_execucao *dados) {
+void Heapify_ColetaDados(int i, int n, int *v, Dados *dados) {
     int j = i, k;
     while (2 * j + 1 < n) {
         k = 2 * j + 1;
@@ -382,7 +382,7 @@ void Contagem(int n, int *v) {
     free(aux);
 }
 
-void Contagem_ColetaDados(int n, int *v, dados_execucao *dados) {
+void Contagem_CD(int n, int *v, Dados *dados) {
     int M = ObterMaiorElemento_ColetaDados(n, v, dados);
     int* cnt = AlocaVetorLimpo(M + 1);
     int* aux = AlocaVetor(n);
@@ -402,17 +402,17 @@ void Contagem_ColetaDados(int n, int *v, dados_execucao *dados) {
 }
 
 void Balde(int n, int *v) {
-    celula** baldes = (celula**) calloc(n, sizeof(celula*));
+    Celula** baldes = (Celula**) calloc(n, sizeof(Celula*));
     int M = ObterMaiorElemento(n, v);
     for (int i = n - 1; i >= 0; i--) {
         int index = ((long long)v[i] * n) / (M + 1);
         InsereOrdenado(v[i], &baldes[index]);
     }
     for (int i = 0, k = 0; i < n; i++) {
-        celula* atual = baldes[i];
+        Celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
-            celula* temp = atual;
+            Celula* temp = atual;
             atual = atual->prox;
             free(temp);
         }
@@ -420,13 +420,13 @@ void Balde(int n, int *v) {
     free(baldes);
 }
 
-void InsereOrdenado(int valor, celula** balde) {
-    celula* cel = CriaCelula(valor);
+void InsereOrdenado(int valor, Celula** balde) {
+    Celula* cel = CriaCelula(valor);
     if (*balde == NULL || (*balde)->valor >= valor) {
         cel->prox = *balde;
         *balde = cel;
     } else {
-        celula* atual = *balde;
+        Celula* atual = *balde;
         while (atual->prox && atual->prox->valor < valor)
             atual = atual->prox;
         cel->prox = atual->prox;
@@ -434,18 +434,18 @@ void InsereOrdenado(int valor, celula** balde) {
     }
 }
 
-void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
-    celula** baldes = (celula**) calloc(n, sizeof(celula*));
+void Balde_CD(int n, int *v, Dados *dados) {
+    Celula** baldes = (Celula**) calloc(n, sizeof(Celula*));
     int M = ObterMaiorElemento_ColetaDados(n, v, dados);
     for (int i = n - 1; i >= 0; i--) {
         int index = ((long long)v[i] * n) / (M + 1);
         InsereOrdenado_ColetaDados(v[i], &baldes[index], dados);
     }
     for (int i = 0, k = 0; i < n; i++) {
-        celula* atual = baldes[i];
+        Celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
-            celula* temp = atual;
+            Celula* temp = atual;
             atual = atual->prox;
             free(temp);
             dados->movimentacoes++;
@@ -454,8 +454,8 @@ void Balde_ColetaDados(int n, int *v, dados_execucao *dados) {
     free(baldes);
 }
 
-void InsereOrdenado_ColetaDados(int valor, celula** balde, dados_execucao* dados) {
-    celula* cel = CriaCelula(valor);
+void InsereOrdenado_ColetaDados(int valor, Celula** balde, Dados* dados) {
+    Celula* cel = CriaCelula(valor);
     dados->movimentacoes++;
     dados->comparacoes++;
     if (*balde == NULL || (*balde)->valor >= valor) {
@@ -463,7 +463,7 @@ void InsereOrdenado_ColetaDados(int valor, celula** balde, dados_execucao* dados
         *balde = cel;
         dados->movimentacoes += 2;
     } else {
-        celula* atual = *balde;
+        Celula* atual = *balde;
         while (atual->prox && atual->prox->valor < valor) {
             atual = atual->prox;
             dados->movimentacoes++;
@@ -475,12 +475,12 @@ void InsereOrdenado_ColetaDados(int valor, celula** balde, dados_execucao* dados
     }
 }
 
-void RadixsortContagem(int n, int *v) {
+void RadixsortC(int n, int *v) {
     for (int p = 1; p < _10e9; p *= 10)
         ContagemDigital(p, n, v);
 }
 
-void RadixsortBalde(int n, int *v) {
+void RadixsortB(int n, int *v) {
     for (int p = 1; p < _10e9; p *= 10)
         BaldeDigital(p, n, v);
 }
@@ -500,17 +500,17 @@ void ContagemDigital(int p, int n,  int* v) {
 }
 
 void BaldeDigital(int p, int n, int *v) {
-    celula** baldes = (celula**) calloc(10, sizeof(celula*));
+    Celula** baldes = (Celula**) calloc(10, sizeof(Celula*));
     for (int i = n - 1; i >= 0; i--) {
-        celula* cel = CriaCelula(v[i]);
+        Celula* cel = CriaCelula(v[i]);
         cel->prox = baldes[d(p, v[i])];
         baldes[d(p, v[i])] = cel;
     }
     for (int i = 0, k = 0; i < 10; i++) {
-        celula* atual = baldes[i];
+        Celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
-            celula* temp = atual;
+            Celula* temp = atual;
             atual = atual->prox;
             free(temp);
         }
@@ -522,19 +522,19 @@ int d(int p, int valor) {
     return (valor / p) % 10;
 }
 
-void RadixsortContagem_ColetaDados(int n, int *v, dados_execucao *dados) {
+void RadixsortC_CD(int n, int *v, Dados *dados) {
     for (int p = 1; p < _10e9; p *= 10) {
         ContagemDigital_ColetaDados(p, n, v, dados);
     }
 }
 
-void RadixsortBalde_ColetaDados(int n, int *v, dados_execucao *dados) {
+void RadixsortB_CD(int n, int *v, Dados *dados) {
     for (int p = 1; p < _10e9; p *= 10) {
         BaldeDigital_ColetaDados(p, n, v, dados);
     }
 }
 
-void ContagemDigital_ColetaDados(int p, int n,  int* v, dados_execucao *dados) {
+void ContagemDigital_ColetaDados(int p, int n,  int* v, Dados *dados) {
     int* count = AlocaVetorLimpo(10);
     int* aux = AlocaVetor(n);
     for (int i = 0; i < n; i++) count[d(p, v[i])]++;
@@ -552,19 +552,19 @@ void ContagemDigital_ColetaDados(int p, int n,  int* v, dados_execucao *dados) {
     free(aux);
 }
 
-void BaldeDigital_ColetaDados(int p, int n, int *v, dados_execucao *dados) {
-    celula** baldes = (celula**) calloc(10, sizeof(celula*));
+void BaldeDigital_ColetaDados(int p, int n, int *v, Dados *dados) {
+    Celula** baldes = (Celula**) calloc(10, sizeof(Celula*));
     for (int i = n - 1; i >= 0; i--) {
-        celula* cel = CriaCelula(v[i]);
+        Celula* cel = CriaCelula(v[i]);
         cel->prox = baldes[d(p, v[i])];
         baldes[d(p, v[i])] = cel;
         dados->movimentacoes++;
     }
     for (int i = 0, k = 0; i < 10; i++) {
-        celula* atual = baldes[i];
+        Celula* atual = baldes[i];
         while (atual != NULL) {
             v[k++] = atual->valor;
-            celula* temp = atual;
+            Celula* temp = atual;
             atual = atual->prox;
             free(temp);
             dados->movimentacoes++;

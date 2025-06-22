@@ -1,11 +1,11 @@
 #include "utils.h"
 
-parametros ResolveParametros(int argc, char **argv) {
+Parametros ResolveParametros(int argc, char **argv) {
     if (argc < 5) {
         ImprimeErro_E_FinalizaExecucao("Deve-se informar o tamanho e o tipo do vetor");
     }
 
-    parametros params;
+    Parametros params;
 
     params.tamanho = atoi(argv[2]);
     params.tipo = atoi(argv[3]);
@@ -59,7 +59,7 @@ int GeraNumeroAleatorioNoIntervalo(int a, int b) {
     return a + rand() % (b - a + 1);
 }
 
-int *CriaVetor(int n, tipo_vetor tipo) {
+int *CriaVetor(int n, Tipo tipo) {
     int *v = AlocaVetor(n);
     for (int i = 0; i < n; ++i) {
         if (tipo == CRESCENTE) {
@@ -104,7 +104,7 @@ int ObterMaiorElemento(int n, int *v) {
     return res;
 }
 
-int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados) {
+int ObterMaiorElemento_ColetaDados(int n, int *v, Dados *dados) {
     int res = v[0];
     for (int i = 1; i < n; i++) {
         dados->comparacoes++;
@@ -116,14 +116,14 @@ int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados) {
     return res;
 }
 
-celula* CriaCelula(int valor) {
-    celula* cel = (celula*) malloc(sizeof(celula));
+Celula* CriaCelula(int valor) {
+    Celula* cel = (Celula*) malloc(sizeof(Celula));
     cel->valor = valor;
     cel->prox = NULL;
     return cel;
 }
 
-void Verifica_Ordenacao(int n, int* v, algoritmo* a) {
+void Verifica_Ordenacao(int n, int* v, Algoritmo *a) {
     for (int i = 0; i < n - 1; i++) {
         if (v[i] > v[i + 1]) {
             printf("Erro em: %s\n", a->nome);
@@ -132,18 +132,18 @@ void Verifica_Ordenacao(int n, int* v, algoritmo* a) {
     }
 }
 
-dados_execucao ObterDadosExecucao(int n, int *v, algoritmo* a) {
-    dados_execucao dados = (dados_execucao){ 0LL, 0LL, 0.0 };
+Dados ObterDados(int n, int *v, Algoritmo *a) {
+    Dados dados = (Dados){ 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
     int *v_copia = AlocaVetor(n);
     CopiaVetor(n, v, v_copia);
-    a->alg_coleta_dados(n, v_copia, &dados);
+    a->alg_coletor(n, v_copia, &dados);
     Verifica_Ordenacao(n, v_copia, a);
     free(v_copia);
     
     // Obter tempo de execucao
-    tempo inicio, fim;
+    Tempo inicio, fim;
     clock_gettime(CLOCK_MONOTONIC, &inicio);
     a->alg(n, v);
     clock_gettime(CLOCK_MONOTONIC, &fim);
