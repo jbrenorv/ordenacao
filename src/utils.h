@@ -6,54 +6,50 @@
 #include <time.h>
 #include <ctype.h>
 
-typedef struct timespec tempo;
-
-typedef struct parametros {
-    char* arquivo_saida;
-    int tamanho;
-    int tipo;
-    int execucao;
-} parametros;
-
-typedef enum tipo_vetor {
+typedef enum Tipo {
     CRESCENTE = 1,
     DECRESCENTE,
     ALEATORIO
-} tipo_vetor;
+} Tipo;
 
-typedef struct dados_execucao {
+typedef struct Parametros {
+    char *arquivo_saida;
+    int tamanho;
+    int execucao;
+    Tipo tipo;
+} Parametros;
+
+typedef struct Dados {
     long long comparacoes;
     long long movimentacoes;
     double tempo_ms;
-} dados_execucao;
+} Dados;
 
-typedef struct algoritmo {
+typedef struct Algoritmo {
     char *nome;
     int tamanho_maximo;
-    void (* alg)(int, int *);
-    void (* alg_coleta_dados)(int, int *, dados_execucao *);
-} algoritmo;
+    void (*alg)(int, int *);
+    void (*alg_coletor)(int, int *, Dados *);
+} Algoritmo;
 
-typedef struct celula {
+typedef struct Celula {
     int valor;
-    struct celula* prox;
-} celula;
+    struct Celula *prox;
+} Celula;
 
-parametros ResolveParametros(int argc, char **argv);
-void ImprimeErro_E_FinalizaExecucao(const char *mensagem);
-void Troca(int* a, int* b);
-int* AlocaVetor(int n);
-int* AlocaVetorLimpo(int n);
+Parametros ResolveParametros(int argc, char **argv);
+void FinalizaExecucao(const char *mensagem);
+void Troca(int *a, int *b);
+int *AlocaVetor(int tamanho);
+int *AlocaVetorLimpo(int tamanho);
 int GeraNumeroAleatorioNoIntervalo(int a, int b);
-int *CriaVetor(int n, tipo_vetor tipo);
-void CopiaVetor(int n, int *origem, int* destino);
-void ImprimeVetor(int n, int *v, const char* prefixo);
-int min(int a, int b);
-int max(int a, int b);
-int ObterMaiorElemento(int n, int *v);
-int ObterMaiorElemento_ColetaDados(int n, int *v, dados_execucao* dados);
-celula* CriaCelula(int valor);
-void Verifica_Ordenacao(int n, int* v, algoritmo* a);
-dados_execucao ObterDadosExecucao(int n, int* v, algoritmo* a);
+int *CriaVetor(int tamanho, Tipo tipo);
+void CopiaVetor(int tamanho, int *origem, int *destino);
+int Min(int a, int b);
+int Max(int a, int b);
+int ObterMaiorElemento(int tamanho, int *vetor);
+int ObterMaiorElemento_CD(int tamanho, int *vetor, Dados *dados);
+Celula *CriaCelula(int valor);
+Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo);
 
 #endif
