@@ -20,16 +20,14 @@ Parametros ResolveParametros(int argc, char **argv) {
 }
 
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
-    printf("Erro: %s\n", mensagem);
+    printf("Erro: %s\tamanho", mensagem);
     exit(1);
 }
 
-char EhNumerico(int n, const char *texto) {
-    for (int i = 0; i < n; ++i) {
-        if (!isdigit(texto[i])) {
+char EhNumerico(int tamanho, const char *texto) {
+    for (int i = 0; i < tamanho; ++i)
+        if (!isdigit(texto[i]))
             return 0;
-        }
-    }
     return 1;
 }
 
@@ -39,54 +37,41 @@ void Troca(int *a, int *b) {
     *b = temp;
 }
 
-int *AlocaVetor(int n) {
-    int *v = (int *)malloc(n * sizeof(int));
-    if (v == NULL) {
+int *AlocaVetor(int tamanho) {
+    int *vetor = (int *)malloc(tamanho * sizeof(int));
+    if (vetor == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
     }
-    return v;
+    return vetor;
 }
 
-int *AlocaVetorLimpo(int n) {
-    int *v = (int *)calloc(n, sizeof(int));
-    if (v == NULL) {
+int *AlocaVetorLimpo(int tamanho) {
+    int *vetor = (int *)calloc(tamanho, sizeof(int));
+    if (vetor == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
     }
-    return v;
+    return vetor;
 }
 
 int GeraNumeroAleatorioNoIntervalo(int a, int b) {
     return a + rand() % (b - a + 1);
 }
 
-int *CriaVetor(int n, Tipo tipo) {
-    int *v = AlocaVetor(n);
-    for (int i = 0; i < n; ++i) {
-        if (tipo == CRESCENTE) {
-            v[i] = i;
-        } else if (tipo == DECRESCENTE) {
-            v[i] = n - i;
-        } else {
-            v[i] = min(100000000, GeraNumeroAleatorioNoIntervalo(0, 10 * n));
-        }
-    }
-    return v;
+int *CriaVetor(int tamanho, Tipo tipo) {
+    int *vetor = AlocaVetor(tamanho);
+    for (int i = 0; i < tamanho; ++i)
+        if (tipo == CRESCENTE)
+            vetor[i] = i;
+        else if (tipo == DECRESCENTE)
+            vetor[i] = tamanho - i;
+        else
+            vetor[i] = min(100000000, GeraNumeroAleatorioNoIntervalo(0, 10 * tamanho));
+    return vetor;
 }
 
-void CopiaVetor(int n, int *origem, int *destino) {
-    for (int i = 0; i < n; ++i) {
+void CopiaVetor(int tamanho, int *origem, int *destino) {
+    for (int i = 0; i < tamanho; ++i)
         destino[i] = origem[i];
-    }
-}
-
-void ImprimeVetor(int n, int *v, const char *prefixo) {
-    if (prefixo != NULL) {
-        printf("%s\n", prefixo);
-    }
-    for (int i=0; i<n; ++i) {
-        printf("%i ", v[i]);
-    }
-    printf("\n");
 }
 
 int min(int a, int b) {
@@ -97,19 +82,19 @@ int max(int a, int b) {
     return (a > b ? a : b);
 }
 
-int ObterMaiorElemento(int n, int *v) {
-    int res = v[0];
-    for (int i = 1; i < n; i++)
-        res = max(res, v[i]);
+int ObterMaiorElemento(int tamanho, int *vetor) {
+    int res = vetor[0];
+    for (int i = 1; i < tamanho; i++)
+        res = max(res, vetor[i]);
     return res;
 }
 
-int ObterMaiorElemento_ColetaDados(int n, int *v, Dados *dados) {
-    int res = v[0];
-    for (int i = 1; i < n; i++) {
+int ObterMaiorElemento_ColetaDados(int tamanho, int *vetor, Dados *dados) {
+    int res = vetor[0];
+    for (int i = 1; i < tamanho; i++) {
         dados->comparacoes++;
-        if (res < v[i]) {
-            res = v[i];
+        if (res < vetor[i]) {
+            res = vetor[i];
             dados->movimentacoes++;
         }
     }
@@ -117,38 +102,38 @@ int ObterMaiorElemento_ColetaDados(int n, int *v, Dados *dados) {
 }
 
 Celula *CriaCelula(int valor) {
-    Celula *cel = (Celula *) malloc(sizeof(Celula));
-    cel->valor = valor;
-    cel->prox = NULL;
-    return cel;
+    Celula *celula = (Celula *) malloc(sizeof(Celula));
+    celula->valor = valor;
+    celula->prox = NULL;
+    return celula;
 }
 
-void Verifica_Ordenacao(int n, int *v, Algoritmo *a) {
-    for (int i = 0; i < n - 1; i++) {
-        if (v[i] > v[i + 1]) {
-            printf("Erro em: %s\n", a->nome);
-            ImprimeErro_E_FinalizaExecucao("O vetor nao esta ordenado\n");
+void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        if (vetor[i] > vetor[i + 1]) {
+            printf("Erro em: %s\tamanho", algoritmo->nome);
+            ImprimeErro_E_FinalizaExecucao("O vetor nao esta ordenado\tamanho");
         }
     }
 }
 
-Dados ObterDados(int n, int *v, Algoritmo *a) {
+Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo) {
     Dados dados = (Dados){ 0LL, 0LL, 0.0 };
 
     // Obtem numero de movimentacoes e comparacoes
-    int *v_copia = AlocaVetor(n);
-    CopiaVetor(n, v, v_copia);
-    a->alg_coletor(n, v_copia, &dados);
-    Verifica_Ordenacao(n, v_copia, a);
-    free(v_copia);
-    
+    int *vetor_copia = AlocaVetor(tamanho);
+    CopiaVetor(tamanho, vetor, vetor_copia);
+    algoritmo->alg_coletor(tamanho, vetor_copia, &dados);
+    Verifica_Ordenacao(tamanho, vetor_copia, algoritmo);
+    free(vetor_copia);
+
     // Obter tempo de execucao
     Tempo inicio, fim;
     clock_gettime(CLOCK_MONOTONIC, &inicio);
-    a->alg(n, v);
+    algoritmo->alg(tamanho, vetor);
     clock_gettime(CLOCK_MONOTONIC, &fim);
     dados.tempo_ms = (fim.tv_sec - inicio.tv_sec) * 1000.0 + (fim.tv_nsec - inicio.tv_nsec) / 1000000.0;
-    Verifica_Ordenacao(n, v, a);
+    Verifica_Ordenacao(tamanho, vetor, algoritmo);
 
     return dados;
 }

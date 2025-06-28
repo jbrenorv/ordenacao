@@ -42,18 +42,17 @@ typedef struct Celula {
 Parametros ResolveParametros(int argc, char **argv);
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem);
 void Troca(int *a, int *b);
-int *AlocaVetor(int n);
-int *AlocaVetorLimpo(int n);
+int *AlocaVetor(int tamanho);
+int *AlocaVetorLimpo(int tamanho);
 int GeraNumeroAleatorioNoIntervalo(int a, int b);
-int *CriaVetor(int n, Tipo tipo);
-void CopiaVetor(int n, int *origem, int *destino);
-void ImprimeVetor(int n, int *v, const char *prefixo);
+int *CriaVetor(int tamanho, Tipo tipo);
+void CopiaVetor(int tamanho, int *origem, int *destino);
 int min(int a, int b);
 int max(int a, int b);
-int ObterMaiorElemento(int n, int *v);
-int ObterMaiorElemento_ColetaDados(int n, int *v, Dados *dados);
+int ObterMaiorElemento(int tamanho, int *vetor);
+int ObterMaiorElemento_ColetaDados(int tamanho, int *vetor, Dados *dados);
 Celula *CriaCelula(int valor);
-void Verifica_Ordenacao(int n, int *v, Algoritmo *a);
-Dados ObterDados(int n, int *v, Algoritmo *a);
+void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo);
+Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo);
 
 #endif
