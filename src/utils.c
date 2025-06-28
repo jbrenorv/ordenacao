@@ -2,21 +2,21 @@
 
 Parametros ResolveParametros(int argc, char **argv) {
     if (argc < 5) {
-        ImprimeErro_E_FinalizaExecucao("Deve-se informar o tamanho e o tipo do vetor");
+        ImprimeErro_E_FinalizaExecucao("Informe todos os parametros necessarios");
     }
 
-    Parametros params;
+    Parametros parametros;
 
-    params.tamanho = atoi(argv[2]);
-    params.tipo = atoi(argv[3]);
-    if (params.tamanho < 1 || params.tamanho > 214748364 || params.tipo < 1 || params.tipo > 3) {
+    parametros.tamanho = atoi(argv[2]);
+    parametros.tipo = atoi(argv[3]);
+    if (parametros.tamanho < 1 || parametros.tamanho > 214748364 || parametros.tipo < 1 || parametros.tipo > 3) {
         ImprimeErro_E_FinalizaExecucao("Tamanho ou tipo de vetor invalido");
     }
 
-    params.arquivo_saida = argv[1];
-    params.execucao = atoi(argv[4]);
+    parametros.arquivo_saida = argv[1];
+    parametros.execucao = atoi(argv[4]);
     
-    return params;
+    return parametros;
 }
 
 void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
@@ -40,7 +40,7 @@ void Troca(int *a, int *b) {
 }
 
 int *AlocaVetor(int n) {
-    int* v = (int *)malloc(n * sizeof(int));
+    int *v = (int *)malloc(n * sizeof(int));
     if (v == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
     }
@@ -48,7 +48,7 @@ int *AlocaVetor(int n) {
 }
 
 int *AlocaVetorLimpo(int n) {
-    int* v = (int *)calloc(n, sizeof(int));
+    int *v = (int *)calloc(n, sizeof(int));
     if (v == NULL) {
         ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
     }
@@ -116,14 +116,14 @@ int ObterMaiorElemento_ColetaDados(int n, int *v, Dados *dados) {
     return res;
 }
 
-Celula* CriaCelula(int valor) {
-    Celula* cel = (Celula*) malloc(sizeof(Celula));
+Celula *CriaCelula(int valor) {
+    Celula *cel = (Celula *) malloc(sizeof(Celula));
     cel->valor = valor;
     cel->prox = NULL;
     return cel;
 }
 
-void Verifica_Ordenacao(int n, int* v, Algoritmo *a) {
+void Verifica_Ordenacao(int n, int *v, Algoritmo *a) {
     for (int i = 0; i < n - 1; i++) {
         if (v[i] > v[i + 1]) {
             printf("Erro em: %s\n", a->nome);

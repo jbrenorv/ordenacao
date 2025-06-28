@@ -59,19 +59,19 @@ void Contagem_CD(int n, int *v, Dados *dados);
 
 // Balde
 void Balde(int n, int *v);
-void InsereOrdenado(int valor, Celula** l);
+void InsereOrdenado(int valor, Celula **l);
 void Balde_CD(int n, int *v, Dados *dados);
-void InsereOrdenado_ColetaDados(int valor, Celula** cabeca, Dados* dados);
+void InsereOrdenado_ColetaDados(int valor, Celula **cabeca, Dados *dados);
 
 // Radixsort
 void RadixsortC(int n, int *v);
 void RadixsortB(int n, int *v);
-void ContagemDigital(int p, int n,  int* v);
+void ContagemDigital(int p, int n,  int *v);
 void BaldeDigital(int p, int n, int *v);
 int d(int p, int valor);
 void RadixsortC_CD(int n, int *v, Dados *dados);
 void RadixsortB_CD(int n, int *v, Dados *dados);
-void ContagemDigital_ColetaDados(int p, int n,  int* v, Dados *dados);
+void ContagemDigital_ColetaDados(int p, int n,  int *v, Dados *dados);
 void BaldeDigital_ColetaDados(int p, int n, int *v, Dados *dados);
 
 #endif
