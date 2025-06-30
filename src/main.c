@@ -4,8 +4,8 @@ int main(int argc, char **argv) {
     srand(time(NULL));
 
     Parametros parametros = ResolveParametros(argc, argv);
-    int *original = CriaVetor(parametros.tamanho, parametros.tipo);
-    int *v = AlocaVetor(parametros.tamanho);
+    int *vetor_original = CriaVetor(parametros.tamanho, parametros.tipo);
+    int *vetor = AlocaVetor(parametros.tamanho);
 
     Algoritmo algoritmos[] =
     {
@@ -26,19 +26,19 @@ int main(int argc, char **argv) {
     };
     int num_algoritmos = sizeof(algoritmos) / sizeof(Algoritmo);
     
-    FILE *fp;
-    if ((fp = fopen(parametros.arquivo_saida, "a")) == NULL) {
-        ImprimeErro_E_FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
+    FILE *arquivo_saida;
+    if ((arquivo_saida = fopen(parametros.arquivo_saida, "a")) == NULL) {
+        FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
     }
 
     for (int i = 0; i < num_algoritmos; ++i) {
         if (parametros.tamanho > algoritmos[i].tamanho_maximo) continue;
 
-        CopiaVetor(parametros.tamanho, original, v);
+        CopiaVetor(parametros.tamanho, vetor_original, vetor);
 
-        Dados dados = ObterDados(parametros.tamanho, v, &algoritmos[i]);
+        Dados dados = ObterDados(parametros.tamanho, vetor, &algoritmos[i]);
 
-        fprintf(fp, "%s,%i,%i,%i,%lli,%lli,%lf\n",
+        fprintf(arquivo_saida, "%s,%i,%i,%i,%lli,%lli,%lf\n",
             algoritmos[i].nome,
             parametros.tamanho,
             parametros.tipo,
@@ -49,9 +49,9 @@ int main(int argc, char **argv) {
         );
     }
 
-    free(original);
-    free(v);
-    fclose(fp);
+    free(vetor_original);
+    free(vetor);
+    fclose(arquivo_saida);
 
     return 0;
 }

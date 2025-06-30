@@ -2,7 +2,7 @@
 
 Parametros ResolveParametros(int argc, char **argv) {
     if (argc < 5) {
-        ImprimeErro_E_FinalizaExecucao("Informe todos os parametros necessarios");
+        FinalizaExecucao("Informe todos os parametros necessarios");
     }
 
     Parametros parametros;
@@ -10,7 +10,7 @@ Parametros ResolveParametros(int argc, char **argv) {
     parametros.tamanho = atoi(argv[2]);
     parametros.tipo = atoi(argv[3]);
     if (parametros.tamanho < 1 || parametros.tamanho > 214748364 || parametros.tipo < 1 || parametros.tipo > 3) {
-        ImprimeErro_E_FinalizaExecucao("Tamanho ou tipo de vetor invalido");
+        FinalizaExecucao("Tamanho ou tipo de vetor invalido");
     }
 
     parametros.arquivo_saida = argv[1];
@@ -19,7 +19,7 @@ Parametros ResolveParametros(int argc, char **argv) {
     return parametros;
 }
 
-void ImprimeErro_E_FinalizaExecucao(const char *mensagem) {
+void FinalizaExecucao(const char *mensagem) {
     printf("Erro: %s\tamanho", mensagem);
     exit(1);
 }
@@ -40,7 +40,7 @@ void Troca(int *a, int *b) {
 int *AlocaVetor(int tamanho) {
     int *vetor = (int *)malloc(tamanho * sizeof(int));
     if (vetor == NULL) {
-        ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
+        FinalizaExecucao("Falha ao tentar alocar vetor");
     }
     return vetor;
 }
@@ -48,7 +48,7 @@ int *AlocaVetor(int tamanho) {
 int *AlocaVetorLimpo(int tamanho) {
     int *vetor = (int *)calloc(tamanho, sizeof(int));
     if (vetor == NULL) {
-        ImprimeErro_E_FinalizaExecucao("Falha ao tentar alocar vetor");
+        FinalizaExecucao("Falha ao tentar alocar vetor");
     }
     return vetor;
 }
@@ -65,7 +65,7 @@ int *CriaVetor(int tamanho, Tipo tipo) {
         else if (tipo == DECRESCENTE)
             vetor[i] = tamanho - i;
         else
-            vetor[i] = min(100000000, GeraNumeroAleatorioNoIntervalo(0, 10 * tamanho));
+            vetor[i] = GeraNumeroAleatorioNoIntervalo(0, Min(100000000, 10 * tamanho)) ;
     return vetor;
 }
 
@@ -74,22 +74,22 @@ void CopiaVetor(int tamanho, int *origem, int *destino) {
         destino[i] = origem[i];
 }
 
-int min(int a, int b) {
+int Min(int a, int b) {
     return (a < b ? a : b);
 }
 
-int max(int a, int b) {
+int Max(int a, int b) {
     return (a > b ? a : b);
 }
 
 int ObterMaiorElemento(int tamanho, int *vetor) {
     int res = vetor[0];
     for (int i = 1; i < tamanho; i++)
-        res = max(res, vetor[i]);
+        res = Max(res, vetor[i]);
     return res;
 }
 
-int ObterMaiorElemento_ColetaDados(int tamanho, int *vetor, Dados *dados) {
+int ObterMaiorElemento_CD(int tamanho, int *vetor, Dados *dados) {
     int res = vetor[0];
     for (int i = 1; i < tamanho; i++) {
         dados->comparacoes++;
@@ -112,7 +112,7 @@ void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo) {
     for (int i = 0; i < tamanho - 1; i++) {
         if (vetor[i] > vetor[i + 1]) {
             printf("Erro em: %s\tamanho", algoritmo->nome);
-            ImprimeErro_E_FinalizaExecucao("O vetor nao esta ordenado\tamanho");
+            FinalizaExecucao("O vetor nao esta ordenado\tamanho");
         }
     }
 }

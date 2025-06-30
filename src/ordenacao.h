@@ -34,24 +34,24 @@ void Mergesort(int tamanho, int *vetor);
 void MergesortRec(int l, int r, int *vetor, int *vetor_aux);
 void Merge(int l, int m, int r, int *vetor, int *vetor_aux);
 void Mergesort_CD(int tamanho, int *vetor, Dados *dados);
-void MergesortRec_ColetaDados(int l, int r, int *vetor, int *vetor_aux, Dados *dados);
-void Merge_ColetaDados(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados);
+void MergesortRec_CD(int l, int r, int *vetor, int *vetor_aux, Dados *dados);
+void Merge_CD(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados);
 
 // Quicksort
 void Quicksort(int tamanho, int *vetor);
 void QuicksortRec(int l, int r, int *vetor);
 void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *vetor);
 void Quicksort_CD(int tamanho, int *vetor, Dados *dados);
-void QuicksortRec_ColetaDados(int l, int r, int *vetor, Dados *dados);
-void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *vetor, Dados *dados);
+void QuicksortRec_CD(int l, int r, int *vetor, Dados *dados);
+void ParticionaAleatorioDuplo_CD(int l, int r, int *i, int *j, int *vetor, Dados *dados);
 
 // Heapsort
 void Heapsort(int tamanho, int *vetor);
 void ConstroiHeap(int tamanho, int *vetor);
 void Heapify(int i, int tamanho, int *vetor);
 void Heapsort_CD(int tamanho, int *vetor, Dados *dados);
-void ConstroiHeap_ColetaDados(int tamanho, int *vetor, Dados *dados);
-void Heapify_ColetaDados(int i, int tamanho, int *vetor, Dados *dados);
+void ConstroiHeap_CD(int tamanho, int *vetor, Dados *dados);
+void Heapify_CD(int i, int tamanho, int *vetor, Dados *dados);
 
 // Contagem
 void Contagem(int tamanho, int *vetor);
@@ -61,7 +61,7 @@ void Contagem_CD(int tamanho, int *vetor, Dados *dados);
 void Balde(int tamanho, int *vetor);
 void InsereOrdenado(int valor, Celula **cabeca);
 void Balde_CD(int tamanho, int *vetor, Dados *dados);
-void InsereOrdenado_ColetaDados(int valor, Celula **cabeca, Dados *dados);
+void InsereOrdenado_CD(int valor, Celula **cabeca, Dados *dados);
 
 // Radixsort
 void RadixsortC(int tamanho, int *vetor);
@@ -71,7 +71,7 @@ void BaldeDigital(int posicao, int tamanho, int *vetor);
 int ObterDigito(int posicao, int valor);
 void RadixsortC_CD(int tamanho, int *vetor, Dados *dados);
 void RadixsortB_CD(int tamanho, int *vetor, Dados *dados);
-void ContagemDigital_ColetaDados(int posicao, int tamanho,  int *vetor, Dados *dados);
-void BaldeDigital_ColetaDados(int posicao, int tamanho, int *vetor, Dados *dados);
+void ContagemDigital_CD(int posicao, int tamanho,  int *vetor, Dados *dados);
+void BaldeDigital_CD(int posicao, int tamanho, int *vetor, Dados *dados);
 
 #endif

@@ -211,20 +211,20 @@ void Merge(int l, int m, int r, int *vetor, int *vetor_aux) {
 
 void Mergesort_CD(int tamanho, int *vetor, Dados *dados) {
     int *vetor_aux = AlocaVetor(tamanho);
-    MergesortRec_ColetaDados(0, tamanho, vetor, vetor_aux, dados);
+    MergesortRec_CD(0, tamanho, vetor, vetor_aux, dados);
     free(vetor_aux);
 }
 
-void MergesortRec_ColetaDados(int l, int r, int *vetor, int *vetor_aux, Dados *dados) {
+void MergesortRec_CD(int l, int r, int *vetor, int *vetor_aux, Dados *dados) {
     if (l < r - 1) {
         int m = (l + r) / 2;
-        MergesortRec_ColetaDados(l, m, vetor, vetor_aux, dados);
-        MergesortRec_ColetaDados(m, r, vetor, vetor_aux, dados);
-        Merge_ColetaDados(l, m, r, vetor, vetor_aux, dados);
+        MergesortRec_CD(l, m, vetor, vetor_aux, dados);
+        MergesortRec_CD(m, r, vetor, vetor_aux, dados);
+        Merge_CD(l, m, r, vetor, vetor_aux, dados);
     }
 }
 
-void Merge_ColetaDados(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados) {
+void Merge_CD(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados) {
     CopiaVetor(r - l, vetor+l, vetor_aux+l);
     dados->movimentacoes += r - l;
     int i = l, j = m, k = l;
@@ -270,24 +270,24 @@ void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *vetor) {
 }
 
 void Quicksort_CD(int tamanho, int *vetor, Dados *dados) {
-    QuicksortRec_ColetaDados(0, tamanho - 1, vetor, dados);
+    QuicksortRec_CD(0, tamanho - 1, vetor, dados);
 }
 
-void QuicksortRec_ColetaDados(int l, int r, int *vetor, Dados *dados) {
+void QuicksortRec_CD(int l, int r, int *vetor, Dados *dados) {
     while (l < r) {
         int i, j;
-        ParticionaAleatorioDuplo_ColetaDados(l, r, &i, &j, vetor, dados);
+        ParticionaAleatorioDuplo_CD(l, r, &i, &j, vetor, dados);
         if (i - l < r - j) {
-            QuicksortRec_ColetaDados(l, i - 1, vetor, dados);
+            QuicksortRec_CD(l, i - 1, vetor, dados);
             l = j + 1;
         } else {
-            QuicksortRec_ColetaDados(j + 1, r, vetor, dados);
+            QuicksortRec_CD(j + 1, r, vetor, dados);
             r = i - 1;
         }
     }
 }
 
-void ParticionaAleatorioDuplo_ColetaDados(int l, int r, int *i, int *j, int *vetor, Dados *dados) {
+void ParticionaAleatorioDuplo_CD(int l, int r, int *i, int *j, int *vetor, Dados *dados) {
     Troca(&vetor[GeraNumeroAleatorioNoIntervalo(l, r)], &vetor[r]);
     dados->movimentacoes += 3;
     int pivo = vetor[r], k = l;
@@ -338,21 +338,21 @@ void Heapify(int i, int tamanho, int *vetor) {
 }
 
 void Heapsort_CD(int tamanho, int *vetor, Dados *dados) {
-    ConstroiHeap_ColetaDados(tamanho, vetor,dados);
+    ConstroiHeap_CD(tamanho, vetor,dados);
     for (int i = tamanho - 1; i > 0; i--) {
         Troca(&vetor[0], &vetor[i]);
-        Heapify_ColetaDados(0, i, vetor,dados);
+        Heapify_CD(0, i, vetor,dados);
         dados->movimentacoes += 3;
     }
 }
 
-void ConstroiHeap_ColetaDados(int tamanho, int *vetor, Dados *dados) {
+void ConstroiHeap_CD(int tamanho, int *vetor, Dados *dados) {
     for (int i = tamanho / 2 - 1; i >= 0; i--) {
-        Heapify_ColetaDados(i, tamanho, vetor,dados);
+        Heapify_CD(i, tamanho, vetor,dados);
     }
 }
 
-void Heapify_ColetaDados(int i, int tamanho, int *vetor, Dados *dados) {
+void Heapify_CD(int i, int tamanho, int *vetor, Dados *dados) {
     int j = i, k;
     while (2 * j + 1 < tamanho) {
         k = 2 * j + 1;
@@ -383,7 +383,7 @@ void Contagem(int tamanho, int *vetor) {
 }
 
 void Contagem_CD(int tamanho, int *vetor, Dados *dados) {
-    int M = ObterMaiorElemento_ColetaDados(tamanho, vetor, dados);
+    int M = ObterMaiorElemento_CD(tamanho, vetor, dados);
     int *contagem = AlocaVetorLimpo(M + 1);
     int *vetor_aux = AlocaVetor(tamanho);
     for (int i = 0; i < tamanho; i++) contagem[vetor[i]]++;
@@ -436,10 +436,10 @@ void InsereOrdenado(int valor, Celula **balde) {
 
 void Balde_CD(int tamanho, int *vetor, Dados *dados) {
     Celula **baldes = (Celula**) calloc(tamanho, sizeof(Celula*));
-    int M = ObterMaiorElemento_ColetaDados(tamanho, vetor, dados);
+    int M = ObterMaiorElemento_CD(tamanho, vetor, dados);
     for (int i = tamanho - 1; i >= 0; i--) {
         int index = ((long long)vetor[i] * tamanho) / (M + 1);
-        InsereOrdenado_ColetaDados(vetor[i], &baldes[index], dados);
+        InsereOrdenado_CD(vetor[i], &baldes[index], dados);
     }
     for (int i = 0, k = 0; i < tamanho; i++) {
         Celula *atual = baldes[i];
@@ -454,7 +454,7 @@ void Balde_CD(int tamanho, int *vetor, Dados *dados) {
     free(baldes);
 }
 
-void InsereOrdenado_ColetaDados(int valor, Celula **balde, Dados *dados) {
+void InsereOrdenado_CD(int valor, Celula **balde, Dados *dados) {
     Celula *celula = CriaCelula(valor);
     dados->movimentacoes++;
     dados->comparacoes++;
@@ -524,17 +524,17 @@ int ObterDigito(int posicao, int valor) {
 
 void RadixsortC_CD(int tamanho, int *vetor, Dados *dados) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10) {
-        ContagemDigital_ColetaDados(posicao, tamanho, vetor, dados);
+        ContagemDigital_CD(posicao, tamanho, vetor, dados);
     }
 }
 
 void RadixsortB_CD(int tamanho, int *vetor, Dados *dados) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10) {
-        BaldeDigital_ColetaDados(posicao, tamanho, vetor, dados);
+        BaldeDigital_CD(posicao, tamanho, vetor, dados);
     }
 }
 
-void ContagemDigital_ColetaDados(int posicao, int tamanho,  int *vetor, Dados *dados) {
+void ContagemDigital_CD(int posicao, int tamanho,  int *vetor, Dados *dados) {
     int *contagem = AlocaVetorLimpo(10);
     int *vetor_aux = AlocaVetor(tamanho);
     for (int i = 0; i < tamanho; i++) contagem[ObterDigito(posicao, vetor[i])]++;
@@ -552,7 +552,7 @@ void ContagemDigital_ColetaDados(int posicao, int tamanho,  int *vetor, Dados *d
     free(vetor_aux);
 }
 
-void BaldeDigital_ColetaDados(int posicao, int tamanho, int *vetor, Dados *dados) {
+void BaldeDigital_CD(int posicao, int tamanho, int *vetor, Dados *dados) {
     Celula **baldes = (Celula **) calloc(10, sizeof(Celula *));
     for (int i = tamanho - 1; i >= 0; i--) {
         Celula *celula = CriaCelula(vetor[i]);
