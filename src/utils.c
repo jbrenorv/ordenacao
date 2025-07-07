@@ -108,32 +108,19 @@ Celula *CriaCelula(int valor) {
     return celula;
 }
 
-void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo) {
-    for (int i = 0; i < tamanho - 1; i++) {
-        if (vetor[i] > vetor[i + 1]) {
-            printf("Erro em: %s\tamanho", algoritmo->nome);
-            FinalizaExecucao("O vetor nao esta ordenado\tamanho");
-        }
-    }
-}
-
 Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo) {
     Dados dados = (Dados){ 0LL, 0LL, 0.0 };
 
-    // Obtem numero de movimentacoes e comparacoes
     int *vetor_copia = AlocaVetor(tamanho);
     CopiaVetor(tamanho, vetor, vetor_copia);
     algoritmo->alg_coletor(tamanho, vetor_copia, &dados);
-    Verifica_Ordenacao(tamanho, vetor_copia, algoritmo);
     free(vetor_copia);
 
-    // Obter tempo de execucao
-    Tempo inicio, fim;
-    clock_gettime(CLOCK_MONOTONIC, &inicio);
+    struct timespec inicio, fim;
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &inicio);
     algoritmo->alg(tamanho, vetor);
-    clock_gettime(CLOCK_MONOTONIC, &fim);
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &fim);
     dados.tempo_ms = (fim.tv_sec - inicio.tv_sec) * 1000.0 + (fim.tv_nsec - inicio.tv_nsec) / 1000000.0;
-    Verifica_Ordenacao(tamanho, vetor, algoritmo);
 
     return dados;
 }

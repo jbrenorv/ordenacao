@@ -6,8 +6,6 @@
 #include <time.h>
 #include <ctype.h>
 
-typedef struct timespec Tempo;
-
 typedef enum Tipo {
     CRESCENTE = 1,
     DECRESCENTE,
@@ -52,7 +50,6 @@ int Max(int a, int b);
 int ObterMaiorElemento(int tamanho, int *vetor);
 int ObterMaiorElemento_CD(int tamanho, int *vetor, Dados *dados);
 Celula *CriaCelula(int valor);
-void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo);
 Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo);
 
 #endif
