@@ -40,10 +40,16 @@ void Merge_CD(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados);
 // Quicksort
 void Quicksort(int tamanho, int *vetor);
 void QuicksortRec(int l, int r, int *vetor);
-void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *vetor);
 void Quicksort_CD(int tamanho, int *vetor, Dados *dados);
 void QuicksortRec_CD(int l, int r, int *vetor, Dados *dados);
-void ParticionaAleatorioDuplo_CD(int l, int r, int *i, int *j, int *vetor, Dados *dados);
+int Particiona(int l, int r, int *vetor);
+int Particiona_CD(int l, int r, int *vetor, Dados *dados);
+
+// Introsort
+void Introsort(int tamanho, int *vetor);
+void IntrosortRec(int l, int r, int d, int *vetor);
+void Introsort_CD(int tamanho, int *vetor, Dados *dados);
+void IntrosortRec_CD(int l, int r, int d, int *vetor, Dados *dados);
 
 // Heapsort
 void Heapsort(int tamanho, int *vetor);

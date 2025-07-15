@@ -22,7 +22,7 @@ typedef struct Parametros {
 typedef struct Dados {
     long long comparacoes;
     long long movimentacoes;
-    double tempo_ms;
+    double tempo;
 } Dados;
 
 typedef struct Algoritmo {

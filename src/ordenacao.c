@@ -1,25 +1,7 @@
 #include "ordenacao.h"
+#include <math.h>
 
 void Bolha(int tamanho, int *vetor) {
-    for (int i = tamanho - 1; i > 0; i--)
-        for (int j = 0; j < i; j++)
-            if (vetor[j] > vetor[j + 1])
-                Troca(&vetor[j], &vetor[j + 1]);
-}
-
-void Bolha_CD(int tamanho, int *vetor, Dados *dados) {
-    for (int i = tamanho - 1; i > 0; i--) {
-        for (int j = 0; j < i; j++) {
-            if (vetor[j] > vetor[j + 1]) {
-                Troca(&vetor[j], &vetor[j + 1]);
-                dados->movimentacoes += 3;
-            }
-            dados->comparacoes++;
-        }
-    }
-}
-
-void BolhaFlag(int tamanho, int *vetor) {
     char trocou;
     for (int i = tamanho - 1; i > 0; i--) {
         trocou = 0;
@@ -33,7 +15,7 @@ void BolhaFlag(int tamanho, int *vetor) {
     }
 }
 
-void BolhaFlag_CD(int tamanho, int *vetor, Dados *dados) {
+void Bolha_CD(int tamanho, int *vetor, Dados *dados) {
     char trocou;
     for (int i = tamanho - 1; i > 0; i--) {
         trocou = 0;
@@ -240,74 +222,128 @@ void Merge_CD(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados) {
     }
 }
 
+int const LIMITE = 16;
+
 void Quicksort(int tamanho, int *vetor) {
     QuicksortRec(0, tamanho - 1, vetor);
+    Insercao(tamanho, vetor);
 }
 
 void QuicksortRec(int l, int r, int *vetor) {
-    while (l < r) {
-        int i, j;
-        ParticionaAleatorioDuplo(l, r, &i, &j, vetor);
-        if (i - l < r - j) {
-            QuicksortRec(l, i - 1, vetor);
-            l = j + 1;
+    while (r - l > LIMITE) {
+        int i = Particiona(l, r, vetor);
+        if (i - l < r - i) {
+            QuicksortRec(l, i, vetor);
+            l = i + 1;
         } else {
-            QuicksortRec(j + 1, r, vetor);
+            QuicksortRec(i, r, vetor);
             r = i - 1;
         }
-    }
-}
-
-void ParticionaAleatorioDuplo(int l, int r, int *i, int *j, int *vetor) {
-    Troca(&vetor[GeraNumeroAleatorioNoIntervalo(l, r)], &vetor[r]);
-    int pivo = vetor[r], k = l;
-    *i = l, *j = r;
-    while (k <= *j) {
-        if (vetor[k] < pivo) Troca(&vetor[(*i)++], &vetor[k++]);
-        else if (vetor[k] > pivo) Troca(&vetor[(*j)--], &vetor[k]);
-        else k++;
     }
 }
 
 void Quicksort_CD(int tamanho, int *vetor, Dados *dados) {
     QuicksortRec_CD(0, tamanho - 1, vetor, dados);
+    Insercao_CD(tamanho, vetor, dados);
 }
 
 void QuicksortRec_CD(int l, int r, int *vetor, Dados *dados) {
-    while (l < r) {
-        int i, j;
-        ParticionaAleatorioDuplo_CD(l, r, &i, &j, vetor, dados);
-        if (i - l < r - j) {
-            QuicksortRec_CD(l, i - 1, vetor, dados);
-            l = j + 1;
+    while (r - l > LIMITE) {
+        int i = Particiona_CD(l, r, vetor, dados);
+        if (i - l < r - i) {
+            QuicksortRec_CD(l, i, vetor, dados);
+            l = i + 1;
         } else {
-            QuicksortRec_CD(j + 1, r, vetor, dados);
+            QuicksortRec_CD(i, r, vetor, dados);
             r = i - 1;
         }
     }
 }
 
-void ParticionaAleatorioDuplo_CD(int l, int r, int *i, int *j, int *vetor, Dados *dados) {
-    Troca(&vetor[GeraNumeroAleatorioNoIntervalo(l, r)], &vetor[r]);
-    dados->movimentacoes += 3;
-    int pivo = vetor[r], k = l;
-    dados->movimentacoes++;
-    *i = l, *j = r;
-    while (k <= *j) {
-        if (vetor[k] < pivo) {
-            Troca(&vetor[*i], &vetor[k]);
-            (*i)++, k++;
-            dados->movimentacoes += 3;
-            dados->comparacoes += 1;
-        } else if (vetor[k] > pivo) {
-            Troca(&vetor[*j], &vetor[k]);
-            (*j)--;
-            dados->movimentacoes += 3;
-            dados->comparacoes += 2;
-        } else {
-            k++;
-            dados->comparacoes += 2;
+void Introsort(int tamanho, int *vetor) {
+    IntrosortRec(0, tamanho - 1, log2(tamanho) * 2, vetor);
+    Insercao(tamanho, vetor);
+}
+
+void IntrosortRec(int l, int r, int d, int *vetor) {
+    while (r - l > LIMITE) {
+        if (d == 0) {
+            Heapsort(r - l + 1, vetor + l);
+            return;
         }
+        --d;
+        int i = Particiona(l, r, vetor);
+        IntrosortRec(i, r, d, vetor);
+        r = i - 1;
+    }
+}
+
+void Introsort_CD(int tamanho, int *vetor, Dados *dados) {
+    IntrosortRec_CD(0, tamanho - 1, log2(tamanho) * 2, vetor, dados);
+    Insercao_CD(tamanho, vetor, dados);
+}
+
+void IntrosortRec_CD(int l, int r, int d, int *vetor, Dados *dados) {
+    while (r - l > LIMITE) {
+        if (d == 0) {
+            Heapsort_CD(r - l + 1, vetor + l, dados);
+            return;
+        }
+        --d;
+        int i = Particiona_CD(l, r, vetor, dados);
+        IntrosortRec_CD(i, r, d, vetor, dados);
+        r = i - 1;
+    }
+}
+
+int Particiona(int l, int r, int *vetor) {
+    int pivot, m = l + (r - l) / 2;
+    if (vetor[l] < vetor[m]) Troca(&vetor[l], &vetor[m]);
+    if (vetor[r] < vetor[m]) Troca(&vetor[r], &vetor[m]);
+    if (vetor[r] < vetor[l]) Troca(&vetor[r], &vetor[l]);
+    pivot = vetor[l];
+    while (1) {
+        while (vetor[l] < pivot) ++l;
+        while (pivot < vetor[r]) --r;
+        if (!(l < r)) return l;
+        Troca(&vetor[l], &vetor[r]);
+        ++l;
+        --r;
+    }
+}
+
+int Particiona_CD(int l, int r, int *vetor, Dados *dados) {
+    int pivot, m = l + (r - l) / 2;
+    if (vetor[l] < vetor[m]) {
+        Troca(&vetor[l], &vetor[m]);
+        dados->movimentacoes += 3;
+    }
+    if (vetor[r] < vetor[m]) {
+        Troca(&vetor[r], &vetor[m]);
+        dados->movimentacoes += 3;
+    }
+    if (vetor[r] < vetor[l]) {
+        Troca(&vetor[r], &vetor[l]);
+        dados->movimentacoes += 3;
+    }
+    pivot = vetor[l];
+    dados->movimentacoes++;
+    while (1) {
+        while (vetor[l] < pivot) {
+            ++l;
+            dados->comparacoes++;
+        }
+        dados->comparacoes++;
+        while (pivot < vetor[r]) {
+            --r;
+            dados->comparacoes++;
+        }
+        dados->comparacoes++;
+        if (!(l < r)) return l;
+        Troca(&vetor[l], &vetor[r]);
+        dados->movimentacoes++;
+        ++l;
+        --r;
     }
 }
 

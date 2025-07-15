@@ -8,7 +8,7 @@ Parametros ResolveParametros(int argc, char **argv) {
     Parametros parametros;
 
     parametros.tamanho = atoi(argv[2]);
-    parametros.tipo = atoi(argv[3]);
+    parametros.tipo = (Tipo) atoi(argv[3]);
     if (parametros.tamanho < 1 || parametros.tamanho > 214748364 || parametros.tipo < 1 || parametros.tipo > 3) {
         FinalizaExecucao("Tamanho ou tipo de vetor invalido");
     }
@@ -20,7 +20,7 @@ Parametros ResolveParametros(int argc, char **argv) {
 }
 
 void FinalizaExecucao(const char *mensagem) {
-    printf("Erro: %s\tamanho", mensagem);
+    printf("Erro: %s\n", mensagem);
     exit(1);
 }
 
@@ -120,7 +120,7 @@ Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo) {
     clock_gettime(CLOCK_MONOTONIC, &inicio);
     algoritmo->alg(tamanho, vetor);
     clock_gettime(CLOCK_MONOTONIC, &fim);
-    dados.tempo_ms = (fim.tv_sec - inicio.tv_sec) * 1000.0 + (fim.tv_nsec - inicio.tv_nsec) / 1000000.0;
+    dados.tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1000000000.0;
 
     return dados;
 }

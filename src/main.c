@@ -11,14 +11,14 @@ int main(int argc, char **argv) {
     {
         // Nome          , N max    , Alg.      , Alg. coletor
         { "Bolha"        , 100000   , Bolha     , Bolha_CD      },
-        { "Bolha c/ F."  , 100000   , BolhaFlag , BolhaFlag_CD  },
         { "Coquetel"     , 100000   , Coquetel  , Coquetel_CD   },
         { "Selecao"      , 100000   , Selecao   , Selecao_CD    },
         { "Insercao"     , 100000   , Insercao  , Insercao_CD   },
         { "Shellsort"    , 100000000, Shellsort , Shellsort_CD  },
         { "Mergesort"    , 100000000, Mergesort , Mergesort_CD  },
-        { "Quicksort"    , 100000000, Quicksort , Quicksort_CD  },
         { "Heapsort"     , 100000000, Heapsort  , Heapsort_CD   },
+        { "Quicksort"    , 100000000, Quicksort , Quicksort_CD  },
+        { "Introsort"    , 100000000, Introsort , Introsort_CD  },
         { "Contagem"     , 100000000, Contagem  , Contagem_CD   },
         { "Balde"        , 100000000, Balde     , Balde_CD      },
         { "Radixsort C." , 100000000, RadixsortC, RadixsortC_CD },
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
             parametros.execucao,
             dados.comparacoes,
             dados.movimentacoes,
-            dados.tempo_ms
+            dados.tempo
         );
     }
 

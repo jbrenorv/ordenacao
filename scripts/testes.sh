@@ -7,21 +7,18 @@ mkdir -p "$OUTPUT_DIR"
 CURRENT_TIME=$(date "+%Y.%m.%d-%H.%M.%S")
 OUTPUT_FILE="$OUTPUT_DIR/output_$CURRENT_TIME.csv"
 
-echo "algoritmo,tamanho,tipo,execucao,comparacoes,movimentacoes,tempo_ms" > "$OUTPUT_FILE"
+echo "algoritmo,tamanho,tipo,execucao,comparacoes,movimentacoes,tempo" > "$OUTPUT_FILE"
 
 tamanhos=()
 
 intervalos=(
-    "1000 10000 500"
-    "10000 100000 4000"
-    "100000 1000000 30000"
-    "1000000 10000000 200000"
-    "10000000 100000001 1000000"
+    "10000 100000 10000"
+    "1000000 10000000 1000000"
 )
 
 for intervalo in "${intervalos[@]}"; do
     read inicio fim passo <<< "$intervalo"
-    for ((i=inicio; i<fim; i+=passo)); do
+    for ((i=inicio; i<=fim; i+=passo)); do
         tamanhos+=("$i")
     done
 done
