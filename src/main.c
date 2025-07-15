@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
         // Nome          , N max    , Alg.      , Alg. coletor
         { "Bolha"        , 100000   , Bolha     , Bolha_CD      },
         { "Coquetel"     , 100000   , Coquetel  , Coquetel_CD   },
-        { "Selecao"      , 100000   , Selecao   , Selecao_CD    },
-        { "Insercao"     , 100000   , Insercao  , Insercao_CD   },
+        { "Seleção"      , 100000   , Selecao   , Selecao_CD    },
+        { "Inserção"     , 100000   , Insercao  , Insercao_CD   },
         { "Shellsort"    , 100000000, Shellsort , Shellsort_CD  },
         { "Mergesort"    , 100000000, Mergesort , Mergesort_CD  },
         { "Heapsort"     , 100000000, Heapsort  , Heapsort_CD   },

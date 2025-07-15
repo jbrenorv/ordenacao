@@ -12,8 +12,8 @@ echo "algoritmo,tamanho,tipo,execucao,comparacoes,movimentacoes,tempo" > "$OUTPU
 tamanhos=()
 
 intervalos=(
-    "10000 100000 10000"
-    "1000000 10000000 1000000"
+    "10000 100000 5000"
+    "1000000 10000000 500000"
 )
 
 for intervalo in "${intervalos[@]}"; do
