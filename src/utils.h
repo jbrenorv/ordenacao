@@ -7,7 +7,7 @@
 #include <ctype.h>
 
 typedef enum Tipo {
-    CRESCENTE = 1,
+    CRESCENTE,
     DECRESCENTE,
     ALEATORIO
 } Tipo;
