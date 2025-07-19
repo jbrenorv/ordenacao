@@ -31,13 +31,13 @@ typedef struct Dados {
     double tempo;
 } Dados;
 
-typedef struct Algoritmo {
+typedef struct AlgInfo {
     char *nome;
     int tamanho_maximo;
-    void (*alg)(int, int *);
-    void (*alg_coletor)(int, int *, Dados *);
+    void (*impl)(int, int *);
+    void (*impl_coletor)(int, int *, Dados *);
     ATipo tipo;
-} Algoritmo;
+} AlgInfo;
 
 typedef struct Celula {
     int valor;
@@ -46,17 +46,17 @@ typedef struct Celula {
 
 Parametros ResolveParametros(int argc, char **argv);
 void FinalizaExecucao(const char *mensagem);
-int *AlocaVetor(int tamanho);
-int *AlocaVetorLimpo(int tamanho);
+int *AlocaVetor(int n);
+int *AlocaVetorLimpo(int n);
 int GeraNumeroAleatorioNoIntervalo(int a, int b);
-int *CriaVetor(int tamanho, VTipo tipo);
-void CopiaVetor(int tamanho, int *origem, int *destino);
+int *CriaVetor(int n, VTipo tipo);
+void CopiaVetor(int n, int *origem, int *destino);
 int Min(int a, int b);
 int Max(int a, int b);
-int ObterMaiorElemento(int tamanho, int *vetor);
-int ObterMaiorElemento_CD(int tamanho, int *vetor, Dados *dados);
+int MaxEl(int n, int *v);
+int MaxEl_CD(int n, int *v, Dados *dados);
 Celula *CriaCelula(int valor);
-void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo);
-Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo);
+void Verifica_Ordenacao(int n, int *v, AlgInfo *alg_info);
+Dados ObterDados(int n, int *v, AlgInfo *alg_info);
 
 #endif
