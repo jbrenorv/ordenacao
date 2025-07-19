@@ -68,6 +68,11 @@ void Insercao(int n, int *v);
 void Insercao_CD(int n, int *v, Dados *dados);
 
 
+// H-ordenacao
+void H_Ordenacao(int n, int h, int *v);
+void H_Ordenacao_CD(int n, int h, int *v, Dados *dados);
+
+
 // Shellsort
 void Shellsort(int n, int *v);
 void Shellsort_CD(int n, int *v, Dados *dados);
@@ -133,7 +138,7 @@ void Balde_CD(int n, int *v, Dados *dados);
 
 // Radixsort
 void RadixsortC(int n, int *v);
-void ContagemDigital(int posicao, int n,  int *v);
+void ContagemDigital(int posicao, int n, int *contagem, int *v_aux, int *v);
 void RadixsortB(int n, int *v);
 void BaldeDigital(int posicao, int n, int *v);
 int ObterDigito(int posicao, int valor);

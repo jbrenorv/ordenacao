@@ -40,8 +40,7 @@ void Bolha_CD(int n, int *v, Dados *dados) {
 
 
 void Coquetel(int n, int *v) {
-    int i = 0, j = n - 1;
-    char trocou = 1;
+    int i = 0, j = n - 1, trocou = 1;
     while (trocou) {
         trocou = 0;
         for (int k = i; k < j; k++)
@@ -62,8 +61,7 @@ void Coquetel(int n, int *v) {
 
 
 void Coquetel_CD(int n, int *v, Dados *dados) {
-    int i = 0, j = n - 1;
-    char trocou = 1;
+    int i = 0, j = n - 1, trocou = 1;
     while (trocou) {
         trocou = 0;
         for (int k = i; k < j; k++) {
@@ -117,69 +115,59 @@ void Selecao_CD(int n, int *v, Dados *dados) {
 
 
 void Insercao(int n, int *v) {
+    H_Ordenacao(n, 1, v);
+}
+
+
+void Insercao_CD(int n, int *v, Dados *dados) {
+    H_Ordenacao_CD(n, 1, v, dados);
+}
+
+
+void H_Ordenacao(int n, int h, int *v) {
     int chave, j;
-    for (int i = 1; i < n; i++) {
+    for (int i = h; i < n; i++) {
         chave = v[i];
-        for (j = i; j > 0 && v[j - 1] > chave; j--)
-            v[j] = v[j - 1];
+        for (j = i; j >= h && v[j - h] > chave; j -= h)
+            v[j] = v[j - h];
         v[j] = chave;
     }
 }
 
 
-void Insercao_CD(int n, int *v, Dados *dados) {
+void H_Ordenacao_CD(int n, int h, int *v, Dados *dados) {
     int chave, j;
-    for (int i = 1; i < n; i++) {
+    for (int i = h; i < n; i++) {
         chave = v[i];
-        for (j = i; j > 0 && v[j - 1] > chave; j--) {
-            v[j] = v[j - 1];
+        for (j = i; j >= h && v[j - h] > chave; j -= h) {
+            v[j] = v[j - h];
             dados->comparacoes++;
             dados->movimentacoes++;
         }
         v[j] = chave;
-        if (j > 0) dados->comparacoes++;
+        if (j >= h) dados->comparacoes++;
         dados->movimentacoes += 2;
     }
 }
 
 
-int const ciura[] = { 1699086440, 755149529, 335622013, 149165339, 66295706, 29464758, 
-    13095448, 5820199, 2586755, 1149669, 510964, 227095, 100931, 44858, 
-    19937, 8861, 3938, 1750, 701, 301, 132, 57, 23, 10, 4, 1 };
+// [Artigo] Marcin Ciura 2001: Best Increments for the Average Case of Shellsort
+// [ PDF  ] https://web.archive.org/web/20180923235211/http://sun.aei.polsl.pl/~mciura/publikacje/shellsort.pdf
+// CiuraOriginalSeq = 1, 4, 10, 23, 57, 132, 301, 701, 1750
+// CiuraSeq[i] = (i < 10 ? CiuraOriginalSeq[i] : 2.25 * Ciura[i - 1])
+// Os 15 primeiros elementos invertidos:
+int const CiuraSeq[] = { 227095, 100931, 44858, 19937, 8861, 3938, 1750, 701, 301, 132, 57, 23, 10, 4, 1 };
 
 
 void Shellsort(int n, int *v) {
-    int chave, j, h;
-    for (int k = 0; k < 26; k++) {
-        if (ciura[k] >= n) continue;
-        h = ciura[k];
-        for (int i = h; i < n; i++) {
-            chave = v[i];
-            for (j = i; j >= h && v[j - h] > chave; j -= h)
-                v[j] = v[j - h];
-            v[j] = chave;
-        }
-    }
+    for (int i = 0; i < 15; i++)
+        H_Ordenacao(n, CiuraSeq[i], v);
 }
 
 
 void Shellsort_CD(int n, int *v, Dados *dados) {
-    int chave, j, h;
-    for (int k = 0; k < 26; k++) {
-        if (ciura[k] >= n) continue;
-        h = ciura[k];
-        for (int i = h; i < n; i++) {
-            chave = v[i];
-            for (j = i; j >= h && v[j - h] > chave; j -= h) {
-                v[j] = v[j - h];
-                dados->movimentacoes++;
-                dados->comparacoes++;
-            }
-            v[j] = chave;
-            if (j >= h) dados->comparacoes++;
-            dados->movimentacoes += 2;
-        }
-    }
+    for (int i = 0; i < 15; i++)
+        H_Ordenacao_CD(n, CiuraSeq[i], v, dados);
 }
 
 
@@ -433,7 +421,7 @@ int Particiona2_CD(int l, int r, int *v, Dados *dados) {
 
 
 void MoveMedianaFim(int l, int r, int *v) {
-    int m = l + (r - l) / 2;
+    int m = (l + r) / 2;
     if (v[l] < v[m]) Troca(v + l, v + m);
     if (v[r] < v[m]) Troca(v + r, v + m);
     if (v[l] < v[r]) Troca(v + l, v + r);
@@ -441,7 +429,7 @@ void MoveMedianaFim(int l, int r, int *v) {
 
 
 void MoveMedianaFim_CD(int l, int r, int *v, Dados *dados) {
-    int m = l + (r - l) / 2;
+    int m = (l + r) / 2;
     if (v[l] < v[m]) {
         Troca(v + l, v + m);
         dados->movimentacoes += 3;
@@ -497,9 +485,8 @@ void Heapsort_CD(int n, int *v, Dados *dados) {
 
 
 void ConstroiHeap_CD(int n, int *v, Dados *dados) {
-    for (int i = n / 2 - 1; i >= 0; i--) {
+    for (int i = n / 2 - 1; i >= 0; i--)
         Heapify_CD(i, n, v, dados);
-    }
 }
 
 
@@ -565,8 +552,8 @@ void Balde(int n, int *v) {
     Celula **baldes = (Celula **) calloc(n, sizeof(Celula*));
     int M = MaxEl(n, v);
     for (int i = n - 1; i >= 0; i--) {
-        int index = ((long long)v[i] * n) / (M + 1);
-        InsereOrdenado(v[i], &baldes[index]);
+        int j = ((long long)v[i] * n) / (M + 1);
+        InsereOrdenado(v[i], &baldes[j]);
     }
     for (int i = 0, k = 0; i < n; i++) {
         Celula *atual = baldes[i];
@@ -585,8 +572,8 @@ void Balde_CD(int n, int *v, Dados *dados) {
     Celula **baldes = (Celula**) calloc(n, sizeof(Celula*));
     int M = MaxEl_CD(n, v, dados);
     for (int i = n - 1; i >= 0; i--) {
-        int index = ((long long)v[i] * n) / (M + 1);
-        InsereOrdenado_CD(v[i], &baldes[index], dados);
+        int j = ((long long)v[i] * n) / (M + 1);
+        InsereOrdenado_CD(v[i], &baldes[j], dados);
     }
     for (int i = 0, k = 0; i < n; i++) {
         Celula *atual = baldes[i];
@@ -608,12 +595,6 @@ void RadixsortC(int n, int *v) {
 }
 
 
-void RadixsortB(int n, int *v) {
-    for (int posicao = 1; posicao < _10e9; posicao *= 10)
-        BaldeDigital(posicao, n, v);
-}
-
-
 void ContagemDigital(int posicao, int n,  int *v) {
     int *contagem = AlocaVetorLimpo(10);
     int *v_aux = AlocaVetor(n);
@@ -626,6 +607,12 @@ void ContagemDigital(int posicao, int n,  int *v) {
     for (int i = 0; i < n; i++) v[i] = v_aux[i];
     free(contagem);
     free(v_aux);
+}
+
+
+void RadixsortB(int n, int *v) {
+    for (int posicao = 1; posicao < _10e9; posicao *= 10)
+        BaldeDigital(posicao, n, v);
 }
 
 
