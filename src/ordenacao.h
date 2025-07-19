@@ -2,7 +2,6 @@
 #define __ORDENACAO_H__
 
 
-#define _10e9 1000000000
 #define QS_LIMITE 16
 #define MIN_EL 0
 #define MAX_EL 100000000
