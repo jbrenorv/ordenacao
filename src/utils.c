@@ -1,5 +1,10 @@
 #include "utils.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <ctype.h>
+
 Parametros ResolveParametros(int argc, char **argv) {
     if (argc < 5) {
         FinalizaExecucao("Informe todos os parametros necessarios");
@@ -8,8 +13,13 @@ Parametros ResolveParametros(int argc, char **argv) {
     Parametros parametros;
 
     parametros.tamanho = atoi(argv[2]);
-    parametros.tipo = (Tipo) atoi(argv[3]);
-    if (parametros.tamanho < 1 || parametros.tamanho > 214748364 || parametros.tipo < 1 || parametros.tipo > 3) {
+    parametros.tipo = atoi(argv[3]);
+    if (parametros.tamanho < 1 ||
+        parametros.tamanho > MAX_TAM ||
+        parametros.tipo < CRE ||
+        parametros.tipo > M3K ||
+        (parametros.tipo == M3K && parametros.tamanho % 4 != 0)
+    ) {
         FinalizaExecucao("Tamanho ou tipo de vetor invalido");
     }
 
@@ -22,19 +32,6 @@ Parametros ResolveParametros(int argc, char **argv) {
 void FinalizaExecucao(const char *mensagem) {
     printf("Erro: %s\n", mensagem);
     exit(1);
-}
-
-char EhNumerico(int tamanho, const char *texto) {
-    for (int i = 0; i < tamanho; ++i)
-        if (!isdigit(texto[i]))
-            return 0;
-    return 1;
-}
-
-void Troca(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
 }
 
 int *AlocaVetor(int tamanho) {
@@ -57,15 +54,20 @@ int GeraNumeroAleatorioNoIntervalo(int a, int b) {
     return a + rand() % (b - a + 1);
 }
 
-int *CriaVetor(int tamanho, Tipo tipo) {
+int *CriaVetor(int tamanho, VTipo tipo) {
     int *vetor = AlocaVetor(tamanho);
-    for (int i = 0; i < tamanho; ++i)
-        if (tipo == CRESCENTE)
-            vetor[i] = i;
-        else if (tipo == DECRESCENTE)
-            vetor[i] = tamanho - i;
-        else
-            vetor[i] = GeraNumeroAleatorioNoIntervalo(0, Min(100000000, 10 * tamanho)) ;
+    int k = tamanho / 2;
+    for (int i = 0; i < tamanho; ++i) {
+        if (tipo == CRE)            vetor[i] = i;
+        if (tipo == DEC)            vetor[i] = tamanho - i;
+        if (tipo == ALE)            vetor[i] = GeraNumeroAleatorioNoIntervalo(MIN_EL, MAX_EL);
+        if (tipo == M3K) {
+            if (i < k)
+                if (i % 2 == 0)     vetor[i] = i + 1;
+                else                vetor[i] = k + i;
+            else                    vetor[i] = 2 * (i - k + 1);
+        }
+    }
     return vetor;
 }
 
@@ -108,12 +110,22 @@ Celula *CriaCelula(int valor) {
     return celula;
 }
 
+void Verifica_Ordenacao(int tamanho, int *vetor, Algoritmo *algoritmo) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        if (vetor[i] > vetor[i + 1]) {
+            printf("Erro em: %s\n", algoritmo->nome);
+            FinalizaExecucao("O vetor nao esta ordenado\n");
+        }
+    }
+}
+
 Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo) {
     Dados dados = (Dados){ 0LL, 0LL, 0.0 };
 
     int *vetor_copia = AlocaVetor(tamanho);
     CopiaVetor(tamanho, vetor, vetor_copia);
     algoritmo->alg_coletor(tamanho, vetor_copia, &dados);
+    Verifica_Ordenacao(tamanho, vetor_copia, algoritmo);
     free(vetor_copia);
 
     struct timespec inicio, fim;
@@ -121,6 +133,7 @@ Dados ObterDados(int tamanho, int *vetor, Algoritmo *algoritmo) {
     algoritmo->alg(tamanho, vetor);
     clock_gettime(CLOCK_MONOTONIC, &fim);
     dados.tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1000000000.0;
+    Verifica_Ordenacao(tamanho, vetor, algoritmo);
 
     return dados;
 }

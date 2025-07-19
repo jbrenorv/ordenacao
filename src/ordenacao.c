@@ -1,4 +1,6 @@
 #include "ordenacao.h"
+
+#include <stdlib.h>
 #include <math.h>
 
 void Bolha(int tamanho, int *vetor) {
@@ -7,7 +9,7 @@ void Bolha(int tamanho, int *vetor) {
         trocou = 0;
         for (int j = 0; j < i; j++) {
             if (vetor[j] > vetor[j + 1]) {
-                Troca(&vetor[j], &vetor[j + 1]);
+                Troca(vetor + j, vetor + j + 1);
                 trocou = 1;
             }
         }
@@ -21,7 +23,7 @@ void Bolha_CD(int tamanho, int *vetor, Dados *dados) {
         trocou = 0;
         for (int j = 0; j < i; j++) {
             if (vetor[j] > vetor[j + 1]) {
-                Troca(&vetor[j], &vetor[j + 1]);
+                Troca(vetor + j, vetor + j + 1);
                 trocou = 1;
                 dados->movimentacoes += 3;
             }
@@ -38,14 +40,14 @@ void Coquetel(int tamanho, int *vetor) {
         trocou = 0;
         for (int k = i; k < j; k++)
             if (vetor[k] > vetor[k + 1]) {
-                Troca(&vetor[k], &vetor[k + 1]);
+                Troca(vetor + k, vetor + k + 1);
                 trocou = 1;
             }
         if (!trocou) return;
         trocou = 0, j--;
         for (int k = j - 1; k >= i; k--)
             if (vetor[k] > vetor[k + 1]) {
-                Troca(&vetor[k], &vetor[k + 1]);
+                Troca(vetor + k, vetor + k + 1);
                 trocou = 1;
             }
         i++;
@@ -59,7 +61,7 @@ void Coquetel_CD(int tamanho, int *vetor, Dados *dados) {
         trocou = 0;
         for (int k = i; k < j; k++) {
             if (vetor[k] > vetor[k + 1]) {
-                Troca(&vetor[k], &vetor[k + 1]);
+                Troca(vetor + k, vetor + k + 1);
                 trocou = 1;
                 dados->movimentacoes += 3;
             }
@@ -69,7 +71,7 @@ void Coquetel_CD(int tamanho, int *vetor, Dados *dados) {
         trocou = 0, j--;
         for (int k = j - 1; k >= i; k--) {
             if (vetor[k] > vetor[k + 1]) {
-                Troca(&vetor[k], &vetor[k + 1]);
+                Troca(vetor + k, vetor + k + 1);
                 trocou = 1;
                 dados->movimentacoes += 3;
             }
@@ -85,7 +87,7 @@ void Selecao(int tamanho, int *vetor) {
         for (int k = i + 1; k < tamanho; k++)
             if (vetor[j] > vetor[k])
                 j = k;
-        if (j > i) Troca(&vetor[i], &vetor[j]);
+        if (j > i) Troca(vetor + i, vetor + j);
     }
 }
 
@@ -98,7 +100,7 @@ void Selecao_CD(int tamanho, int *vetor, Dados *dados) {
             dados->comparacoes++;
         }
         if (j > i) {
-            Troca(&vetor[i], &vetor[j]);
+            Troca(vetor + i, vetor + j);
             dados->movimentacoes += 3;
         }
     }
@@ -222,21 +224,18 @@ void Merge_CD(int l, int m, int r, int *vetor, int *vetor_aux, Dados *dados) {
     }
 }
 
-int const LIMITE = 16;
-
 void Quicksort(int tamanho, int *vetor) {
     QuicksortRec(0, tamanho - 1, vetor);
-    Insercao(tamanho, vetor);
 }
 
 void QuicksortRec(int l, int r, int *vetor) {
-    while (r - l > LIMITE) {
+    while (l < r) {
         int i = Particiona(l, r, vetor);
         if (i - l < r - i) {
-            QuicksortRec(l, i, vetor);
+            QuicksortRec(l, i - 1, vetor);
             l = i + 1;
         } else {
-            QuicksortRec(i, r, vetor);
+            QuicksortRec(i + 1, r, vetor);
             r = i - 1;
         }
     }
@@ -244,17 +243,88 @@ void QuicksortRec(int l, int r, int *vetor) {
 
 void Quicksort_CD(int tamanho, int *vetor, Dados *dados) {
     QuicksortRec_CD(0, tamanho - 1, vetor, dados);
-    Insercao_CD(tamanho, vetor, dados);
 }
 
 void QuicksortRec_CD(int l, int r, int *vetor, Dados *dados) {
-    while (r - l > LIMITE) {
+    while (l < r) {
         int i = Particiona_CD(l, r, vetor, dados);
         if (i - l < r - i) {
-            QuicksortRec_CD(l, i, vetor, dados);
+            QuicksortRec_CD(l, i - 1, vetor, dados);
             l = i + 1;
         } else {
-            QuicksortRec_CD(i, r, vetor, dados);
+            QuicksortRec_CD(i + 1, r, vetor, dados);
+            r = i - 1;
+        }
+    }
+}
+
+void QuickSortPF(int n, int *v) {
+    QuickSortPFRec(0, n - 1, v);
+}
+
+void QuickSortPFRec(int p, int r, int *v) {
+    int j;
+    while (p < r) {
+        j = Separa(p, r, v);
+        if (j - p < r - j) {
+            QuickSortPFRec(p, j - 1, v);
+            p = j + 1;
+        } else {
+            QuickSortPFRec(j + 1, r, v);
+            r = j - 1;
+        }
+    }
+}
+
+void QuickSortPF_CD(int n, int *v, Dados *dados) {
+    QuickSortPFRec_CD(0, n - 1, v, dados);
+}
+
+void QuickSortPFRec_CD(int p, int r, int *v, Dados *dados) {
+    int j;
+    while (p < r) {
+        j = Separa_CD(p, r, v, dados);
+        if (j - p < r - j) {
+            QuickSortPFRec_CD(p, j - 1, v, dados);
+            p = j + 1;
+        } else {
+            QuickSortPFRec_CD(j + 1, r, v, dados);
+            r = j - 1;
+        }
+    }
+}
+
+void QuicksortI(int tamanho, int *vetor) {
+    QuicksortIRec(0, tamanho - 1, vetor);
+    Insercao(tamanho, vetor);
+}
+
+void QuicksortIRec(int l, int r, int *vetor) {
+    while (r - l > QS_LIMITE) {
+        int i = Particiona2(l, r, vetor);
+        if (i - l < r - i) {
+            QuicksortIRec(l, i, vetor);
+            l = i + 1;
+        } else {
+            QuicksortIRec(i, r, vetor);
+            r = i - 1;
+        }
+    }
+}
+
+void QuicksortI_CD(int tamanho, int *vetor, Dados *dados) {
+    QuicksortIRec_CD(0, tamanho - 1, vetor, dados);
+    Insercao_CD(tamanho, vetor, dados);
+}
+
+void QuicksortIRec_CD(int l, int r, int *vetor, Dados *dados) {
+    while (r - l > QS_LIMITE) {
+        int i = Particiona2_CD(l, r, vetor, dados);
+        if (i - l < r - i) {
+            QuicksortIRec_CD(l, i, vetor, dados);
+            l = i + 1;
+        } else {
+            QuicksortIRec_CD(i, r, vetor, dados);
             r = i - 1;
         }
     }
@@ -266,13 +336,13 @@ void Introsort(int tamanho, int *vetor) {
 }
 
 void IntrosortRec(int l, int r, int d, int *vetor) {
-    while (r - l > LIMITE) {
+    while (r - l > QS_LIMITE) {
         if (d == 0) {
             Heapsort(r - l + 1, vetor + l);
             return;
         }
         --d;
-        int i = Particiona(l, r, vetor);
+        int i = Particiona2(l, r, vetor);
         IntrosortRec(i, r, d, vetor);
         r = i - 1;
     }
@@ -284,49 +354,92 @@ void Introsort_CD(int tamanho, int *vetor, Dados *dados) {
 }
 
 void IntrosortRec_CD(int l, int r, int d, int *vetor, Dados *dados) {
-    while (r - l > LIMITE) {
+    while (r - l > QS_LIMITE) {
         if (d == 0) {
             Heapsort_CD(r - l + 1, vetor + l, dados);
             return;
         }
         --d;
-        int i = Particiona_CD(l, r, vetor, dados);
+        int i = Particiona2_CD(l, r, vetor, dados);
         IntrosortRec_CD(i, r, d, vetor, dados);
         r = i - 1;
     }
 }
 
 int Particiona(int l, int r, int *vetor) {
-    int pivot, m = l + (r - l) / 2;
-    if (vetor[l] < vetor[m]) Troca(&vetor[l], &vetor[m]);
-    if (vetor[r] < vetor[m]) Troca(&vetor[r], &vetor[m]);
-    if (vetor[r] < vetor[l]) Troca(&vetor[r], &vetor[l]);
-    pivot = vetor[l];
+    MoveMedianaFim(l, r, vetor);
+    int pivo = vetor[r], j = l;
+    for (int i = l; i < r; i++) {
+        if (vetor[i] <= pivo) {
+            Troca(vetor + j, vetor + i);
+            j++;
+        }
+    }
+    vetor[r] = vetor[j], vetor[j] = pivo;
+    return j;
+}
+
+int Particiona_CD(int l, int r, int *vetor, Dados *dados) {
+    MoveMedianaFim_CD(l, r, vetor, dados);
+    int pivo = vetor[r], j = l;
+    for (int i = l; i < r; i++) {   
+        if (vetor[i] <= pivo) {
+            Troca(vetor + j, vetor + i);
+            j++;
+            dados->movimentacoes += 3;
+        }
+        dados->comparacoes++;
+    }
+    vetor[r] = vetor[j], vetor[j] = pivo;
+    dados->movimentacoes += 3;
+    return j;
+}
+
+int Separa(int p, int r, int *v) {
+    int c, j, k;
+    c = v[r]; j = p;
+    for (k = p; k < r; k++) {
+        if (v[k] <= c) {
+            Troca(v + j, v + k);
+            j++;
+        }
+    }
+    v[r] = v[j], v[j] = c;
+    return j;
+}
+
+int Separa_CD(int p, int r, int *v, Dados *dados) {
+    int c, j, k;
+    c = v[r]; j = p;
+    for (k = p; k < r; k++) {
+        if (v[k] <= c) {
+            Troca(v + j, v + k);
+            j++;
+            dados->movimentacoes += 3;
+        }
+        dados->comparacoes++;
+    }
+    v[r] = v[j], v[j] = c;
+    dados->movimentacoes += 3;
+    return j;
+}
+
+int Particiona2(int l, int r, int *vetor) {
+    MoveMedianaFim(l, r, vetor);
+    int pivot = vetor[r];
     while (1) {
         while (vetor[l] < pivot) ++l;
         while (pivot < vetor[r]) --r;
         if (!(l < r)) return l;
-        Troca(&vetor[l], &vetor[r]);
+        Troca(vetor + l, vetor + r);
         ++l;
         --r;
     }
 }
 
-int Particiona_CD(int l, int r, int *vetor, Dados *dados) {
-    int pivot, m = l + (r - l) / 2;
-    if (vetor[l] < vetor[m]) {
-        Troca(&vetor[l], &vetor[m]);
-        dados->movimentacoes += 3;
-    }
-    if (vetor[r] < vetor[m]) {
-        Troca(&vetor[r], &vetor[m]);
-        dados->movimentacoes += 3;
-    }
-    if (vetor[r] < vetor[l]) {
-        Troca(&vetor[r], &vetor[l]);
-        dados->movimentacoes += 3;
-    }
-    pivot = vetor[l];
+int Particiona2_CD(int l, int r, int *vetor, Dados *dados) {
+    MoveMedianaFim_CD(l, r, vetor, dados);
+    int pivot = vetor[r];
     dados->movimentacoes++;
     while (1) {
         while (vetor[l] < pivot) {
@@ -340,17 +453,40 @@ int Particiona_CD(int l, int r, int *vetor, Dados *dados) {
         }
         dados->comparacoes++;
         if (!(l < r)) return l;
-        Troca(&vetor[l], &vetor[r]);
+        Troca(vetor + l, vetor + r);
         dados->movimentacoes++;
         ++l;
         --r;
     }
 }
 
+void MoveMedianaFim(int l, int r, int *vetor) {
+    int m = l + (r - l) / 2;
+    if (vetor[l] < vetor[m]) Troca(vetor + l, vetor + m);
+    if (vetor[r] < vetor[m]) Troca(vetor + r, vetor + m);
+    if (vetor[l] < vetor[r]) Troca(vetor + l, vetor + r);
+}
+
+void MoveMedianaFim_CD(int l, int r, int *vetor, Dados *dados) {
+    int m = l + (r - l) / 2;
+    if (vetor[l] < vetor[m]) {
+        Troca(vetor + l, vetor + m);
+        dados->movimentacoes += 3;
+    }
+    if (vetor[r] < vetor[m]) {
+        Troca(vetor + r, vetor + m);
+        dados->movimentacoes += 3;
+    }
+    if (vetor[l] < vetor[r]) {
+        Troca(vetor + l, vetor + r);
+        dados->movimentacoes += 3;
+    }
+}
+
 void Heapsort(int tamanho, int *vetor) {
     ConstroiHeap(tamanho, vetor);
     for (int i = tamanho - 1; i > 0; i--) {
-        Troca(&vetor[0], &vetor[i]);
+        Troca(vetor, vetor + i);
         Heapify(0, i, vetor);
     }
 }
@@ -361,14 +497,14 @@ void ConstroiHeap(int tamanho, int *vetor) {
 }
 
 void Heapify(int i, int tamanho, int *vetor) {
-    int j = i, k;
-    while (2 * j + 1 < tamanho) {
-        k = 2 * j + 1;
-        if (k < tamanho - 1 && vetor[k] < vetor[k + 1]) k++;
-        if (vetor[j] >= vetor[k]) break;
+    int j = 2 * i + 1;
+    while (j < tamanho) {
+        if (j < tamanho - 1 && vetor[j] < vetor[j + 1]) j++;
+        if (vetor[i] >= vetor[j]) break;
         else {
-            Troca(&vetor[j], &vetor[k]);
-            j = k;
+            Troca(vetor + i, vetor + j);
+            i = j;
+            j = 2 * j + 1;
         }
     }
 }
@@ -376,7 +512,7 @@ void Heapify(int i, int tamanho, int *vetor) {
 void Heapsort_CD(int tamanho, int *vetor, Dados *dados) {
     ConstroiHeap_CD(tamanho, vetor,dados);
     for (int i = tamanho - 1; i > 0; i--) {
-        Troca(&vetor[0], &vetor[i]);
+        Troca(vetor + 0, vetor + i);
         Heapify_CD(0, i, vetor, dados);
         dados->movimentacoes += 3;
     }
@@ -389,19 +525,89 @@ void ConstroiHeap_CD(int tamanho, int *vetor, Dados *dados) {
 }
 
 void Heapify_CD(int i, int tamanho, int *vetor, Dados *dados) {
-    int j = i, k;
-    while (2 * j + 1 < tamanho) {
-        k = 2 * j + 1;
-        if (k < tamanho - 1 && vetor[k] < vetor[k + 1]) k++;
-        if (vetor[j] >= vetor[k]) break;
-        else {
-            Troca(&vetor[j], &vetor[k]);
-            dados->movimentacoes += 3;
-            j = k;
+    int j = 2 * i + 1;
+    while (j < tamanho) {
+        if (j < tamanho - 1) {
+            if (vetor[j] < vetor[j + 1]) j++;
+            dados->comparacoes++;
         }
-        dados->comparacoes += 2;
+        if (vetor[i] >= vetor[j]) {
+            dados->comparacoes++;
+            break;
+        }
+        else {
+            Troca(vetor + i, vetor + j);
+            i = j;
+            j = 2 * j + 1;
+            dados->movimentacoes += 3;
+            dados->comparacoes++;
+        }
     }
 }
+
+// void HeapsortPF(int tamanho, int *vetor) {
+//     for (int i = 1; i < tamanho; i++)
+//         InsereEmHeap(i, vetor);
+//     for (int i = tamanho; i > 1; i--) {
+//         Troca(vetor + 1, vetor + i);
+//         SacodeHeap(i - 1, vetor);
+//     }
+// }
+
+// void InsereEmHeap(int i, int *vetor) {
+//     int j = i + 1;
+//     while (j > 0 && vetor[j / 2] < vetor[j]) {
+//         Troca(vetor + j, vetor + (j / 2));
+//         j = j / 2;
+//     }
+// }
+
+// void SacodeHeap(int i, int *vetor) {
+//     int j = 2;
+//     while (j <= i) {
+//         if (j < i && vetor[j] < vetor[j + 1]) ++j;
+//         if (vetor[j / 2] >= vetor[j]) break;
+//         Troca(vetor + j, vetor + (j / 2));
+//         j *= 2;
+//     }
+// }
+
+// void HeapsortPF_CD(int tamanho, int *vetor, Dados *dados) {
+//     for (int i = 1; i < tamanho; i++)
+//         InsereEmHeap_CD(i, vetor, dados);
+//     for (int i = tamanho; i > 1; i--) {
+//         Troca(vetor + 1, vetor + i);
+//         SacodeHeap_CD(i - 1, vetor, dados);
+//         dados->movimentacoes += 3;
+//     }
+// }
+
+// void InsereEmHeap_CD(int i, int *vetor, Dados *dados) {
+//     int j = i + 1;
+//     while (j > 1 && vetor[j / 2] < vetor[j]) {
+//         Troca(vetor + j, vetor + (j / 2));
+//         j = j / 2;
+//         dados->comparacoes++;
+//         dados->movimentacoes += 3;
+//     }
+//     dados->comparacoes++;
+// }
+
+// void SacodeHeap_CD(int i, int *vetor, Dados *dados) {
+//     int j = 2;
+//     while (j <= i) {
+//         if (j < i && vetor[j] < vetor[j + 1]) ++j;
+//         if (j - 1 < i) dados->comparacoes++;
+//         if (vetor[j / 2] >= vetor[j]) {
+//             dados->comparacoes++;
+//             break;
+//         }
+//         Troca(vetor + j, vetor + (j / 2));
+//         j *= 2;
+//         dados->comparacoes++;
+//         dados->movimentacoes += 3;
+//     }
+// }
 
 void Contagem(int tamanho, int *vetor) {
     int M = ObterMaiorElemento(tamanho, vetor);
@@ -607,4 +813,10 @@ void BaldeDigital_CD(int posicao, int tamanho, int *vetor, Dados *dados) {
         }
     }
     free(baldes);
+}
+
+void Troca(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }

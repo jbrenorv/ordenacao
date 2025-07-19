@@ -24,7 +24,7 @@ for intervalo in "${intervalos[@]}"; do
 done
 
 for tamanho in "${tamanhos[@]}"; do
-    for tipo in {0..2}; do
+    for tipo in {0..3}; do
         for execucao in {1..3}; do
 
             printf "\rExecutando algoritmos... Tamanho: $tamanho - Tipo: $tipo/3 - Execucao: $execucao/3"
