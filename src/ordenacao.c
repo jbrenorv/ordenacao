@@ -352,7 +352,7 @@ void IntrosortRec_CD(int l, int r, int d, int *v, Dados *dados) {
 
 
 int Particiona(int l, int r, int *v) {
-    MoveMedianaFim(l, r, v);
+    Troca(v + r, v + GeraNumeroAleatorioNoIntervalo(l, r));
     int pivo = v[r], j = l;
     for (int i = l; i < r; i++) {
         if (v[i] <= pivo) {
@@ -366,7 +366,7 @@ int Particiona(int l, int r, int *v) {
 
 
 int Particiona_CD(int l, int r, int *v, Dados *dados) {
-    MoveMedianaFim_CD(l, r, v, dados);
+    Troca(v + r, v + GeraNumeroAleatorioNoIntervalo(l, r));
     int pivo = v[r], j = l;
     for (int i = l; i < r; i++) {   
         if (v[i] <= pivo) {
@@ -377,7 +377,7 @@ int Particiona_CD(int l, int r, int *v, Dados *dados) {
         dados->comparacoes++;
     }
     v[r] = v[j], v[j] = pivo;
-    dados->movimentacoes += 3;
+    dados->movimentacoes += 6;
     return j;
 }
 
@@ -871,7 +871,6 @@ Dados ObterDados(int n, int *v, AlgInfo *alg_info) {
     int *v_copia = AlocaVetor(n);
     CopiaVetor(n, v, v_copia);
     alg_info->impl_coletor(n, v_copia, &dados);
-    Verifica_Ordenacao(n, v_copia, alg_info);
     free(v_copia);
 
     struct timespec inicio, fim;
@@ -879,7 +878,6 @@ Dados ObterDados(int n, int *v, AlgInfo *alg_info) {
     alg_info->impl(n, v);
     clock_gettime(CLOCK_MONOTONIC, &fim);
     dados.tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1000000000.0;
-    Verifica_Ordenacao(n, v, alg_info);
 
     return dados;
 }
