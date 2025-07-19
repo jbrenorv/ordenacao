@@ -155,18 +155,18 @@ void H_Ordenacao_CD(int n, int h, int *v, Dados *dados) {
 // [ PDF  ] https://web.archive.org/web/20180923235211/http://sun.aei.polsl.pl/~mciura/publikacje/shellsort.pdf
 // CiuraOriginalSeq = 1, 4, 10, 23, 57, 132, 301, 701, 1750
 // CiuraSeq[i] = (i < 10 ? CiuraOriginalSeq[i] : 2.25 * Ciura[i - 1])
-// Os 15 primeiros elementos invertidos:
-int const CiuraSeq[] = { 227095, 100931, 44858, 19937, 8861, 3938, 1750, 701, 301, 132, 57, 23, 10, 4, 1 };
+// Os 24 primeiros elementos invertidos:
+int const CiuraSeq[] = { 335622013, 149165339, 66295706, 29464758, 13095448, 5820199, 2586755, 1149669, 510964, 227095, 100931, 44858, 19937, 8861, 3938, 1750, 701, 301, 132, 57, 23, 10, 4, 1 };
 
 
 void Shellsort(int n, int *v) {
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 24; i++)
         H_Ordenacao(n, CiuraSeq[i], v);
 }
 
 
 void Shellsort_CD(int n, int *v, Dados *dados) {
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 24; i++)
         H_Ordenacao_CD(n, CiuraSeq[i], v, dados);
 }
 
