@@ -138,14 +138,14 @@ void Balde_CD(int n, int *v, Dados *dados);
 
 // Radixsort
 void RadixsortC(int n, int *v);
-void ContagemDigital(int posicao, int n, int *contagem, int *v_aux, int *v);
+void ContagemDigital(int p, int n, int *v);
 void RadixsortB(int n, int *v);
-void BaldeDigital(int posicao, int n, int *v);
-int ObterDigito(int posicao, int valor);
+void BaldeDigital(int p, int n, int *v);
 void RadixsortC_CD(int n, int *v, Dados *dados);
 void RadixsortB_CD(int n, int *v, Dados *dados);
-void ContagemDigital_CD(int posicao, int n,  int *v, Dados *dados);
-void BaldeDigital_CD(int posicao, int n, int *v, Dados *dados);
+void ContagemDigital_CD(int p, int n,  int *v, Dados *dados);
+void BaldeDigital_CD(int p, int n, int *v, Dados *dados);
+int ObterDigito(int p, int valor);
 
 
 // Lista ligada

@@ -518,11 +518,11 @@ void Contagem(int n, int *v) {
     int *v_aux = AlocaVetor(n);
     for (int i = 0; i < n; i++) contagem[v[i]]++;
     for (int i = 1; i <= M; i++) contagem[i] += contagem[i - 1];
-    for (int i = 0; i < n; i++) v_aux[i] = v[i];
     for (int i = n - 1; i >= 0; i--) {
-        v[contagem[v_aux[i]] - 1] = v_aux[i];
-        contagem[v_aux[i]]--;
+        v_aux[contagem[v[i]] - 1] = v[i];
+        contagem[v[i]]--;
     }
+    CopiaVetor(n, v_aux, v);
     free(contagem);
     free(v_aux);
 }
@@ -534,15 +534,12 @@ void Contagem_CD(int n, int *v, Dados *dados) {
     int *v_aux = AlocaVetor(n);
     for (int i = 0; i < n; i++) contagem[v[i]]++;
     for (int i = 1; i <= M; i++) contagem[i] += contagem[i - 1];
-    for (int i = 0; i < n; i++) {
-        v_aux[i] = v[i];
-        dados->movimentacoes++;
-    }
     for (int i = n - 1; i >= 0; i--) {
-        v[contagem[v_aux[i]] - 1] = v_aux[i];
-        contagem[v_aux[i]]--;
-        dados->movimentacoes++;
+        v_aux[contagem[v[i]] - 1] = v[i];
+        contagem[v[i]]--;
     }
+    CopiaVetor(n, v_aux, v);
+    dados->movimentacoes += 2 * n;
     free(contagem);
     free(v_aux);
 }
@@ -590,19 +587,21 @@ void Balde_CD(int n, int *v, Dados *dados) {
 
 
 void RadixsortC(int n, int *v) {
-    for (int posicao = 1; posicao < _10e9; posicao *= 10)
-        ContagemDigital(posicao, n, v);
+    int M = MaxEl(n, v);
+    for (int p = 1; M / p > 0; p *= 10)
+        ContagemDigital(p, n, v);
 }
 
 
-void ContagemDigital(int posicao, int n,  int *v) {
+void ContagemDigital(int p, int n,  int *v) {
     int *contagem = AlocaVetorLimpo(10);
     int *v_aux = AlocaVetor(n);
-    for (int i = 0; i < n; i++) contagem[ObterDigito(posicao, v[i])]++;
+    for (int i = 0; i < n; i++) contagem[ObterDigito(p, v[i])]++;
     for (int i = 1; i < 10; i++) contagem[i] += contagem[i - 1];
     for (int i = n - 1; i >= 0; i--) {
-        v_aux[contagem[ObterDigito(posicao, v[i])] - 1] = v[i];
-        contagem[ObterDigito(posicao, v[i])]--;
+        int j = ObterDigito(p, v[i]);
+        v_aux[contagem[j] - 1] = v[i];
+        contagem[j]--;
     }
     for (int i = 0; i < n; i++) v[i] = v_aux[i];
     free(contagem);
@@ -610,18 +609,44 @@ void ContagemDigital(int posicao, int n,  int *v) {
 }
 
 
-void RadixsortB(int n, int *v) {
-    for (int posicao = 1; posicao < _10e9; posicao *= 10)
-        BaldeDigital(posicao, n, v);
+void RadixsortC_CD(int n, int *v, Dados *dados) {
+    int M = MaxEl_CD(n, v, dados);
+    for (int p = 1; M / p > 0; p *= 10)
+        ContagemDigital_CD(p, n, v, dados);
 }
 
 
-void BaldeDigital(int posicao, int n, int *v) {
+void ContagemDigital_CD(int p, int n,  int *v, Dados *dados) {
+    int *contagem = AlocaVetorLimpo(10);
+    int *v_aux = AlocaVetor(n);
+    for (int i = 0; i < n; i++) contagem[ObterDigito(p, v[i])]++;
+    for (int i = 1; i < 10; i++) contagem[i] += contagem[i - 1];
+    for (int i = n - 1; i >= 0; i--) {
+        int j = ObterDigito(p, v[i]);
+        v_aux[contagem[j] - 1] = v[i];
+        contagem[j]--;
+    }
+    CopiaVetor(n, v_aux, v);
+    dados->movimentacoes += 2 * n;
+    free(contagem);
+    free(v_aux);
+}
+
+
+void RadixsortB(int n, int *v) {
+    int M = MaxEl(n, v);
+    for (int p = 1; M / p > 0; p *= 10)
+        BaldeDigital(p, n, v);
+}
+
+
+void BaldeDigital(int p, int n, int *v) {
     Celula **baldes = (Celula**) calloc(10, sizeof(Celula*));
     for (int i = n - 1; i >= 0; i--) {
+        int j = ObterDigito(p, v[i]);
         Celula *celula = CriaCelula(v[i]);
-        celula->prox = baldes[ObterDigito(posicao, v[i])];
-        baldes[ObterDigito(posicao, v[i])] = celula;
+        celula->prox = baldes[j];
+        baldes[j] = celula;
     }
     for (int i = 0, k = 0; i < 10; i++) {
         Celula *atual = baldes[i];
@@ -636,50 +661,19 @@ void BaldeDigital(int posicao, int n, int *v) {
 }
 
 
-int ObterDigito(int posicao, int valor) {
-    return (valor / posicao) % 10;
-}
-
-
-void RadixsortC_CD(int n, int *v, Dados *dados) {
-    for (int posicao = 1; posicao < _10e9; posicao *= 10) {
-        ContagemDigital_CD(posicao, n, v, dados);
-    }
-}
-
-
 void RadixsortB_CD(int n, int *v, Dados *dados) {
-    for (int posicao = 1; posicao < _10e9; posicao *= 10) {
-        BaldeDigital_CD(posicao, n, v, dados);
-    }
+    int M = MaxEl_CD(n, v, dados);
+    for (int p = 1; M / p > 0; p *= 10)
+        BaldeDigital_CD(p, n, v, dados);
 }
 
 
-void ContagemDigital_CD(int posicao, int n,  int *v, Dados *dados) {
-    int *contagem = AlocaVetorLimpo(10);
-    int *v_aux = AlocaVetor(n);
-    for (int i = 0; i < n; i++) contagem[ObterDigito(posicao, v[i])]++;
-    for (int i = 1; i < 10; i++) contagem[i] += contagem[i - 1];
-    for (int i = n - 1; i >= 0; i--) {
-        v_aux[contagem[ObterDigito(posicao, v[i])] - 1] = v[i];
-        contagem[ObterDigito(posicao, v[i])]--;
-        dados->movimentacoes++;
-    }
-    for (int i = 0; i < n; i++) {
-        v[i] = v_aux[i];
-        dados->movimentacoes++;
-    }
-    free(contagem);
-    free(v_aux);
-}
-
-
-void BaldeDigital_CD(int posicao, int n, int *v, Dados *dados) {
+void BaldeDigital_CD(int p, int n, int *v, Dados *dados) {
     Celula **baldes = (Celula **) calloc(10, sizeof(Celula *));
     for (int i = n - 1; i >= 0; i--) {
         Celula *celula = CriaCelula(v[i]);
-        celula->prox = baldes[ObterDigito(posicao, v[i])];
-        baldes[ObterDigito(posicao, v[i])] = celula;
+        celula->prox = baldes[ObterDigito(p, v[i])];
+        baldes[ObterDigito(p, v[i])] = celula;
         dados->movimentacoes++;
     }
     for (int i = 0, k = 0; i < 10; i++) {
@@ -693,6 +687,11 @@ void BaldeDigital_CD(int posicao, int n, int *v, Dados *dados) {
         }
     }
     free(baldes);
+}
+
+
+int ObterDigito(int p, int valor) {
+    return (valor / p) % 10;
 }
 
 
