@@ -1,7 +1,11 @@
 #include "ordenacao.h"
 
+
+#include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <math.h>
+
 
 void Bolha(int n, int *v) {
     char trocou;
@@ -16,6 +20,7 @@ void Bolha(int n, int *v) {
         if (!trocou) break;
     }
 }
+
 
 void Bolha_CD(int n, int *v, Dados *dados) {
     char trocou;
@@ -32,6 +37,7 @@ void Bolha_CD(int n, int *v, Dados *dados) {
         if (!trocou) break;
     }
 }
+
 
 void Coquetel(int n, int *v) {
     int i = 0, j = n - 1;
@@ -53,6 +59,7 @@ void Coquetel(int n, int *v) {
         i++;
     }
 }
+
 
 void Coquetel_CD(int n, int *v, Dados *dados) {
     int i = 0, j = n - 1;
@@ -81,6 +88,7 @@ void Coquetel_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 void Selecao(int n, int *v) {
     for (int i = 0; i < n - 1; i++) {
         int j = i;
@@ -90,6 +98,7 @@ void Selecao(int n, int *v) {
         if (j > i) Troca(v + i, v + j);
     }
 }
+
 
 void Selecao_CD(int n, int *v, Dados *dados) {
     for (int i = 0; i < n - 1; i++) {
@@ -106,6 +115,7 @@ void Selecao_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 void Insercao(int n, int *v) {
     int chave, j;
     for (int i = 1; i < n; i++) {
@@ -115,6 +125,7 @@ void Insercao(int n, int *v) {
         v[j] = chave;
     }
 }
+
 
 void Insercao_CD(int n, int *v, Dados *dados) {
     int chave, j;
@@ -131,9 +142,11 @@ void Insercao_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 int const ciura[] = { 1699086440, 755149529, 335622013, 149165339, 66295706, 29464758, 
     13095448, 5820199, 2586755, 1149669, 510964, 227095, 100931, 44858, 
     19937, 8861, 3938, 1750, 701, 301, 132, 57, 23, 10, 4, 1 };
+
 
 void Shellsort(int n, int *v) {
     int chave, j, h;
@@ -148,6 +161,7 @@ void Shellsort(int n, int *v) {
         }
     }
 }
+
 
 void Shellsort_CD(int n, int *v, Dados *dados) {
     int chave, j, h;
@@ -168,11 +182,13 @@ void Shellsort_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 void Mergesort(int n, int *v) {
     int *v_aux = AlocaVetor(n);
     MergesortRec(0, n, v, v_aux);
     free(v_aux);
 }
+
 
 void MergesortRec(int l, int r, int *v, int *v_aux) {
     if (l < r - 1) {
@@ -182,6 +198,7 @@ void MergesortRec(int l, int r, int *v, int *v_aux) {
         Merge(l, m, r, v, v_aux);
     }
 }
+
 
 void Merge(int l, int m, int r, int *v, int *v_aux) {
     CopiaVetor(r - l, v+l, v_aux+l);
@@ -193,11 +210,13 @@ void Merge(int l, int m, int r, int *v, int *v_aux) {
     while (i < m) v[k++] = v_aux[i++];
 }
 
+
 void Mergesort_CD(int n, int *v, Dados *dados) {
     int *v_aux = AlocaVetor(n);
     MergesortRec_CD(0, n, v, v_aux, dados);
     free(v_aux);
 }
+
 
 void MergesortRec_CD(int l, int r, int *v, int *v_aux, Dados *dados) {
     if (l < r - 1) {
@@ -207,6 +226,7 @@ void MergesortRec_CD(int l, int r, int *v, int *v_aux, Dados *dados) {
         Merge_CD(l, m, r, v, v_aux, dados);
     }
 }
+
 
 void Merge_CD(int l, int m, int r, int *v, int *v_aux, Dados *dados) {
     CopiaVetor(r - l, v+l, v_aux+l);
@@ -224,9 +244,11 @@ void Merge_CD(int l, int m, int r, int *v, int *v_aux, Dados *dados) {
     }
 }
 
+
 void Quicksort(int n, int *v) {
     QuicksortRec(0, n - 1, v);
 }
+
 
 void QuicksortRec(int l, int r, int *v) {
     while (l < r) {
@@ -241,9 +263,11 @@ void QuicksortRec(int l, int r, int *v) {
     }
 }
 
+
 void Quicksort_CD(int n, int *v, Dados *dados) {
     QuicksortRec_CD(0, n - 1, v, dados);
 }
+
 
 void QuicksortRec_CD(int l, int r, int *v, Dados *dados) {
     while (l < r) {
@@ -258,46 +282,12 @@ void QuicksortRec_CD(int l, int r, int *v, Dados *dados) {
     }
 }
 
-void QuickSortPF(int n, int *v) {
-    QuickSortPFRec(0, n - 1, v);
-}
-
-void QuickSortPFRec(int p, int r, int *v) {
-    int j;
-    while (p < r) {
-        j = Separa(p, r, v);
-        if (j - p < r - j) {
-            QuickSortPFRec(p, j - 1, v);
-            p = j + 1;
-        } else {
-            QuickSortPFRec(j + 1, r, v);
-            r = j - 1;
-        }
-    }
-}
-
-void QuickSortPF_CD(int n, int *v, Dados *dados) {
-    QuickSortPFRec_CD(0, n - 1, v, dados);
-}
-
-void QuickSortPFRec_CD(int p, int r, int *v, Dados *dados) {
-    int j;
-    while (p < r) {
-        j = Separa_CD(p, r, v, dados);
-        if (j - p < r - j) {
-            QuickSortPFRec_CD(p, j - 1, v, dados);
-            p = j + 1;
-        } else {
-            QuickSortPFRec_CD(j + 1, r, v, dados);
-            r = j - 1;
-        }
-    }
-}
 
 void QuicksortI(int n, int *v) {
     QuicksortIRec(0, n - 1, v);
     Insercao(n, v);
 }
+
 
 void QuicksortIRec(int l, int r, int *v) {
     while (r - l > QS_LIMITE) {
@@ -312,10 +302,12 @@ void QuicksortIRec(int l, int r, int *v) {
     }
 }
 
+
 void QuicksortI_CD(int n, int *v, Dados *dados) {
     QuicksortIRec_CD(0, n - 1, v, dados);
     Insercao_CD(n, v, dados);
 }
+
 
 void QuicksortIRec_CD(int l, int r, int *v, Dados *dados) {
     while (r - l > QS_LIMITE) {
@@ -330,10 +322,12 @@ void QuicksortIRec_CD(int l, int r, int *v, Dados *dados) {
     }
 }
 
+
 void Introsort(int n, int *v) {
     IntrosortRec(0, n - 1, log2(n) * 2, v);
     Insercao(n, v);
 }
+
 
 void IntrosortRec(int l, int r, int d, int *v) {
     while (r - l > QS_LIMITE) {
@@ -348,10 +342,12 @@ void IntrosortRec(int l, int r, int d, int *v) {
     }
 }
 
+
 void Introsort_CD(int n, int *v, Dados *dados) {
     IntrosortRec_CD(0, n - 1, log2(n) * 2, v, dados);
     Insercao_CD(n, v, dados);
 }
+
 
 void IntrosortRec_CD(int l, int r, int d, int *v, Dados *dados) {
     while (r - l > QS_LIMITE) {
@@ -366,6 +362,7 @@ void IntrosortRec_CD(int l, int r, int d, int *v, Dados *dados) {
     }
 }
 
+
 int Particiona(int l, int r, int *v) {
     MoveMedianaFim(l, r, v);
     int pivo = v[r], j = l;
@@ -378,6 +375,7 @@ int Particiona(int l, int r, int *v) {
     v[r] = v[j], v[j] = pivo;
     return j;
 }
+
 
 int Particiona_CD(int l, int r, int *v, Dados *dados) {
     MoveMedianaFim_CD(l, r, v, dados);
@@ -395,34 +393,6 @@ int Particiona_CD(int l, int r, int *v, Dados *dados) {
     return j;
 }
 
-int Separa(int p, int r, int *v) {
-    int c, j, k;
-    c = v[r]; j = p;
-    for (k = p; k < r; k++) {
-        if (v[k] <= c) {
-            Troca(v + j, v + k);
-            j++;
-        }
-    }
-    v[r] = v[j], v[j] = c;
-    return j;
-}
-
-int Separa_CD(int p, int r, int *v, Dados *dados) {
-    int c, j, k;
-    c = v[r]; j = p;
-    for (k = p; k < r; k++) {
-        if (v[k] <= c) {
-            Troca(v + j, v + k);
-            j++;
-            dados->movimentacoes += 3;
-        }
-        dados->comparacoes++;
-    }
-    v[r] = v[j], v[j] = c;
-    dados->movimentacoes += 3;
-    return j;
-}
 
 int Particiona2(int l, int r, int *v) {
     MoveMedianaFim(l, r, v);
@@ -436,6 +406,7 @@ int Particiona2(int l, int r, int *v) {
         --r;
     }
 }
+
 
 int Particiona2_CD(int l, int r, int *v, Dados *dados) {
     MoveMedianaFim_CD(l, r, v, dados);
@@ -460,12 +431,14 @@ int Particiona2_CD(int l, int r, int *v, Dados *dados) {
     }
 }
 
+
 void MoveMedianaFim(int l, int r, int *v) {
     int m = l + (r - l) / 2;
     if (v[l] < v[m]) Troca(v + l, v + m);
     if (v[r] < v[m]) Troca(v + r, v + m);
     if (v[l] < v[r]) Troca(v + l, v + r);
 }
+
 
 void MoveMedianaFim_CD(int l, int r, int *v, Dados *dados) {
     int m = l + (r - l) / 2;
@@ -483,6 +456,7 @@ void MoveMedianaFim_CD(int l, int r, int *v, Dados *dados) {
     }
 }
 
+
 void Heapsort(int n, int *v) {
     ConstroiHeap(n, v);
     for (int i = n - 1; i > 0; i--) {
@@ -491,10 +465,12 @@ void Heapsort(int n, int *v) {
     }
 }
 
+
 void ConstroiHeap(int n, int *v) {
     for (int i = n / 2 - 1; i >= 0; i--)
         Heapify(i, n, v);
 }
+
 
 void Heapify(int i, int n, int *v) {
     int j = 2 * i + 1;
@@ -509,6 +485,7 @@ void Heapify(int i, int n, int *v) {
     }
 }
 
+
 void Heapsort_CD(int n, int *v, Dados *dados) {
     ConstroiHeap_CD(n, v,dados);
     for (int i = n - 1; i > 0; i--) {
@@ -518,11 +495,13 @@ void Heapsort_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 void ConstroiHeap_CD(int n, int *v, Dados *dados) {
     for (int i = n / 2 - 1; i >= 0; i--) {
         Heapify_CD(i, n, v, dados);
     }
 }
+
 
 void Heapify_CD(int i, int n, int *v, Dados *dados) {
     int j = 2 * i + 1;
@@ -545,69 +524,6 @@ void Heapify_CD(int i, int n, int *v, Dados *dados) {
     }
 }
 
-// void HeapsortPF(int n, int *v) {
-//     for (int i = 1; i < n; i++)
-//         InsereEmHeap(i, v);
-//     for (int i = n; i > 1; i--) {
-//         Troca(v + 1, v + i);
-//         SacodeHeap(i - 1, v);
-//     }
-// }
-
-// void InsereEmHeap(int i, int *v) {
-//     int j = i + 1;
-//     while (j > 0 && v[j / 2] < v[j]) {
-//         Troca(v + j, v + (j / 2));
-//         j = j / 2;
-//     }
-// }
-
-// void SacodeHeap(int i, int *v) {
-//     int j = 2;
-//     while (j <= i) {
-//         if (j < i && v[j] < v[j + 1]) ++j;
-//         if (v[j / 2] >= v[j]) break;
-//         Troca(v + j, v + (j / 2));
-//         j *= 2;
-//     }
-// }
-
-// void HeapsortPF_CD(int n, int *v, Dados *dados) {
-//     for (int i = 1; i < n; i++)
-//         InsereEmHeap_CD(i, v, dados);
-//     for (int i = n; i > 1; i--) {
-//         Troca(v + 1, v + i);
-//         SacodeHeap_CD(i - 1, v, dados);
-//         dados->movimentacoes += 3;
-//     }
-// }
-
-// void InsereEmHeap_CD(int i, int *v, Dados *dados) {
-//     int j = i + 1;
-//     while (j > 1 && v[j / 2] < v[j]) {
-//         Troca(v + j, v + (j / 2));
-//         j = j / 2;
-//         dados->comparacoes++;
-//         dados->movimentacoes += 3;
-//     }
-//     dados->comparacoes++;
-// }
-
-// void SacodeHeap_CD(int i, int *v, Dados *dados) {
-//     int j = 2;
-//     while (j <= i) {
-//         if (j < i && v[j] < v[j + 1]) ++j;
-//         if (j - 1 < i) dados->comparacoes++;
-//         if (v[j / 2] >= v[j]) {
-//             dados->comparacoes++;
-//             break;
-//         }
-//         Troca(v + j, v + (j / 2));
-//         j *= 2;
-//         dados->comparacoes++;
-//         dados->movimentacoes += 3;
-//     }
-// }
 
 void Contagem(int n, int *v) {
     int M = MaxEl(n, v);
@@ -623,6 +539,7 @@ void Contagem(int n, int *v) {
     free(contagem);
     free(v_aux);
 }
+
 
 void Contagem_CD(int n, int *v, Dados *dados) {
     int M = MaxEl_CD(n, v, dados);
@@ -643,6 +560,7 @@ void Contagem_CD(int n, int *v, Dados *dados) {
     free(v_aux);
 }
 
+
 void Balde(int n, int *v) {
     Celula **baldes = (Celula **) calloc(n, sizeof(Celula*));
     int M = MaxEl(n, v);
@@ -662,19 +580,6 @@ void Balde(int n, int *v) {
     free(baldes);
 }
 
-void InsereOrdenado(int valor, Celula **balde) {
-    Celula *celula = CriaCelula(valor);
-    if (*balde == NULL || (*balde)->valor >= valor) {
-        celula->prox = *balde;
-        *balde = celula;
-    } else {
-        Celula *atual = *balde;
-        while (atual->prox && atual->prox->valor < valor)
-            atual = atual->prox;
-        celula->prox = atual->prox;
-        atual->prox = celula;
-    }
-}
 
 void Balde_CD(int n, int *v, Dados *dados) {
     Celula **baldes = (Celula**) calloc(n, sizeof(Celula*));
@@ -696,36 +601,18 @@ void Balde_CD(int n, int *v, Dados *dados) {
     free(baldes);
 }
 
-void InsereOrdenado_CD(int valor, Celula **balde, Dados *dados) {
-    Celula *celula = CriaCelula(valor);
-    dados->movimentacoes++;
-    dados->comparacoes++;
-    if (*balde == NULL || (*balde)->valor >= valor) {
-        celula->prox = *balde;
-        *balde = celula;
-        dados->movimentacoes += 2;
-    } else {
-        Celula *atual = *balde;
-        while (atual->prox && atual->prox->valor < valor) {
-            atual = atual->prox;
-            dados->movimentacoes++;
-            dados->comparacoes++;
-        }
-        celula->prox = atual->prox;
-        atual->prox = celula;
-        dados->movimentacoes += 2;
-    }
-}
 
 void RadixsortC(int n, int *v) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10)
         ContagemDigital(posicao, n, v);
 }
 
+
 void RadixsortB(int n, int *v) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10)
         BaldeDigital(posicao, n, v);
 }
+
 
 void ContagemDigital(int posicao, int n,  int *v) {
     int *contagem = AlocaVetorLimpo(10);
@@ -740,6 +627,7 @@ void ContagemDigital(int posicao, int n,  int *v) {
     free(contagem);
     free(v_aux);
 }
+
 
 void BaldeDigital(int posicao, int n, int *v) {
     Celula **baldes = (Celula**) calloc(10, sizeof(Celula*));
@@ -760,9 +648,11 @@ void BaldeDigital(int posicao, int n, int *v) {
     free(baldes);
 }
 
+
 int ObterDigito(int posicao, int valor) {
     return (valor / posicao) % 10;
 }
+
 
 void RadixsortC_CD(int n, int *v, Dados *dados) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10) {
@@ -770,11 +660,13 @@ void RadixsortC_CD(int n, int *v, Dados *dados) {
     }
 }
 
+
 void RadixsortB_CD(int n, int *v, Dados *dados) {
     for (int posicao = 1; posicao < _10e9; posicao *= 10) {
         BaldeDigital_CD(posicao, n, v, dados);
     }
 }
+
 
 void ContagemDigital_CD(int posicao, int n,  int *v, Dados *dados) {
     int *contagem = AlocaVetorLimpo(10);
@@ -793,6 +685,7 @@ void ContagemDigital_CD(int posicao, int n,  int *v, Dados *dados) {
     free(contagem);
     free(v_aux);
 }
+
 
 void BaldeDigital_CD(int posicao, int n, int *v, Dados *dados) {
     Celula **baldes = (Celula **) calloc(10, sizeof(Celula *));
@@ -815,8 +708,192 @@ void BaldeDigital_CD(int posicao, int n, int *v, Dados *dados) {
     free(baldes);
 }
 
+
+Celula *CriaCelula(int valor) {
+    Celula *celula = (Celula *) malloc(sizeof(Celula));
+    celula->valor = valor;
+    celula->prox = NULL;
+    return celula;
+}
+
+
+void InsereOrdenado(int valor, Celula **balde) {
+    Celula *celula = CriaCelula(valor);
+    if (*balde == NULL || (*balde)->valor >= valor) {
+        celula->prox = *balde;
+        *balde = celula;
+    } else {
+        Celula *atual = *balde;
+        while (atual->prox && atual->prox->valor < valor)
+            atual = atual->prox;
+        celula->prox = atual->prox;
+        atual->prox = celula;
+    }
+}
+
+
+void InsereOrdenado_CD(int valor, Celula **balde, Dados *dados) {
+    Celula *celula = CriaCelula(valor);
+    dados->movimentacoes++;
+    dados->comparacoes++;
+    if (*balde == NULL || (*balde)->valor >= valor) {
+        celula->prox = *balde;
+        *balde = celula;
+        dados->movimentacoes += 2;
+    } else {
+        Celula *atual = *balde;
+        while (atual->prox && atual->prox->valor < valor) {
+            atual = atual->prox;
+            dados->movimentacoes++;
+            dados->comparacoes++;
+        }
+        celula->prox = atual->prox;
+        atual->prox = celula;
+        dados->movimentacoes += 2;
+    }
+}
+
+
+Parametros ResolveParametros(int argc, char **argv) {
+    if (argc < 5) {
+        FinalizaExecucao("Informe todos os parametros necessarios");
+    }
+
+    Parametros parametros;
+    parametros.tamanho = atoi(argv[2]);
+    parametros.tipo = atoi(argv[3]);
+    parametros.arquivo_saida = argv[1];
+    parametros.execucao = atoi(argv[4]);
+
+    if (parametros.tamanho < 1 || parametros.tamanho > MAX_TAM)
+        FinalizaExecucao("Tamanho invalido");
+
+    if (parametros.tipo < CRE || parametros.tipo > M3K)
+        FinalizaExecucao("Tipo invalido");
+
+    if (parametros.tipo == M3K && parametros.tamanho % 4 != 0)
+        FinalizaExecucao("Para usar o tipo M3K (3), o tamanho precisa ser multiplo de 4");
+
+    return parametros;
+}
+
+
+void FinalizaExecucao(const char *mensagem) {
+    printf("Erro: %s\n", mensagem);
+    exit(1);
+}
+
+
+int *AlocaVetor(int n) {
+    int *v = (int *)malloc(n * sizeof(int));
+    if (v == NULL) {
+        FinalizaExecucao("Falha ao tentar alocar vetor");
+    }
+    return v;
+}
+
+
+int *AlocaVetorLimpo(int n) {
+    int *v = (int *)calloc(n, sizeof(int));
+    if (v == NULL) {
+        FinalizaExecucao("Falha ao tentar alocar vetor");
+    }
+    return v;
+}
+
+
+int GeraNumeroAleatorioNoIntervalo(int a, int b) {
+    return a + rand() % (b - a + 1);
+}
+
+
+int *CriaVetor(int n, VTipo tipo) {
+    int *v = AlocaVetor(n);
+    int k = n / 2;
+    for (int i = 0; i < n; ++i) {
+        if (tipo == CRE)        v[i] = i;
+        if (tipo == DEC)        v[i] = n - i;
+        if (tipo == ALE)        v[i] = GeraNumeroAleatorioNoIntervalo(MIN_EL, MAX_EL);
+        if (tipo == M3K) {
+            if (i < k)
+                if (i % 2 == 0) v[i] = i + 1;
+                else            v[i] = k + i;
+            else                v[i] = 2 * (i - k + 1);
+        }
+    }
+    return v;
+}
+
+
+void CopiaVetor(int n, int *origem, int *destino) {
+    for (int i = 0; i < n; ++i)
+        destino[i] = origem[i];
+}
+
+
 void Troca(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
+}
+
+
+int Min(int a, int b) {
+    return (a < b ? a : b);
+}
+
+
+int Max(int a, int b) {
+    return (a > b ? a : b);
+}
+
+
+int MaxEl(int n, int *v) {
+    int res = v[0];
+    for (int i = 1; i < n; i++)
+        res = Max(res, v[i]);
+    return res;
+}
+
+
+int MaxEl_CD(int n, int *v, Dados *dados) {
+    int res = v[0];
+    for (int i = 1; i < n; i++) {
+        dados->comparacoes++;
+        if (res < v[i]) {
+            res = v[i];
+            dados->movimentacoes++;
+        }
+    }
+    return res;
+}
+
+
+void Verifica_Ordenacao(int n, int *v, AlgInfo *alg_info) {
+    for (int i = 0; i < n - 1; i++) {
+        if (v[i] > v[i + 1]) {
+            printf("Erro em: %s\n", alg_info->nome);
+            FinalizaExecucao("O v nao esta ordenado\n");
+        }
+    }
+}
+
+
+Dados ObterDados(int n, int *v, AlgInfo *alg_info) {
+    Dados dados = (Dados){ 0LL, 0LL, 0.0 };
+
+    int *v_copia = AlocaVetor(n);
+    CopiaVetor(n, v, v_copia);
+    alg_info->impl_coletor(n, v_copia, &dados);
+    Verifica_Ordenacao(n, v_copia, alg_info);
+    free(v_copia);
+
+    struct timespec inicio, fim;
+    clock_gettime(CLOCK_MONOTONIC, &inicio);
+    alg_info->impl(n, v);
+    clock_gettime(CLOCK_MONOTONIC, &fim);
+    dados.tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1000000000.0;
+    Verifica_Ordenacao(n, v, alg_info);
+
+    return dados;
 }
