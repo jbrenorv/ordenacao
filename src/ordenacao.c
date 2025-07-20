@@ -8,23 +8,21 @@
 
 
 void Bolha(int n, int *v) {
-    char trocou;
-    for (int i = n - 1; i > 0; i--) {
+    char trocou = 1;
+    for (int i = n - 1; i > 0 && trocou; i--) {
         trocou = 0;
-        for (int j = 0; j < i; j++) {
+        for (int j = 0; j < i; j++)
             if (v[j] > v[j + 1]) {
                 Troca(v + j, v + j + 1);
                 trocou = 1;
             }
-        }
-        if (!trocou) break;
     }
 }
 
 
 void Bolha_CD(int n, int *v, Dados *dados) {
-    char trocou;
-    for (int i = n - 1; i > 0; i--) {
+    char trocou = 1;
+    for (int i = n - 1; i > 0 && trocou; i--) {
         trocou = 0;
         for (int j = 0; j < i; j++) {
             if (v[j] > v[j + 1]) {
@@ -34,35 +32,29 @@ void Bolha_CD(int n, int *v, Dados *dados) {
             }
             dados->comparacoes++;
         }
-        if (!trocou) break;
     }
 }
 
 
 void Coquetel(int n, int *v) {
-    int i = 0, j = n - 1, trocou = 1;
-    while (trocou) {
+    char trocou = 1;
+    for (int i = 0, j = n - 1; i < j && trocou; i++, j--) {
         trocou = 0;
         for (int k = i; k < j; k++)
-            if (v[k] > v[k + 1]) {
-                Troca(v + k, v + k + 1);
-                trocou = 1;
-            }
-        if (!trocou) return;
-        trocou = 0, j--;
-        for (int k = j - 1; k >= i; k--)
-            if (v[k] > v[k + 1]) {
-                Troca(v + k, v + k + 1);
-                trocou = 1;
-            }
-        i++;
+            if (v[k] > v[k + 1])
+                Troca(v + k, v + k + 1), trocou = 1;
+        if (trocou) trocou = 0;
+        else break;
+        for (int k = j - 2; k >= i; k--)
+            if (v[k] > v[k + 1])
+                Troca(v + k, v + k + 1), trocou = 1;
     }
 }
 
 
 void Coquetel_CD(int n, int *v, Dados *dados) {
-    int i = 0, j = n - 1, trocou = 1;
-    while (trocou) {
+    char trocou = 1;
+    for (int i = 0, j = n - 1; i < j && trocou; i++, j--) {
         trocou = 0;
         for (int k = i; k < j; k++) {
             if (v[k] > v[k + 1]) {
@@ -72,9 +64,9 @@ void Coquetel_CD(int n, int *v, Dados *dados) {
             }
             dados->comparacoes++;
         }
-        if (!trocou) return;
-        trocou = 0, j--;
-        for (int k = j - 1; k >= i; k--) {
+        if (trocou) trocou = 0;
+        else break;
+        for (int k = j - 2; k >= i; k--) {
             if (v[k] > v[k + 1]) {
                 Troca(v + k, v + k + 1);
                 trocou = 1;
@@ -82,7 +74,6 @@ void Coquetel_CD(int n, int *v, Dados *dados) {
             }
             dados->comparacoes++;
         }
-        i++;
     }
 }
 
@@ -114,16 +105,6 @@ void Selecao_CD(int n, int *v, Dados *dados) {
 }
 
 
-void Insercao(int n, int *v) {
-    H_Ordenacao(n, 1, v);
-}
-
-
-void Insercao_CD(int n, int *v, Dados *dados) {
-    H_Ordenacao_CD(n, 1, v, dados);
-}
-
-
 void H_Ordenacao(int n, int h, int *v) {
     int chave, j;
     for (int i = h; i < n; i++) {
@@ -148,6 +129,16 @@ void H_Ordenacao_CD(int n, int h, int *v, Dados *dados) {
         if (j >= h) dados->comparacoes++;
         dados->movimentacoes += 2;
     }
+}
+
+
+void Insercao(int n, int *v) {
+    H_Ordenacao(n, 1, v);
+}
+
+
+void Insercao_CD(int n, int *v, Dados *dados) {
+    H_Ordenacao_CD(n, 1, v, dados);
 }
 
 
@@ -229,6 +220,73 @@ void Merge_CD(int l, int m, int r, int *v, int *v_aux, Dados *dados) {
     while (i < m) {
         v[k++] = v_aux[i++];
         dados->movimentacoes++;
+    }
+}
+
+
+void Heapsort(int n, int *v) {
+    ConstroiHeap(n, v);
+    for (int i = n - 1; i > 0; i--) {
+        Troca(v, v + i);
+        Heapifica(0, i, v);
+    }
+}
+
+
+void ConstroiHeap(int n, int *v) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        Heapifica(i, n, v);
+}
+
+
+void Heapifica(int i, int n, int *v) {
+    int j = 2 * i + 1;
+    while (j < n) {
+        if (j < n - 1 && v[j] < v[j + 1]) j++;
+        if (v[i] >= v[j]) break;
+        else {
+            Troca(v + i, v + j);
+            i = j;
+            j = 2 * j + 1;
+        }
+    }
+}
+
+
+void Heapsort_CD(int n, int *v, Dados *dados) {
+    ConstroiHeap_CD(n, v,dados);
+    for (int i = n - 1; i > 0; i--) {
+        Troca(v + 0, v + i);
+        Heapifica_CD(0, i, v, dados);
+        dados->movimentacoes += 3;
+    }
+}
+
+
+void ConstroiHeap_CD(int n, int *v, Dados *dados) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        Heapifica_CD(i, n, v, dados);
+}
+
+
+void Heapifica_CD(int i, int n, int *v, Dados *dados) {
+    int j = 2 * i + 1;
+    while (j < n) {
+        if (j < n - 1) {
+            if (v[j] < v[j + 1]) j++;
+            dados->comparacoes++;
+        }
+        if (v[i] >= v[j]) {
+            dados->comparacoes++;
+            break;
+        }
+        else {
+            Troca(v + i, v + j);
+            i = j;
+            j = 2 * j + 1;
+            dados->movimentacoes += 3;
+            dados->comparacoes++;
+        }
     }
 }
 
@@ -445,73 +503,6 @@ void MoveMedianaFim_CD(int l, int r, int *v, Dados *dados) {
 }
 
 
-void Heapsort(int n, int *v) {
-    ConstroiHeap(n, v);
-    for (int i = n - 1; i > 0; i--) {
-        Troca(v, v + i);
-        Heapify(0, i, v);
-    }
-}
-
-
-void ConstroiHeap(int n, int *v) {
-    for (int i = n / 2 - 1; i >= 0; i--)
-        Heapify(i, n, v);
-}
-
-
-void Heapify(int i, int n, int *v) {
-    int j = 2 * i + 1;
-    while (j < n) {
-        if (j < n - 1 && v[j] < v[j + 1]) j++;
-        if (v[i] >= v[j]) break;
-        else {
-            Troca(v + i, v + j);
-            i = j;
-            j = 2 * j + 1;
-        }
-    }
-}
-
-
-void Heapsort_CD(int n, int *v, Dados *dados) {
-    ConstroiHeap_CD(n, v,dados);
-    for (int i = n - 1; i > 0; i--) {
-        Troca(v + 0, v + i);
-        Heapify_CD(0, i, v, dados);
-        dados->movimentacoes += 3;
-    }
-}
-
-
-void ConstroiHeap_CD(int n, int *v, Dados *dados) {
-    for (int i = n / 2 - 1; i >= 0; i--)
-        Heapify_CD(i, n, v, dados);
-}
-
-
-void Heapify_CD(int i, int n, int *v, Dados *dados) {
-    int j = 2 * i + 1;
-    while (j < n) {
-        if (j < n - 1) {
-            if (v[j] < v[j + 1]) j++;
-            dados->comparacoes++;
-        }
-        if (v[i] >= v[j]) {
-            dados->comparacoes++;
-            break;
-        }
-        else {
-            Troca(v + i, v + j);
-            i = j;
-            j = 2 * j + 1;
-            dados->movimentacoes += 3;
-            dados->comparacoes++;
-        }
-    }
-}
-
-
 void Contagem(int n, int *v) {
     int M = MaxEl(n, v);
     int *contagem = AlocaVetorLimpo(M + 1);
@@ -671,9 +662,10 @@ void RadixsortB_CD(int n, int *v, Dados *dados) {
 void BaldeDigital_CD(int p, int n, int *v, Dados *dados) {
     Celula **baldes = (Celula **) calloc(10, sizeof(Celula *));
     for (int i = n - 1; i >= 0; i--) {
+        int j = ObterDigito(p, v[i]);
         Celula *celula = CriaCelula(v[i]);
-        celula->prox = baldes[ObterDigito(p, v[i])];
-        baldes[ObterDigito(p, v[i])] = celula;
+        celula->prox = baldes[j];
+        baldes[j] = celula;
         dados->movimentacoes++;
     }
     for (int i = 0, k = 0; i < 10; i++) {

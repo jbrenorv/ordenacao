@@ -62,14 +62,14 @@ void Selecao(int n, int *v);
 void Selecao_CD(int n, int *v, Dados *dados);
 
 
-// Insercao
-void Insercao(int n, int *v);
-void Insercao_CD(int n, int *v, Dados *dados);
-
-
 // H-ordenacao
 void H_Ordenacao(int n, int h, int *v);
 void H_Ordenacao_CD(int n, int h, int *v, Dados *dados);
+
+
+// Insercao
+void Insercao(int n, int *v);
+void Insercao_CD(int n, int *v, Dados *dados);
 
 
 // Shellsort
@@ -84,6 +84,15 @@ void Merge(int l, int m, int r, int *v, int *v_aux);
 void Mergesort_CD(int n, int *v, Dados *dados);
 void MergesortRec_CD(int l, int r, int *v, int *v_aux, Dados *dados);
 void Merge_CD(int l, int m, int r, int *v, int *v_aux, Dados *dados);
+
+
+// Heapsort
+void Heapsort(int n, int *v);
+void ConstroiHeap(int n, int *v);
+void Heapifica(int i, int n, int *v);
+void Heapsort_CD(int n, int *v, Dados *dados);
+void ConstroiHeap_CD(int n, int *v, Dados *dados);
+void Heapifica_CD(int i, int n, int *v, Dados *dados);
 
 
 // Quicksort
@@ -114,15 +123,6 @@ void MoveMedianaFim(int l, int r, int *v);
 int Particiona_CD(int l, int r, int *v, Dados *dados);
 int Particiona2_CD(int l, int r, int *v, Dados *dados);
 void MoveMedianaFim_CD(int l, int r, int *v, Dados *dados);
-
-
-// Heapsort
-void Heapsort(int n, int *v);
-void ConstroiHeap(int n, int *v);
-void Heapify(int i, int n, int *v);
-void Heapsort_CD(int n, int *v, Dados *dados);
-void ConstroiHeap_CD(int n, int *v, Dados *dados);
-void Heapify_CD(int i, int n, int *v, Dados *dados);
 
 
 // Contagem
