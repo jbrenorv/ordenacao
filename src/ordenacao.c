@@ -44,7 +44,7 @@ void Coquetel(int n, int *v) {
             if (v[k] > v[k + 1])
                 Troca(v + k, v + k + 1), trocou = 1;
         if (trocou) trocou = 0;
-        else break;
+        else return;
         for (int k = j - 2; k >= i; k--)
             if (v[k] > v[k + 1])
                 Troca(v + k, v + k + 1), trocou = 1;
@@ -65,7 +65,7 @@ void Coquetel_CD(int n, int *v, Dados *dados) {
             dados->comparacoes++;
         }
         if (trocou) trocou = 0;
-        else break;
+        else return;
         for (int k = j - 2; k >= i; k--) {
             if (v[k] > v[k + 1]) {
                 Troca(v + k, v + k + 1);
