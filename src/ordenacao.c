@@ -240,16 +240,15 @@ void ConstroiHeap(int n, int *v) {
 
 
 void Heapifica(int i, int n, int *v) {
-    int j = 2 * i + 1;
+    int chave = v[i], j = 2 * i + 1;
     while (j < n) {
         if (j < n - 1 && v[j] < v[j + 1]) j++;
-        if (v[i] >= v[j]) break;
-        else {
-            Troca(v + i, v + j);
-            i = j;
-            j = 2 * j + 1;
-        }
+        if (chave >= v[j]) break;
+        v[i] = v[j];
+        i = j;
+        j = 2 * j + 1;
     }
+    v[i] = chave;
 }
 
 
@@ -270,24 +269,23 @@ void ConstroiHeap_CD(int n, int *v, Dados *dados) {
 
 
 void Heapifica_CD(int i, int n, int *v, Dados *dados) {
-    int j = 2 * i + 1;
+    int chave = v[i], j = 2 * i + 1;
     while (j < n) {
         if (j < n - 1) {
             if (v[j] < v[j + 1]) j++;
             dados->comparacoes++;
         }
-        if (v[i] >= v[j]) {
+        if (chave >= v[j]) {
             dados->comparacoes++;
             break;
         }
-        else {
-            Troca(v + i, v + j);
-            i = j;
-            j = 2 * j + 1;
-            dados->movimentacoes += 3;
-            dados->comparacoes++;
-        }
+        v[i] = v[j];
+        i = j;
+        j = 2 * j + 1;
+        dados->movimentacoes++;
     }
+    v[i] = chave;
+    dados->movimentacoes++;
 }
 
 
@@ -863,6 +861,7 @@ Dados ObterDados(int n, int *v, AlgInfo *alg_info) {
     int *v_copia = AlocaVetor(n);
     CopiaVetor(n, v, v_copia);
     alg_info->impl_coletor(n, v_copia, &dados);
+    Verifica_Ordenacao(n, v_copia, alg_info);
     free(v_copia);
 
     struct timespec inicio, fim;
@@ -870,6 +869,7 @@ Dados ObterDados(int n, int *v, AlgInfo *alg_info) {
     alg_info->impl(n, v);
     clock_gettime(CLOCK_MONOTONIC, &fim);
     dados.tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1000000000.0;
+    Verifica_Ordenacao(n, v, alg_info);
 
     return dados;
 }

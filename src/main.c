@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         FinalizaExecucao("Falha ao tentar abrir arquivo de saida.");
     }
 
-    for (int i = 0; i < num_algoritmos; ++i) {
+    for (int i = 0; i < num_algoritmos; i++) {
         if (parametros.tamanho > algoritmos[i].tamanho_maximo) continue;
         if (parametros.tipo == M3K && algoritmos[i].tipo != SUP) continue;
 
