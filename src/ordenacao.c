@@ -105,7 +105,7 @@ void Selecao_CD(int n, int *v, Dados *dados) {
 }
 
 
-void H_Ordenacao(int n, int h, int *v) {
+void H_Ordena(int n, int h, int *v) {
     int chave, j;
     for (int i = h; i < n; i++) {
         chave = v[i];
@@ -116,7 +116,7 @@ void H_Ordenacao(int n, int h, int *v) {
 }
 
 
-void H_Ordenacao_CD(int n, int h, int *v, Dados *dados) {
+void H_Ordena_CD(int n, int h, int *v, Dados *dados) {
     int chave, j;
     for (int i = h; i < n; i++) {
         chave = v[i];
@@ -133,12 +133,12 @@ void H_Ordenacao_CD(int n, int h, int *v, Dados *dados) {
 
 
 void Insercao(int n, int *v) {
-    H_Ordenacao(n, 1, v);
+    H_Ordena(n, 1, v);
 }
 
 
 void Insercao_CD(int n, int *v, Dados *dados) {
-    H_Ordenacao_CD(n, 1, v, dados);
+    H_Ordena_CD(n, 1, v, dados);
 }
 
 
@@ -152,13 +152,13 @@ int const CiuraSeq[] = { 335622013, 149165339, 66295706, 29464758, 13095448, 582
 
 void Shellsort(int n, int *v) {
     for (int i = 0; i < 24; i++)
-        H_Ordenacao(n, CiuraSeq[i], v);
+        H_Ordena(n, CiuraSeq[i], v);
 }
 
 
 void Shellsort_CD(int n, int *v, Dados *dados) {
     for (int i = 0; i < 24; i++)
-        H_Ordenacao_CD(n, CiuraSeq[i], v, dados);
+        H_Ordena_CD(n, CiuraSeq[i], v, dados);
 }
 
 
@@ -851,7 +851,7 @@ void Verifica_Ordenacao(int n, int *v, AlgInfo *alg_info) {
     for (int i = 0; i < n - 1; i++) {
         if (v[i] > v[i + 1]) {
             printf("Erro em: %s\n", alg_info->nome);
-            FinalizaExecucao("O v nao esta ordenado\n");
+            FinalizaExecucao("O vetor nao esta ordenado\n");
         }
     }
 }

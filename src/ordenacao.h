@@ -63,8 +63,8 @@ void Selecao_CD(int n, int *v, Dados *dados);
 
 
 // H-ordenacao
-void H_Ordenacao(int n, int h, int *v);
-void H_Ordenacao_CD(int n, int h, int *v, Dados *dados);
+void H_Ordena(int n, int h, int *v);
+void H_Ordena_CD(int n, int h, int *v, Dados *dados);
 
 
 // Insercao
