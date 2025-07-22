@@ -180,7 +180,7 @@ void MergesortRec(int l, int r, int *v, int *v_aux) {
 
 
 void Merge(int l, int m, int r, int *v, int *v_aux) {
-    CopiaVetor(r - l, v+l, v_aux+l);
+    CopiaVetor(r - l, v + l, v_aux + l);
     int i = l, j = m, k = l;
     while (i < m && j < r) {
         if (v_aux[i] <= v_aux[j]) v[k++] = v_aux[i++];
@@ -208,7 +208,7 @@ void MergesortRec_CD(int l, int r, int *v, int *v_aux, Dados *dados) {
 
 
 void Merge_CD(int l, int m, int r, int *v, int *v_aux, Dados *dados) {
-    CopiaVetor(r - l, v+l, v_aux+l);
+    CopiaVetor(r - l, v + l, v_aux + l);
     dados->movimentacoes += r - l;
     int i = l, j = m, k = l;
     while (i < m && j < r) {
