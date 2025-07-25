@@ -244,9 +244,7 @@ void Heapifica(int i, int n, int *v) {
     while (j < n) {
         if (j < n - 1 && v[j] < v[j + 1]) j++;
         if (chave >= v[j]) break;
-        v[i] = v[j];
-        i = j;
-        j = 2 * j + 1;
+        v[i] = v[j]; i = j; j = 2 * j + 1;
     }
     v[i] = chave;
 }
@@ -410,13 +408,12 @@ void IntrosortRec_CD(int l, int r, int d, int *v, Dados *dados) {
 int Particiona(int l, int r, int *v) {
     Troca(v + r, v + GeraNumeroAleatorioNoIntervalo(l, r));
     int pivo = v[r], j = l;
-    for (int i = l; i < r; i++) {
+    for (int i = l; i < r; i++)
         if (v[i] <= pivo) {
             Troca(v + j, v + i);
             j++;
         }
-    }
-    v[r] = v[j], v[j] = pivo;
+    v[r] = v[j]; v[j] = pivo;
     return j;
 }
 
@@ -432,7 +429,7 @@ int Particiona_CD(int l, int r, int *v, Dados *dados) {
         }
         dados->comparacoes++;
     }
-    v[r] = v[j], v[j] = pivo;
+    v[r] = v[j]; v[j] = pivo;
     dados->movimentacoes += 6;
     return j;
 }
